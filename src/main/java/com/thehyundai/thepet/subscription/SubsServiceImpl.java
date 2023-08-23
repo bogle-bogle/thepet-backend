@@ -9,4 +9,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SubsServiceImpl implements SubsService {
     private final SubsMapper subsMapper;
+
+    @Override
+    public SubscriptionVO subscribeCuration(SubscriptionVO requestVO) {
+        subsMapper.saveCurationSubscription(requestVO);
+        return requestVO;
+    }
 }
