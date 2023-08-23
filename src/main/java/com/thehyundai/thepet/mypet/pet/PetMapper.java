@@ -5,4 +5,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface PetMapper {
 
+    Integer registerClub(PetVO petVO);
 }

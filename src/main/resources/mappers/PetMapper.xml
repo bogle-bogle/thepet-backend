@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thehyundai.thepet.mypet.pet.PetMapper">
+
+    <insert id="registerClub" parameterType="PetVO">
+        <![CDATA[
+            INSERT INTO PET(photo,name,birth,allergy,member_id,favorite_food_ingredients,img_url,mbti,breed_code,animal_type_code)
+            VALUES(#{photo},#{name},#{birth},#{allergy},#{memberId},#{favoriteFoodIngredients},#{imgUrl},#{mbti},#{breedCode},#{animalTypeCode})
+        ]]>
+    </insert>
+
+</mapper>
