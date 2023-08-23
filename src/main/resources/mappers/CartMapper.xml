@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thehyundai.thepet.cart.CartMapper">
+
+
+    <insert id="insertCart" parameterType="CartVO">
+        INSERT INTO CART (CNT, MEMBER_ID, PRODUCT_ID)
+        VALUES (#{cnt}, #{memberId}, #{productId})
+    </insert>
+
+    <update id="updateCart" parameterType="CartVO">
+        UPDATE CART
+        SET CNT = #{cnt}
+        WHERE ID = #{id}
+    </update>
+
+    <delete id="deleteCart" parameterType="int">
+        DELETE FROM CART
+        WHERE ID = #{id}
+    </delete>
+
+    <select id="getCart" resultType="CartVO">
+        SELECT *
+        FROM CART
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
+</mapper>
