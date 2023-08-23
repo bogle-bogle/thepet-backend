@@ -19,24 +19,24 @@ public class CartController {
     @PostMapping
     public ResponseEntity<CartVO> insertCart(@RequestBody CartVO cartVO) {
         cartService.insertCart(cartVO);
-        return new ResponseEntity<>(cartVO, HttpStatus.CREATED);
+        return ResponseEntity.ok(cartVO);
     }
 
     @PatchMapping
     public ResponseEntity<CartVO> updateCart(@RequestBody CartVO cartVO) {
         cartService.updateCart(cartVO);
-        return new ResponseEntity<>(cartVO, HttpStatus.OK);
+        return ResponseEntity.ok(cartVO);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Integer> deleteCart(@PathVariable int id) {
         cartService.deleteCart(id);
-        return new ResponseEntity<>(id, HttpStatus.OK);
+        return ResponseEntity.ok(id);
     }
 
     @GetMapping("/{memberId}")
     public ResponseEntity<List<CartVO>> getCart(@PathVariable int memberId) {
         List<CartVO> cartList = cartService.getCart(memberId);
-        return new ResponseEntity<>(cartList, HttpStatus.OK);
+        return ResponseEntity.ok(cartList);
     }
 }
