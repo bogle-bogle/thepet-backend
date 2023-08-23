@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@Service
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
 }
