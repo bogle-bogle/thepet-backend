@@ -12,6 +12,7 @@ import static com.thehyundai.thepet.exception.ErrorCode.REVIEW_NOT_FOUND;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@Service
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
 
