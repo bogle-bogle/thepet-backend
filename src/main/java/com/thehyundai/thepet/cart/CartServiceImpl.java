@@ -8,6 +8,7 @@ import java.util.List;
 
 @Service
 @Log4j2
+@Service
 @RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
