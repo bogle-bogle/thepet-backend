@@ -14,4 +14,9 @@ public class PetServiceImpl implements PetService {
     public Integer registerClub(PetVO petVO) {
         return petMapper.registerClub(petVO);
     }
+
+    @Override
+    public Integer updateFeed(PetVO petVO) {
+        return petMapper.updateFeed(petVO);
+    }
 }

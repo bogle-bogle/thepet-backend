@@ -9,7 +9,6 @@ import java.util.List;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-@Service
 public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
