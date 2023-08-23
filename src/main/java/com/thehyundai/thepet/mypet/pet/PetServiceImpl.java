@@ -9,4 +9,9 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PetServiceImpl implements PetService {
     private final PetMapper petMapper;
+
+    @Override
+    public Integer registerClub(PetVO petVO) {
+        return petMapper.registerClub(petVO);
+    }
 }
