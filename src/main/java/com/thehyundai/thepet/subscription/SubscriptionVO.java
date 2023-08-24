@@ -18,5 +18,5 @@ public class SubscriptionVO {
     private Integer memberId;
     private Integer curationId;
     private Integer productId;
-    private String CurationYn;
+    private String curationYn;
 }
