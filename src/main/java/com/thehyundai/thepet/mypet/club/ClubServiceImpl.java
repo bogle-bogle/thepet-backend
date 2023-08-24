@@ -8,7 +8,4 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @RequiredArgsConstructor
 public class ClubServiceImpl implements ClubService {
-    private final ClubMapper clubMapper;
-
-
 }
