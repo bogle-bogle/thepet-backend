@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-@Service
 public class SubsServiceImpl implements SubsService {
     private final SubsMapper subsMapper;
 }
