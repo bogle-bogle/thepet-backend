@@ -6,10 +6,11 @@
 <mapper namespace="com.thehyundai.thepet.mypet.pet.PetMapper">
 
     <insert id="registerClub" parameterType="PetVO">
-        <![CDATA[
-            INSERT INTO PET(photo,name,birth,allergy,member_id,favorite_food_ingredients,img_url,mbti,breed_code,animal_type_code)
-            VALUES(#{photo},#{name},#{birth},#{allergy},#{memberId},#{favoriteFoodIngredients},#{imgUrl},#{mbti},#{breedCode},#{animalTypeCode})
-        ]]>
+            CALL InsertPetWithAllergies
+            (#{photo},#{name},#{birth},#{memberId},#{favoriteFoodIngredients},#{imgUrl},#{mbti},#{breedCode},#{animalTypeCode},#{proteinCode})
+            <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+                SELECT PET_SEQ.CURRVAL FROM DUAL
+            </selectKey>
     </insert>
 
     <update id="updateFeed" parameterType="PetVO">
