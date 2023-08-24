@@ -14,8 +14,8 @@ public class ProductVO {
     private String mainImgUrl;
     private String descImgUrl;
     private String ingredients;
-    private int mainCategoryCode;
-    private int subCategoryCode;
+    private String mainCategoryCode;
+    private String subCategoryCode;
     private String animalTypeCode;
     private String proteinCode;
 }
