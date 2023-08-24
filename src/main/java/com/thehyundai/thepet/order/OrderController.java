@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Log4j2
 @RestController
 @RequestMapping("/api/order")
@@ -34,6 +36,12 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public ResponseEntity<?> showOrderDetail(@PathVariable Integer orderId) {
         OrderVO result = orderService.showOrderWithDetails(orderId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<?> showAllMyOrdersWithDetails() {
+        List<OrderVO> result = orderService.showAllMyOrdersWithDetails(1);       // 일단 하드코딩 -----------------------------------
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

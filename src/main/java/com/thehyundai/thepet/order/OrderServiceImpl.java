@@ -78,14 +78,15 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
-//    public List<OrderVO> showAllOrders() {
-//        List<OrderVO> orders = orderMapper.getOrdersWithOrderDetails();
-//        return
-//    }
-
     @Override
     public OrderVO showOrderWithDetails(Integer orderId) {
         OrderVO result = orderMapper.getOrderWithOrderDetailsById(orderId);
+        return result;
+    }
+
+    @Override
+    public List<OrderVO> showAllMyOrdersWithDetails(Integer memberId) {
+        List<OrderVO> result = orderMapper.showAllMyOrdersWithDetails(memberId);
         log.info(result);
         return result;
     }
