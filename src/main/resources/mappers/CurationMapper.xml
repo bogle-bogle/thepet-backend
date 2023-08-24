@@ -13,4 +13,9 @@
         SELECT * FROM CURATION WHERE PAYMENT_DATE = #{paymentDate}
     </select>
 
+    <select id="findCurationByStartingMonth" parameterType="java.time.LocalDate" resultType="CurationVO">
+        SELECT * FROM CURATION
+        WHERE PAYMENT_DATE >= #{paymentDate}
+    </select>
+
 </mapper>

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Log4j2
 @RestController
 @RequiredArgsConstructor
@@ -19,6 +21,12 @@ public class SubsController {
     @GetMapping("/curation/monthly")
     public ResponseEntity<?> showCurationOfCurrMonth() {
         CurationVO result = subsService.showCurationOfCurrMonth();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/curation/annual")
+    public ResponseEntity<?> showCurationOfLastOneYear() {
+        List<CurationVO> result = subsService.showCurationOfLastOneYear();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

@@ -38,12 +38,27 @@ public class SubsServiceImpl implements SubsService {
         CurationVO curation = curationMapper.findCurationByPaymentDate(targetDate)
                                             .orElseThrow(() -> new BusinessException(ErrorCode.CURATION_NOT_FOUND));
 
-        List<ProductVO> products = Stream.of(curation.getProduct1Id(), curation.getProduct2Id(), curation.getProduct3Id())
-                                         .filter(Objects::nonNull)
-                                         .map(productService::getProductDetail)
-                                         .collect(Collectors.toList());
+        List<ProductVO> products = bindAllProductsInCuration(curation);
         curation.setProducts(products);
         return curation;
+    }
+
+    @Override
+    public List<CurationVO> showCurationOfLastOneYear() {
+        LocalDate oneYearAgo = LocalDate.now().minusYears(1);
+
+        List<CurationVO> curations = curationMapper.findCurationByStartingMonth(oneYearAgo);
+        for (CurationVO curation : curations) {
+            curation.setProducts(bindAllProductsInCuration(curation));
+        }
+        return curations;
+    }
+
+    private List<ProductVO> bindAllProductsInCuration(CurationVO curation) {
+        return Stream.of(curation.getProduct1Id(), curation.getProduct2Id(), curation.getProduct3Id())
+                     .filter(Objects::nonNull)
+                     .map(productService::getProductDetail)
+                     .collect(Collectors.toList());
     }
 
 }

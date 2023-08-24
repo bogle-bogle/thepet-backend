@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         dataValidator.checkPresentMember(requestVO.getMemberId());
         ProductVO product = productMapper.findProductById(requestVO.getProductId())
-                                           .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND));
+                                         .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND));
 
         // 1. ORDER 테이블에 저장
         OrderVO order = buildProductOrder(requestVO.getMemberId(), product);
@@ -124,13 +124,13 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderDetailVO buildProductOrderDetail(Integer orderId, ProductVO product) {
         return OrderDetailVO.builder()
-                .orderId(orderId)
-                .cnt(1)
-                .productId(product.getId())
-                .productName(product.getName())
-                .productImgUrl(product.getMainImgUrl())
-                .productPrice(product.getPrice())
-                .build();
+                            .orderId(orderId)
+                            .cnt(1)
+                            .productId(product.getId())
+                            .productName(product.getName())
+                            .productImgUrl(product.getMainImgUrl())
+                            .productPrice(product.getPrice())
+                            .build();
     }
 
 }

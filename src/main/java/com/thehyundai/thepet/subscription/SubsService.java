@@ -1,7 +1,11 @@
 package com.thehyundai.thepet.subscription;
 
+import java.util.List;
+
 public interface SubsService {
+     SubscriptionVO createSubscription(SubscriptionVO requestVO);
+
      CurationVO showCurationOfCurrMonth();
 
-     SubscriptionVO createSubscription(SubscriptionVO requestVO);
+     List<CurationVO> showCurationOfLastOneYear();
 }
