@@ -1,7 +1,6 @@
 package com.thehyundai.thepet.subscription;
 
-import com.thehyundai.thepet.exception.BusinessException;
-import com.thehyundai.thepet.exception.ErrorCode;
+import com.thehyundai.thepet.global.DataValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -11,11 +10,26 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class SubsServiceImpl implements SubsService {
     private final SubsMapper subsMapper;
+    private final DataValidator dataValidator;
 
     @Override
     public SubscriptionVO subscribeCuration(SubscriptionVO requestVO) {
-        if (requestVO.getCurationId() == null) throw new BusinessException(ErrorCode.CURATION_NOT_FOUND);
+        dataValidator.checkPresentCuration(requestVO.getCurationId());
+        dataValidator.checkPresentMember(requestVO.getMemberId());
+
+        requestVO.setCurationYn("Y");
         subsMapper.saveCurationSubscription(requestVO);
         return requestVO;
     }
+
+    @Override
+    public SubscriptionVO subscribeProduct(SubscriptionVO requestVO) {
+        dataValidator.checkPresentProduct(requestVO.getProductId());
+        dataValidator.checkPresentMember(requestVO.getMemberId());
+
+        requestVO.setCurationYn("N");
+        subsMapper.saveProductSubscription(requestVO);
+        return requestVO;
+    }
+
 }

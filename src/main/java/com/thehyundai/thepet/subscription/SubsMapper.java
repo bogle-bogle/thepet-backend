@@ -7,4 +7,5 @@ public interface SubsMapper {
 
     void saveCurationSubscription(SubscriptionVO requestVO);
 
+    void saveProductSubscription(SubscriptionVO requestVO);
 }

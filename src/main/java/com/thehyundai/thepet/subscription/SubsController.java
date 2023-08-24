@@ -22,4 +22,10 @@ public class SubsController {
         return ResponseEntity.ok(requestVO);
     }
 
+    @PostMapping("/regular-delivery")
+    public ResponseEntity<?> subscribeProduct(@RequestBody SubscriptionVO requestVO) {
+        subsService.subscribeProduct(requestVO);
+        return ResponseEntity.ok(requestVO);
+    }
+
 }

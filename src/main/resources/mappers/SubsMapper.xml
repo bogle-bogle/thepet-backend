@@ -10,11 +10,15 @@
             SELECT SUBSCRIPTION_SEQ.currval From DUAL
         </selectKey>
         INSERT INTO SUBSCRIPTION (START_DATE, END_DATE, MEMBER_ID, CURATION_ID, PRODUCT_ID, CURATION_YN)
-        VALUES (#{startDate}, NULL, #{memberId}, #{curationId}, #{productId}, #{curationId})
+        VALUES (#{startDate}, #{endDate}, #{memberId}, #{curationId}, #{productId}, #{curationYn})
     </insert>
 
-    <select id="findSubscription" resultType="SubscriptionVO">
-        SELECT * FROM SUBSCRIPTION
-    </select>
+    <insert id="saveProductSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO">
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            SELECT SUBSCRIPTION_SEQ.currval From DUAL
+        </selectKey>
+        INSERT INTO SUBSCRIPTION (START_DATE, END_DATE, MEMBER_ID, CURATION_ID, PRODUCT_ID, CURATION_YN)
+        VALUES (#{startDate}, #{endDate}, #{memberId}, #{curationId}, #{productId}, #{curationYn})
+    </insert>
 
 </mapper>
