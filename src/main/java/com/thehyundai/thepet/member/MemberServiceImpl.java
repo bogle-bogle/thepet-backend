@@ -22,19 +22,6 @@ public class MemberServiceImpl implements MemberService{
             res = member;
         }
 
-
-//        MemberVO requestMemeber = MemberVO.builder()
-//                .id(res.getId())
-//                .socialId(res.getSocialId())
-//                .name(res.getName())
-//                .email(res.getEmail())
-//                .imgUrl(res.getImgUrl())
-//                .address(res.getAddress())
-//                .nickname(res.getNickname())
-//                .clubHeendyYn("N")
-//                .jwt(authTokensGenerator.generate(res.getSocialId()))
-//                .build();
-
         return MemberVO.builder()
                 .id(res.getId())
                 .socialId(res.getSocialId())
