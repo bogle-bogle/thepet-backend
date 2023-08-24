@@ -18,6 +18,7 @@ public enum ErrorCode {
     // 404 NOT FOUND
     MEMBER_NOT_FOUND("MEMBER_NOT_FOUND", "존재하지 않는 사용자 ID입니다.", 404),
     PRODUCT_NOT_FOUND("PRODUCT_NOT_FOUND", "존재하지 않는 상품 ID입니다.", 404),
+    REVIEW_NOT_FOUND("REVIEW_NOT_FOUND", "존재하지 않는 댓글 ID입니다.", 404),
     URL_NOT_FOUND("URL_NOT_FOUND", "URL을 찾을 수 없습니다.", 404),
 
     // 500 INTERNAL SERVER ERROR
