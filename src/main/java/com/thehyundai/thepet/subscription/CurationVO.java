@@ -1,11 +1,13 @@
 package com.thehyundai.thepet.subscription;
 
+import com.thehyundai.thepet.product.ProductVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -20,4 +22,5 @@ public class CurationVO {
     private Integer price;
     private String name;
     private String imgUrl;
+    private List<ProductVO> products;
 }
