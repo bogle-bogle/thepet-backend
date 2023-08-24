@@ -3,6 +3,6 @@ package com.thehyundai.thepet.order;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public interface OrderMapper {
-    Integer saveOrder(OrderVO order);
+public interface OrderDetailMapper {
+    Integer saveOrderDetail(OrderDetailVO orderDetail);
 }

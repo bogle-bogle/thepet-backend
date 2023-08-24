@@ -17,4 +17,7 @@ public class CurationVO {
     private Integer product1Id;
     private Integer product2Id;
     private Integer product3Id;
+    private Integer price;
+    private String name;
+    private String imgUrl;
 }

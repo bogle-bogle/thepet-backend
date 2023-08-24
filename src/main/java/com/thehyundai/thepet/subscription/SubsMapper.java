@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface SubsMapper {
 
-    void saveCurationSubscription(SubscriptionVO requestVO);
+    Integer saveCurationSubscription(SubscriptionVO requestVO);
 
-    void saveProductSubscription(SubscriptionVO requestVO);
+    Integer saveProductSubscription(SubscriptionVO requestVO);
 }
