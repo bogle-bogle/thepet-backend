@@ -7,4 +7,6 @@ public interface OrderService {
     OrderVO createSubscriptionOrder(SubscriptionVO requestVO);
 
     OrderVO createRegularDeliveryOrder(SubscriptionVO requestVO);
+
+    OrderVO showOrderWithDetails(Integer orderId);
 }

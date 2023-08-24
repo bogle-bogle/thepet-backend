@@ -12,4 +12,35 @@
         VALUES (#{totalCnt}, #{totalPrice}, #{createdAt}, #{memberId}, #{subscribeYn})
     </insert>
 
+    <resultMap id="OrderWithDetails" type="OrderVO">
+        <id property="id" column="id" />
+        <result property="totalCnt" column="total_cnt" />
+        <result property="totalPrice" column="total_price" />
+        <result property="createdAt" column="created_at" />
+        <result property="memberId" column="member_id" />
+        <result property="subscribeYn" column="subscribe_yn" />
+
+        <collection property="orderDetails" ofType="OrderDetailVO">
+            <id property="detailId" column="detail_id" />
+            <result property="orderId" column="order_id" />
+            <result property="cnt" column="cnt" />
+            <result property="productId" column="product_id" />
+            <result property="productName" column="product_name" />
+            <result property="productImgUrl" column="product_img_url" />
+            <result property="productPrice" column="product_price" />
+            <result property="curationId" column="curation_id" />
+            <result property="curationName" column="curation_name" />
+            <result property="curationImgUrl" column="curation_img_url" />
+            <result property="curationPrice" column="curation_price" />
+        </collection>
+    </resultMap>
+
+    <select id="getOrderWithOrderDetailsById" resultMap="OrderWithDetails">
+        SELECT o.*, od.*, od.ID AS DETAIL_ID
+        FROM "ORDER" o
+            LEFT JOIN "ORDER_DETAIL" od ON o.id = od.order_id
+        WHERE o.id = #{orderId}
+    </select>
+
+
 </mapper>

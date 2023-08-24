@@ -78,6 +78,18 @@ public class OrderServiceImpl implements OrderService {
         return order;
     }
 
+//    public List<OrderVO> showAllOrders() {
+//        List<OrderVO> orders = orderMapper.getOrdersWithOrderDetails();
+//        return
+//    }
+
+    @Override
+    public OrderVO showOrderWithDetails(Integer orderId) {
+        OrderVO result = orderMapper.getOrderWithOrderDetailsById(orderId);
+        log.info(result);
+        return result;
+    }
+
     private OrderVO buildCurationOrder(Integer memberId, CurationVO curation) {
         return OrderVO.builder()
                       .totalCnt(1)
@@ -101,12 +113,12 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderVO buildProductOrder(Integer memberId, ProductVO product) {
         return OrderVO.builder()
-                .totalCnt(1)
-                .totalPrice(product.getPrice())
-                .createdAt(LocalDate.now())
-                .memberId(memberId)
-                .subscribeYn(STATUS_Y)
-                .build();
+                      .totalCnt(1)
+                      .totalPrice(product.getPrice())
+                      .createdAt(LocalDate.now())
+                      .memberId(memberId)
+                      .subscribeYn(STATUS_Y)
+                      .build();
     }
 
     private OrderDetailVO buildProductOrderDetail(Integer orderId, ProductVO product) {
@@ -119,6 +131,5 @@ public class OrderServiceImpl implements OrderService {
                 .productPrice(product.getPrice())
                 .build();
     }
-
 
 }

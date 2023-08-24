@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDetailVO {
-    private Integer id;
+    private Integer detailId;
     private Integer orderId;
     private Integer cnt;
     private Integer productId;
