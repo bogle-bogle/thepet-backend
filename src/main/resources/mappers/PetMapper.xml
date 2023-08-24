@@ -18,4 +18,11 @@
         WHERE id = #{id}
     </update>
 
+    <select id="myPet" parameterType="Integer" resultType="PetVO">
+        SELECT *
+        FROM PET
+        WHERE member_id = #{memberId}
+    </select>
+
+
 </mapper>

@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Log4j2
 @Service
 @RequiredArgsConstructor
@@ -19,4 +21,11 @@ public class PetServiceImpl implements PetService {
     public Integer updateFeed(PetVO petVO) {
         return petMapper.updateFeed(petVO);
     }
+
+    @Override
+    public List<PetVO> myPet(int memberId) {
+        return petMapper.myPet(memberId);
+    }
+
+
 }
