@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.mypet.club;
 
+import com.thehyundai.thepet.mypet.pet.AllergyVO;
 import com.thehyundai.thepet.mypet.pet.PetService;
 import com.thehyundai.thepet.mypet.pet.PetVO;
 import lombok.RequiredArgsConstructor;
