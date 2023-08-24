@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/api/member")
 public class MemberController {
 
+    private final MemberService memberService;
+
     @PostMapping("/login")
-    public ResponseEntity<MemberVO> login(@RequestBody MemberVO memberVo) {
-        log.info(memberVo);
-        return ResponseEntity.ok(memberVo);
+    public ResponseEntity<MemberVO> login(@RequestBody MemberVO member) {
+        return ResponseEntity.ok(memberService.memberLogin(member));
     }
 }
