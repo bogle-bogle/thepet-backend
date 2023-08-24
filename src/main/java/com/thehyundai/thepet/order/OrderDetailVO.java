@@ -14,6 +14,7 @@ public class OrderDetailVO {
     private Integer productId;
     private String productName;
     private String productImgUrl;
+    private Integer productPrice;
     private Integer curationId;
     private String curationName;
     private String curationImgUrl;

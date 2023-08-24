@@ -28,10 +28,10 @@ public class OrderController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-//    @PostMapping("/regular-delivery")
-//    public ResponseEntity<?> createRegularDeliveryOrder(@RequestBody SubscriptionVO requestVO) {
-//        OrderVO result = orderService.createRegularDeliveryOrder(requestVO);
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+    @PostMapping("/regular-delivery")
+    public ResponseEntity<?> createRegularDeliveryOrder(@RequestBody SubscriptionVO requestVO) {
+        OrderVO result = orderService.createRegularDeliveryOrder(requestVO);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 }

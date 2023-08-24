@@ -3,6 +3,8 @@ package com.thehyundai.thepet.order;
 import com.thehyundai.thepet.exception.BusinessException;
 import com.thehyundai.thepet.exception.ErrorCode;
 import com.thehyundai.thepet.global.DataValidator;
+import com.thehyundai.thepet.product.ProductMapper;
+import com.thehyundai.thepet.product.ProductVO;
 import com.thehyundai.thepet.subscription.CurationMapper;
 import com.thehyundai.thepet.subscription.CurationVO;
 import com.thehyundai.thepet.subscription.SubsService;
@@ -27,6 +29,7 @@ public class OrderServiceImpl implements OrderService {
     private final DataValidator dataValidator;
     private final SubsService subsService;
     private final CurationMapper curationMapper;
+    private final ProductMapper productMapper;
 
     @Override
     @Transactional
@@ -42,6 +45,29 @@ public class OrderServiceImpl implements OrderService {
 
         // 2. ORDER_DETAIL 테이블에 저장
         OrderDetailVO orderDetail = buildCurationOrderDetail(order.getId(), curation);
+        if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+
+        // 3. SUBSCRIPTION 테이블에 구독 정보 저장
+        subsService.createSubscription(requestVO);
+
+        // 4. 주문 내역 반환
+        order.setOrderDetails(List.of(orderDetail));
+        return order;
+    }
+
+    @Override
+    public OrderVO createRegularDeliveryOrder(SubscriptionVO requestVO) {
+        // 0. 유효성 검사 및 필요한 데이터 불러오기
+        dataValidator.checkPresentMember(requestVO.getMemberId());
+        ProductVO product = productMapper.findProductById(requestVO.getProductId())
+                                           .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND));
+
+        // 1. ORDER 테이블에 저장
+        OrderVO order = buildProductOrder(requestVO.getMemberId(), product);
+        if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+
+        // 2. ORDER_DETAIL 테이블에 저장
+        OrderDetailVO orderDetail = buildProductOrderDetail(order.getId(), product);
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
@@ -72,5 +98,27 @@ public class OrderServiceImpl implements OrderService {
                             .curationPrice(curation.getPrice())
                             .build();
     }
+
+    private OrderVO buildProductOrder(Integer memberId, ProductVO product) {
+        return OrderVO.builder()
+                .totalCnt(1)
+                .totalPrice(product.getPrice())
+                .createdAt(LocalDate.now())
+                .memberId(memberId)
+                .subscribeYn(STATUS_Y)
+                .build();
+    }
+
+    private OrderDetailVO buildProductOrderDetail(Integer orderId, ProductVO product) {
+        return OrderDetailVO.builder()
+                .orderId(orderId)
+                .cnt(1)
+                .productId(product.getId())
+                .productName(product.getName())
+                .productImgUrl(product.getMainImgUrl())
+                .productPrice(product.getPrice())
+                .build();
+    }
+
 
 }

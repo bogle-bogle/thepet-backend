@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import static com.thehyundai.thepet.global.Constant.STATUS_N;
 import static com.thehyundai.thepet.global.Constant.STATUS_Y;
 
 @Log4j2
@@ -16,20 +17,9 @@ public class SubsServiceImpl implements SubsService {
 
     @Override
     public SubscriptionVO createSubscription(SubscriptionVO requestVO) {
-        requestVO.setCurationYn(STATUS_Y);
+        requestVO.setCurationYn((requestVO.getCurationId() != null) ? STATUS_Y : STATUS_N);
         if (subsMapper.saveCurationSubscription(requestVO) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
         return requestVO;
     }
-
-//    @Override
-//    @Transactional
-//    public SubscriptionVO subscribeProduct(SubscriptionVO requestVO) {
-//        dataValidator.checkPresentProduct(requestVO.getProductId());
-//        dataValidator.checkPresentMember(requestVO.getMemberId());
-//
-//        requestVO.setCurationYn(STATUS_N);
-//        if (subsMapper.saveProductSubscription(requestVO) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
-//        return requestVO;
-//    }
 
 }
