@@ -20,6 +20,10 @@ public enum ErrorCode {
     PRODUCT_NOT_FOUND("PRODUCT_NOT_FOUND", "존재하지 않는 상품 ID입니다.", 404),
     REVIEW_NOT_FOUND("REVIEW_NOT_FOUND", "존재하지 않는 댓글 ID입니다.", 404),
     URL_NOT_FOUND("URL_NOT_FOUND", "URL을 찾을 수 없습니다.", 404),
+    CURATION_NOT_FOUND("CURATION_NOT_FOUND", "존재하지 않는 더펫박스 ID입니다.", 404),
+
+    // 406 Not Acceptable
+
 
     // 500 INTERNAL SERVER ERROR
     DB_QUERY_EXECUTION_ERROR("DB_QUERY_EXECUTION_ERROR", "쿼리가 정상적으로 완료되지 않았습니다.", 500),

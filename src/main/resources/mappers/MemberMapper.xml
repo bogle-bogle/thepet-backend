@@ -4,11 +4,18 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thehyundai.thepet.member.MemberMapper">
+
+    <select id="findMemberById" parameterType="Integer" resultType="MemberVO">
+        SELECT * FROM MEMBER WHERE ID = #{id}
+    </select>
+
     <select id="login" parameterType="long" resultType="MemberVO">
         SELECT * FROM member
         WHERE social_id = #{socialId}
     </select>
+  
     <insert id="register" parameterType="MemberVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO member (name, email, img_url, nickname, social_id) VALUES (#{name}, #{email}, #{imgUrl}, #{nickname}, #{socialId})
     </insert>
+
 </mapper>

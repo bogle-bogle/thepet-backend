@@ -8,14 +8,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductVO {
-    private int id;
+    private Integer id;
     private String name;
-    private int price;
+    private Integer price;
     private String mainImgUrl;
     private String descImgUrl;
     private String ingredients;
-    private int productCategoryCode;
-    private int subCategoryCode;
+    private String mainCategoryCode;
+    private String subCategoryCode;
     private String animalTypeCode;
     private String proteinCode;
 }

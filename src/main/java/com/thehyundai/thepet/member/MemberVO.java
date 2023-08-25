@@ -1,10 +1,10 @@
 package com.thehyundai.thepet.member;
 
-import com.thehyundai.thepet.util.AuthTokens;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import com.thehyundai.thepet.util.AuthTokens;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
