@@ -8,4 +8,6 @@ public interface SubsService {
      CurationVO showCurationOfCurrMonth();
 
      List<CurationVO> showCurationOfLastOneYear();
+
+     CurationVO showCurationDetail(Integer curationId);
 }

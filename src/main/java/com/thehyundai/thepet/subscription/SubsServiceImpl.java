@@ -36,29 +36,36 @@ public class SubsServiceImpl implements SubsService {
     public CurationVO showCurationOfCurrMonth() {
         LocalDate targetDate = LocalDate.now().withDayOfMonth(1);
         CurationVO curation = curationMapper.findCurationByPaymentDate(targetDate)
+                                            .map(this::bindAllProductsInCuration)
                                             .orElseThrow(() -> new BusinessException(ErrorCode.CURATION_NOT_FOUND));
-
-        List<ProductVO> products = bindAllProductsInCuration(curation);
-        curation.setProducts(products);
         return curation;
     }
 
     @Override
     public List<CurationVO> showCurationOfLastOneYear() {
         LocalDate oneYearAgo = LocalDate.now().minusYears(1);
-
-        List<CurationVO> curations = curationMapper.findCurationByStartingMonth(oneYearAgo);
-        for (CurationVO curation : curations) {
-            curation.setProducts(bindAllProductsInCuration(curation));
-        }
+        List<CurationVO> curations = curationMapper.findCurationByStartingMonth(oneYearAgo)
+                                                   .stream()
+                                                   .map(this::bindAllProductsInCuration)
+                                                   .collect(Collectors.toList());
         return curations;
     }
 
-    private List<ProductVO> bindAllProductsInCuration(CurationVO curation) {
-        return Stream.of(curation.getProduct1Id(), curation.getProduct2Id(), curation.getProduct3Id())
-                     .filter(Objects::nonNull)
-                     .map(productService::getProductDetail)
-                     .collect(Collectors.toList());
+    @Override
+    public CurationVO showCurationDetail(Integer curationId) {
+        CurationVO curation = curationMapper.findCurationById(curationId)
+                                            .map(this::bindAllProductsInCuration)
+                                            .orElseThrow(() -> new BusinessException(ErrorCode.CURATION_NOT_FOUND));
+        return curation;
+    }
+
+    private CurationVO bindAllProductsInCuration(CurationVO curation) {
+        List<ProductVO> products = Stream.of(curation.getProduct1Id(), curation.getProduct2Id(), curation.getProduct3Id())
+                                         .filter(Objects::nonNull)
+                                         .map(productService::getProductDetail)
+                                         .collect(Collectors.toList());
+        curation.setProducts(products);
+        return curation;
     }
 
 }
