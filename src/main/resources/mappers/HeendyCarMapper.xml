@@ -9,4 +9,11 @@
                 LEFT JOIN CM_CODE cm ON b.BRANCH_CODE = cm.code
     </select>
 
+    <insert id="saveReservation" parameterType="HeendyCarReservationVO" useGeneratedKeys="true">
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            SELECT HEENDY_CAR_RESERVATION_SEQ.currval From DUAL
+        </selectKey>
+        INSERT INTO HEENDY_CAR_RESERVATION (BRANCH_CODE, MEMBER_ID, RESERVATION_TIME, CREATED_AT) VALUES (#{branchCode}, #{memberId}, #{reservationTime}, #{createdAt})
+    </insert>
+
 </mapper>

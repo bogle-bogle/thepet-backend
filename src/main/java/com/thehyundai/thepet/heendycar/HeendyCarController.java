@@ -8,9 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +27,6 @@ public class HeendyCarController {
     @Operation(summary = "흰디카 예약하기", description = "날짜, 지점을 선택하여 흰디카 예약을 생성합니다.")
     public ResponseEntity<?> createReservation(@RequestBody HeendyCarReservationVO requestVO) {
         HeendyCarReservationVO reservation = heendyCarService.createReservation(requestVO);
-        handleAutoCancellation(reservation.getId());
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
@@ -40,10 +36,4 @@ public class HeendyCarController {
         return null;
     }
 
-    private void handleAutoCancellation(Integer reservationId) {
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-//        executor.schedule(() -> System.out.println("여기서 자동 삭제 실행 예정"), 30, TimeUnit.MINUTES);
-        executor.schedule(() -> System.out.println("여기서 자동 삭제 실행 예정"), 30, TimeUnit.SECONDS);
-        executor.shutdown();
-    }
 }

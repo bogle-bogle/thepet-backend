@@ -7,4 +7,6 @@ import java.util.List;
 @Mapper
 public interface HeendyCarMapper {
     List<BranchHeendyCarVO> findAllBranches();
+
+    Integer saveReservation(HeendyCarReservationVO requestVO);
 }
