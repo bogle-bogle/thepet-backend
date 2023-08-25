@@ -17,7 +17,7 @@ import java.util.List;
 @Log4j2
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "SubsController", description = "구독 관련 컨트롤러")    // Contoller 정보 설정
+@Tag(name = "Subscription Controller", description = "구독 관련 컨트롤러")    // Contoller 정보 설정
 @RequestMapping("/api/sub")
 public class SubsController {
     private final SubsService subsService;
