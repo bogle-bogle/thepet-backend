@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BranchHeendyCarVO {
+public class HcBranchVO {
     private String branchCode;
     private Integer cnt;
     private String name;

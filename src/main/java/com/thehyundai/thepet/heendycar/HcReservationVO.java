@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class HeendyCarReservationVO {
+public class HcReservationVO {
     private Integer id;
     private String branchCode;
     private Integer memberId;

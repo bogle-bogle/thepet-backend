@@ -13,27 +13,28 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "HeendyCar Controller", description = "흰디카 관련 컨트롤러")
 @RequestMapping("/api/hc")
-public class HeendyCarController {
-    private final HeendyCarService heendyCarService;
+public class HcController {
+    private final HcService hcService;
 
     @GetMapping("/branch")
     @Operation(summary = "흰디카 대여 가능한 모든 지점 조회하기", description = "흰디카 예약을 위해, 해당하는 모든 지점 정보를 불러옵니다.")
     public ResponseEntity<?> showAllBranches() {
-        List<BranchHeendyCarVO> result = heendyCarService.showAllBranches();
+        List<HcBranchVO> result = hcService.showAllBranches();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/reservation")
     @Operation(summary = "흰디카 예약하기", description = "날짜, 지점을 선택하여 흰디카 예약을 생성합니다.")
-    public ResponseEntity<?> createReservation(@RequestBody HeendyCarReservationVO requestVO) {
-        HeendyCarReservationVO reservation = heendyCarService.createReservation(requestVO);
+    public ResponseEntity<?> createReservation(@RequestBody HcReservationVO requestVO) {
+        HcReservationVO reservation = hcService.createReservation(requestVO);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
-    @GetMapping("/branch/{branchId}")
+    @GetMapping("/branch/{branchCode}")
     @Operation(summary = "지점별 흰디카 잔여 개수 조회하기", description = "지점을 선택하면, 해당 지점 흰디카 정보를 불러옵니다.")
-    public ResponseEntity<?> showBranchHeendyCar(@PathVariable Integer branchId) {
-        return null;
+    public ResponseEntity<?> showBranchHeendyCar(@PathVariable String branchCode) {
+        HcBranchVO result = hcService.showBranchInfo(branchCode);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }
