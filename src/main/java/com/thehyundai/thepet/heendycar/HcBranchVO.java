@@ -14,4 +14,5 @@ public class HcBranchVO {
     private Integer cnt;
     private String name;
     private String description;
+    private String imgUrl;
 }
