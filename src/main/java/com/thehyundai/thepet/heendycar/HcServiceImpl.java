@@ -4,6 +4,7 @@ import com.thehyundai.thepet.exception.BusinessException;
 import com.thehyundai.thepet.exception.ErrorCode;
 import com.thehyundai.thepet.global.CmCodeValidator;
 import com.thehyundai.thepet.global.DataValidator;
+import com.thehyundai.thepet.util.AuthTokensGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class HcServiceImpl implements HcService {
     private final HcReservationMapper reservationMapper;
     private final DataValidator dataValidator;
     private final CmCodeValidator cmCodeValidator;
+    private final AuthTokensGenerator authTokensGenerator;
 
     @Override
     public HcBranchVO showBranchInfo(String branchCode) {
@@ -40,14 +42,14 @@ public class HcServiceImpl implements HcService {
     }
 
     @Override
-    public HcReservationVO createReservation(HcReservationVO requestVO) {
-        // 0. 유효성 검사
+    public HcReservationVO createReservation(String token, HcReservationVO requestVO) {
+        // 0. 유효성 검사 및 유저 검증
         validateRemainingCnt(requestVO);
         valiateAvailableTime(requestVO);
-//        dataValidator.checkPresentMember(requestVO.getMemberId());
+        Integer memberId = authTokensGenerator.extractMemberId(token);
 
         // 1. Reservation 생성
-        HcReservationVO reservation = buildReservation(requestVO);
+        HcReservationVO reservation = buildReservation(memberId, requestVO);
 
         // 2. RESERVATION 테이블에 INSERT
         if (reservationMapper.saveReservation(reservation) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
@@ -87,10 +89,10 @@ public class HcServiceImpl implements HcService {
         }
     }
 
-    private HcReservationVO buildReservation(HcReservationVO requestVO) {
+    private HcReservationVO buildReservation(Integer memberId, HcReservationVO requestVO) {
         return HcReservationVO.builder()
                                      .branchCode(requestVO.getBranchCode())
-                                     .memberId(1)     // 회원 하드코딩 -> 변경 예정 -----------------------------------------
+                                     .memberId(memberId)
                                      .reservationTime(requestVO.getReservationTime())
                                      .createdAt(LocalDateTime.now())
                                      .pickupYn(STATUS_N)
