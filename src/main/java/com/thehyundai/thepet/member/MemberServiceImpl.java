@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService{
                 .address(res.getAddress())
                 .nickname(res.getNickname())
                 .clubHeendyYn("N")
-                .jwt(authTokensGenerator.generate(res.getSocialId()))
+                .jwt(authTokensGenerator.generate(res.getId()))
                 .build();
     }
 }

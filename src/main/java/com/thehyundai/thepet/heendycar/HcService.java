@@ -8,6 +8,6 @@ public interface HcService {
 
     List<HcBranchVO> showAllBranches();
 
-    HcReservationVO createReservation(HcReservationVO requestVO);
+    HcReservationVO createReservation(String token, HcReservationVO requestVO);
 
 }

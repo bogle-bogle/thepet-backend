@@ -3,12 +3,14 @@ package com.thehyundai.thepet.heendycar;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Log4j2
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "HeendyCar Controller", description = "흰디카 관련 컨트롤러")
@@ -25,8 +27,9 @@ public class HcController {
 
     @PostMapping("/reservation")
     @Operation(summary = "흰디카 예약하기", description = "날짜, 지점을 선택하여 흰디카 예약을 생성합니다.")
-    public ResponseEntity<?> createReservation(@RequestBody HcReservationVO requestVO) {
-        HcReservationVO reservation = hcService.createReservation(requestVO);
+    public ResponseEntity<?> createReservation(@RequestHeader("Authorization") String token,  @RequestBody HcReservationVO requestVO) {
+        log.info(token);
+        HcReservationVO reservation = hcService.createReservation(token, requestVO);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 
