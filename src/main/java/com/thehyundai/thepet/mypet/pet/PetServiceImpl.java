@@ -1,5 +1,7 @@
 package com.thehyundai.thepet.mypet.pet;
 
+import com.thehyundai.thepet.global.CmCodeMapper;
+import com.thehyundai.thepet.global.CmCodeVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PetServiceImpl implements PetService {
     private final PetMapper petMapper;
+    private final CmCodeMapper cmCodeMapper;
 
     @Override
     public Integer registerClub(PetVO petVO) {
@@ -28,5 +31,9 @@ public class PetServiceImpl implements PetService {
         return petMapper.myPet(memberId);
     }
 
+    @Override
+    public List<CmCodeVO> getAllCode() {
 
+        return cmCodeMapper.getAllCode();
+    }
 }
