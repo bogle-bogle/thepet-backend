@@ -1,6 +1,6 @@
 package com.thehyundai.thepet.mypet.pet;
 
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

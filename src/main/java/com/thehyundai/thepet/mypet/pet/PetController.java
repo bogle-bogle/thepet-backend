@@ -9,7 +9,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
-@RequestMapping("/api/pet/")
+@RequestMapping("/api/pet")
 @RequiredArgsConstructor
 public class PetController {
     private final PetService petService;
