@@ -18,8 +18,8 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public MemberVO loginOrRegister(MemberVO requestVO) {
-        MemberVO member = memberMapper.login(requestVO.getSocialId())
-                                      .orElse(register(requestVO));
+        MemberVO member = memberMapper.findMemberBySocialId(requestVO.getSocialId())
+                                      .orElseGet(() -> register(requestVO));
 
         return MemberVO.builder()
                 .id(member.getId())

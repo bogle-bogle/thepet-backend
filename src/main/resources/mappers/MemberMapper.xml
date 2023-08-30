@@ -9,7 +9,7 @@
         SELECT * FROM MEMBER WHERE ID = #{id}
     </select>
 
-    <select id="login" parameterType="long" resultType="MemberVO">
+    <select id="findMemberBySocialId" parameterType="long" resultType="MemberVO">
         SELECT * FROM member
         WHERE social_id = #{socialId}
     </select>
