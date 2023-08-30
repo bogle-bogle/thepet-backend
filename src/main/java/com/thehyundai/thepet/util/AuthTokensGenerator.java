@@ -32,7 +32,6 @@ public class AuthTokensGenerator {
         if (accessToken.startsWith("Bearer ")) {
             accessToken = accessToken.substring(7);
         }
-        log.info(accessToken);
         return Integer.valueOf(jwtTokenProvider.extractSubject(accessToken));
     }
 }

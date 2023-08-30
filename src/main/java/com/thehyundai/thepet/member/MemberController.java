@@ -2,6 +2,7 @@ package com.thehyundai.thepet.member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +15,9 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/login")
-    public ResponseEntity<MemberVO> login(@RequestBody MemberVO member) {
-        return ResponseEntity.ok(memberService.memberLogin(member));
+    public ResponseEntity<MemberVO> loginOrRegister(@RequestBody MemberVO member) {
+        MemberVO result = memberService.loginOrRegister(member);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 }

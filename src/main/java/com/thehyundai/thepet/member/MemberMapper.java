@@ -6,6 +6,6 @@ import java.util.Optional;
 @Mapper
 public interface MemberMapper {
     Optional<MemberVO> findMemberById(Integer id);
-    MemberVO login(Long socialId);
-    void register(MemberVO member);
+    Optional<MemberVO> login(Long socialId);
+    Integer register(MemberVO member);
 }

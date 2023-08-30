@@ -47,6 +47,7 @@ public class HcServiceImpl implements HcService {
         validateRemainingCnt(requestVO);
         valiateAvailableTime(requestVO);
         Integer memberId = authTokensGenerator.extractMemberId(token);
+        dataValidator.checkPresentMember(memberId);
 
         // 1. Reservation 생성
         HcReservationVO reservation = buildReservation(memberId, requestVO);
