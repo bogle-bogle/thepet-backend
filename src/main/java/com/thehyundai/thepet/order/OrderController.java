@@ -29,15 +29,15 @@ public class OrderController {
 
     @PostMapping("/curation")
     @Operation(summary = "더펫박스 바로 구독하기", description = "더펫박스(큐레이션) 구독을 바로 주문합니다.")
-    public ResponseEntity<?> createSubscriptionOrder(@RequestBody SubscriptionVO requestVO) {
-        OrderVO result = orderService.createSubscriptionOrder(requestVO);
+    public ResponseEntity<?> createSubscriptionOrder(@RequestHeader("Authorization") String token, @RequestBody SubscriptionVO requestVO) {
+        OrderVO result = orderService.createSubscriptionOrder(token, requestVO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("/regular-delivery")
     @Operation(summary = "정기배송 구독하기", description = "선택한 상품을 정기배송 구독을 주문합니다.")
-    public ResponseEntity<?> createRegularDeliveryOrder(@RequestBody SubscriptionVO requestVO) {
-        OrderVO result = orderService.createRegularDeliveryOrder(requestVO);
+    public ResponseEntity<?> createRegularDeliveryOrder(@RequestHeader("Authorization") String token, @RequestBody SubscriptionVO requestVO) {
+        OrderVO result = orderService.createRegularDeliveryOrder(token, requestVO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -50,8 +50,8 @@ public class OrderController {
 
     @GetMapping("/all")
     @Operation(summary = "나의 주문 내역 전체 조회하기", description = "지금까지의 나의 주문내역을 전체 조회합니다.")
-    public ResponseEntity<?> showAllMyOrdersWithDetails() {
-        List<OrderVO> result = orderService.showAllMyOrdersWithDetails(1);       // 일단 하드코딩 -----------------------------------
+    public ResponseEntity<?> showAllMyOrdersWithDetails(@RequestHeader("Authorization") String token) {
+        List<OrderVO> result = orderService.showAllMyOrdersWithDetails(token);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

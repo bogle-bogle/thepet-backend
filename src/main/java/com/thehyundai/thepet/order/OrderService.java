@@ -8,11 +8,11 @@ import java.util.List;
 public interface OrderService {
     OrderVO orderWholeCart(String token);
 
-    OrderVO createSubscriptionOrder(SubscriptionVO requestVO);
+    OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO);
 
-    OrderVO createRegularDeliveryOrder(SubscriptionVO requestVO);
+    OrderVO createRegularDeliveryOrder(String token, SubscriptionVO requestVO);
 
     OrderVO showOrderWithDetails(Integer orderId);
 
-    List<OrderVO> showAllMyOrdersWithDetails(Integer memberId);
+    List<OrderVO> showAllMyOrdersWithDetails(String token);
 }
