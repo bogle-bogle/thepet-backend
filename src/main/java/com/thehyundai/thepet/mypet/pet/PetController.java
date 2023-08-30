@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.mypet.pet;
 
+import com.thehyundai.thepet.global.CmCodeVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -23,5 +24,11 @@ public class PetController {
     @GetMapping("/{memberId}")
     public ResponseEntity<List<PetVO>> myPet(@PathVariable int memberId){
         return ResponseEntity.ok(petService.myPet(memberId));
+    }
+
+    @GetMapping("/code")
+    public ResponseEntity<List<CmCodeVO>> getAllCode(){
+
+        return ResponseEntity.ok(petService.getAllCode());
     }
 }

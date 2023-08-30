@@ -6,6 +6,9 @@
         SELECT * FROM CM_CODE WHERE CODE_VALUE = #{codeValue}
     </select>
 
+    <select id="getAllCode" resultType="CmCodeVO">
+        SELECT * FROM CM_CODE
+    </select>
 
     
 </mapper>
