@@ -6,6 +6,8 @@ import com.thehyundai.thepet.subscription.SubscriptionVO;
 import java.util.List;
 
 public interface OrderService {
+    OrderVO orderWholeCart(String token);
+
     OrderVO createSubscriptionOrder(SubscriptionVO requestVO);
 
     OrderVO createRegularDeliveryOrder(SubscriptionVO requestVO);

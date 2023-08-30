@@ -28,7 +28,6 @@ public class HcController {
     @PostMapping("/reservation")
     @Operation(summary = "흰디카 예약하기", description = "날짜, 지점을 선택하여 흰디카 예약을 생성합니다.")
     public ResponseEntity<?> createReservation(@RequestHeader("Authorization") String token,  @RequestBody HcReservationVO requestVO) {
-        log.info(token);
         HcReservationVO reservation = hcService.createReservation(token, requestVO);
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
