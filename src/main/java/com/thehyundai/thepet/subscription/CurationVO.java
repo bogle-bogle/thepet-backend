@@ -22,5 +22,6 @@ public class CurationVO {
     private Integer price;
     private String name;
     private String imgUrl;
+    private String thumbnailImgUrl;
     private List<ProductVO> products;
 }
