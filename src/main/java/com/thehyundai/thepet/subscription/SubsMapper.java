@@ -3,5 +3,9 @@ package com.thehyundai.thepet.subscription;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
-public class SubsMapper {
+public interface SubsMapper {
+
+    Integer saveCurationSubscription(SubscriptionVO requestVO);
+
+    Integer saveProductSubscription(SubscriptionVO requestVO);
 }

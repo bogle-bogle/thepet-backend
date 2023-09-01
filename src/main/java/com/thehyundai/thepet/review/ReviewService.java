@@ -1,7 +1,8 @@
 package com.thehyundai.thepet.review;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
 public interface ReviewService {
+    public List<ReviewVO> getAllReviews(int productId);
+    public ReviewVO getReviewDetail(int id);
 }

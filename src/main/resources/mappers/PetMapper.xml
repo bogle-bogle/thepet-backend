@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thehyundai.thepet.mypet.pet.PetMapper">
+
+    <insert id="registerClub" parameterType="PetVO">
+            CALL InsertPetWithAllergies
+            (#{photo},#{name},#{birth},#{memberId},#{favoriteFoodIngredients},#{imgUrl},#{mbti},#{breedCode},#{animalTypeCode},#{proteinCode})
+            <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+                SELECT PET_SEQ.CURRVAL FROM DUAL
+            </selectKey>
+    </insert>
+
+    <update id="updateFeed" parameterType="PetVO">
+        UPDATE PET
+        SET favorite_food_ingredients = #{favoriteFoodIngredients}
+        WHERE id = #{id}
+    </update>
+
+    <select id="myPet" parameterType="Integer" resultType="PetVO">
+        SELECT *
+        FROM PET
+        WHERE member_id = #{memberId}
+    </select>
+
+
+</mapper>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thehyundai.thepet.subscription.CurationMapper">
+
+    <select id="findCurationById" parameterType="Integer" resultType="CurationVO">
+        SELECT * FROM CURATION WHERE ID = #{id}
+    </select>
+
+    <select id="findCurationByPaymentDate" parameterType="java.time.LocalDate" resultType="CurationVO">
+        SELECT * FROM CURATION WHERE PAYMENT_DATE = #{paymentDate}
+    </select>
+
+    <select id="findCurationByStartingMonth" parameterType="java.time.LocalDate" resultType="CurationVO">
+        SELECT * FROM CURATION
+        WHERE PAYMENT_DATE >= #{paymentDate}
+    </select>
+
+</mapper>

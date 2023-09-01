@@ -1,7 +1,9 @@
 package com.thehyundai.thepet.product;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
+
 public interface ProductService {
+    public List<ProductVO> getAllProducts();
+    public ProductVO getProductDetail(int id);
 }

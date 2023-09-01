@@ -1,7 +1,13 @@
 package com.thehyundai.thepet.subscription;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-@Service
 public interface SubsService {
+     SubscriptionVO createSubscription(SubscriptionVO requestVO);
+
+     CurationVO showCurationOfCurrMonth();
+
+     List<CurationVO> showCurationOfLastOneYear();
+
+     CurationVO showCurationDetail(Integer curationId);
 }

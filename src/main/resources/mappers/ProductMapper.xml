@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thehyundai.thepet.product.ProductMapper">
+
+    <select id="selectProducts" resultType="ProductVO">
+        SELECT * FROM PRODUCT
+    </select>
+
+    <select id="selectProductDetail" parameterType="int" resultType="ProductVO">
+        SELECT * FROM PRODUCT
+        WHERE id = #{id}
+    </select>
+
+    <select id="findProductById" parameterType="Integer" resultType="ProductVO">
+        SELECT * FROM PRODUCT WHERE id = #{id}
+    </select>
+
+</mapper>
