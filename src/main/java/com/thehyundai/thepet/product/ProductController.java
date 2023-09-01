@@ -17,9 +17,9 @@ import java.util.List;
 public class ProductController {
     private final ProductService productService;
 
-    @GetMapping("/list")
-    public ResponseEntity<List<ProductVO>> getProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+    @GetMapping("/list/{page}")
+    public ResponseEntity<ProductListVO> getProducts(@PathVariable int page) {
+        return ResponseEntity.ok(productService.getAllProducts(page));
     }
 
     @GetMapping("/{id}")
