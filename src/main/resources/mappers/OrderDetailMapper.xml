@@ -5,7 +5,7 @@
 <mapper namespace="com.thehyundai.thepet.order.OrderDetailMapper">
 
     <insert id="saveOrderDetail" useGeneratedKeys="true" parameterType="OrderDetailVO">
-        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+        <selectKey keyProperty="detailId" resultType="Integer" order="AFTER">
             SELECT ORDER_DETAIL_SEQ.currval From DUAL
         </selectKey>
         INSERT INTO "ORDER_DETAIL" (ORDER_ID, CNT, PRODUCT_ID, PRODUCT_NAME, PRODUCT_IMG_URL, CURATION_ID, CURATION_NAME, CURATION_IMG_URL, CURATION_PRICE)

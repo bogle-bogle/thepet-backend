@@ -73,12 +73,13 @@ public class OrderServiceImpl implements OrderService {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         Integer memberId = authTokensGenerator.extractMemberId(token);
         dataValidator.checkPresentMember(memberId);
+        requestVO.setMemberId(memberId);
 
         CurationVO curation = curationMapper.findCurationById(requestVO.getCurationId())
                                             .orElseThrow(() -> new BusinessException(ErrorCode.CURATION_NOT_FOUND));
 
         // 1. ORDER 테이블에 저장
-        OrderVO order = buildCurationOrder(requestVO.getMemberId(), curation);
+        OrderVO order = buildCurationOrder(memberId, curation);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 2. ORDER_DETAIL 테이블에 저장
@@ -101,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
         ProductVO product = productService.getProductDetail(requestVO.getProductId());
 
         // 1. ORDER 테이블에 저장
-        OrderVO order = buildProductOrder(requestVO.getMemberId(), product);
+        OrderVO order = buildProductOrder(memberId, product);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 2. ORDER_DETAIL 테이블에 저장
