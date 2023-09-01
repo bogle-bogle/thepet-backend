@@ -5,8 +5,9 @@
 
 <mapper namespace="com.thehyundai.thepet.product.ProductMapper">
 
-    <select id="selectProducts" resultType="ProductVO">
+    <select id="selectProducts" parameterType="int" resultType="ProductVO">
         SELECT * FROM PRODUCT
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
     <select id="selectProductDetail" parameterType="int" resultType="ProductVO">
@@ -16,6 +17,10 @@
 
     <select id="findProductById" parameterType="Integer" resultType="ProductVO">
         SELECT * FROM PRODUCT WHERE id = #{id}
+    </select>
+
+    <select id="selectProductCount" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT
     </select>
 
 </mapper>
