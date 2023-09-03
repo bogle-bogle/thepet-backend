@@ -9,5 +9,6 @@ public interface PetMapper {
     Integer registerClub(PetVO petVO);
     Integer updateFeed(PetVO petVO);
     List<PetVO> myPet(Integer memberId);
-    List<PetSimpleVO> findPetsWithAllergiesByMemberId(Integer memberId);
+    List<PetVO> findPetsWithAllergiesByMemberId(Integer memberId);
+    PetVO findPetWithAllergiesById(Integer id);
 }

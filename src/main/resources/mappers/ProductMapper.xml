@@ -23,4 +23,9 @@
         SELECT COUNT(*) FROM PRODUCT
     </select>
 
+    <select id="findProductsByPetInfo" parameterType="PetVO" resultType="ProductVO">
+        SELECT * FROM PRODUCT WHERE SUB_CATEGORY_CODE = #{}
+    </select>
+
+
 </mapper>

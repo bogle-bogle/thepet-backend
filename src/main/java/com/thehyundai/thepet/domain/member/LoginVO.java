@@ -1,6 +1,6 @@
 package com.thehyundai.thepet.domain.member;
 
-import com.thehyundai.thepet.domain.mypet.pet.PetSimpleVO;
+import com.thehyundai.thepet.domain.mypet.pet.PetVO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +14,5 @@ import java.util.List;
 @Builder
 public class LoginVO {
     private MemberVO member;
-    private List<PetSimpleVO> pets;
+    private List<PetVO> pets;
 }

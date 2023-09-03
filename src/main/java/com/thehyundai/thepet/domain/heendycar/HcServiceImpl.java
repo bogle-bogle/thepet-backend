@@ -4,7 +4,7 @@ import com.thehyundai.thepet.global.TableStatus;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.cmcode.CmCodeValidator;
-import com.thehyundai.thepet.global.DataValidator;
+import com.thehyundai.thepet.global.EntityValidator;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 public class HcServiceImpl implements HcService {
     private final HcBranchMapper branchMapper;
     private final HcReservationMapper reservationMapper;
-    private final DataValidator dataValidator;
+    private final EntityValidator entityValidator;
     private final CmCodeValidator cmCodeValidator;
     private final AuthTokensGenerator authTokensGenerator;
 
@@ -45,7 +45,7 @@ public class HcServiceImpl implements HcService {
         validateRemainingCnt(requestVO);
         valiateAvailableTime(requestVO);
         Integer memberId = authTokensGenerator.extractMemberId(token);
-        dataValidator.checkPresentMember(memberId);
+        entityValidator.checkPresentMember(memberId);
 
         // 1. Reservation 생성
         HcReservationVO reservation = buildReservation(memberId, requestVO);

@@ -4,7 +4,7 @@ import com.thehyundai.thepet.domain.cart.CartService;
 import com.thehyundai.thepet.domain.cart.CartVO;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
-import com.thehyundai.thepet.global.DataValidator;
+import com.thehyundai.thepet.global.EntityValidator;
 import com.thehyundai.thepet.global.TableStatus;
 import com.thehyundai.thepet.domain.product.ProductService;
 import com.thehyundai.thepet.domain.product.ProductVO;
@@ -31,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
     private final CurationMapper curationMapper;
 
     private final AuthTokensGenerator authTokensGenerator;
-    private final DataValidator dataValidator;
+    private final EntityValidator entityValidator;
 
     private final SubsService subsService;
     private final CartService cartService;
@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderVO orderWholeCart(String token) {
         // 0. 유효성 검사 및 유저 검증
         Integer memberId = authTokensGenerator.extractMemberId(token);
-        dataValidator.checkPresentMember(memberId);
+        entityValidator.checkPresentMember(memberId);
 
         // 1. 회원의 카트 전체 조회하기
         List<CartVO> wholeCart = cartService.getCart(memberId);
@@ -70,7 +70,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         Integer memberId = authTokensGenerator.extractMemberId(token);
-        dataValidator.checkPresentMember(memberId);
+        entityValidator.checkPresentMember(memberId);
         requestVO.setMemberId(memberId);
 
         CurationVO curation = curationMapper.findCurationById(requestVO.getCurationId())
@@ -96,7 +96,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderVO createRegularDeliveryOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         Integer memberId = authTokensGenerator.extractMemberId(token);
-        dataValidator.checkPresentMember(memberId);
+        entityValidator.checkPresentMember(memberId);
         ProductVO product = productService.getProductDetail(requestVO.getProductId());
 
         // 1. ORDER 테이블에 저장
@@ -126,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderVO> showAllMyOrdersWithDetails(String token) {
         // 0. 유효성 검사 및 유저 검증
         Integer memberId = authTokensGenerator.extractMemberId(token);
-        dataValidator.checkPresentMember(memberId);
+        entityValidator.checkPresentMember(memberId);
 
         // 1. 데이터 조회하기
         List<OrderVO> result = orderMapper.showAllMyOrdersWithDetails(memberId);

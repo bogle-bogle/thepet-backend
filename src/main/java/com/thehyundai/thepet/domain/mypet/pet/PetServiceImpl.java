@@ -37,8 +37,8 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<PetSimpleVO> findPetsWithAllergies(Integer memberId) {
-        List<PetSimpleVO> pets = petMapper.findPetsWithAllergiesByMemberId(memberId);
+    public List<PetVO> findPetsWithAllergies(Integer memberId) {
+        List<PetVO> pets = petMapper.findPetsWithAllergiesByMemberId(memberId);
         return pets;
     }
 }

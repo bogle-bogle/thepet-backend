@@ -1,7 +1,7 @@
 package com.thehyundai.thepet.domain.member;
 
 import com.thehyundai.thepet.domain.mypet.pet.PetService;
-import com.thehyundai.thepet.domain.mypet.pet.PetSimpleVO;
+import com.thehyundai.thepet.domain.mypet.pet.PetVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<?> loginOrRegister(@RequestBody MemberVO requestVO) {
         MemberVO member = memberService.loginOrRegister(requestVO);
-        List<PetSimpleVO> pets = petService.findPetsWithAllergies(member.getId());
+        List<PetVO> pets = petService.findPetsWithAllergies(member.getId());
         LoginVO result = new LoginVO(member, pets);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

@@ -25,14 +25,21 @@
         WHERE member_id = #{memberId}
     </select>
 
-    <select id="findPetsWithAllergiesByMemberId" parameterType="Integer" resultMap="PetsWithAllegies">
+    <select id="findPetsWithAllergiesByMemberId" parameterType="Integer" resultMap="PetWithAllegies">
         SELECT p.id, p.name, a.protein_code
         FROM PET p
              LEFT JOIN ALLERGY a ON p.id = a.pet_id
         WHERE p.MEMBER_ID = #{memberId}
     </select>
 
-    <resultMap id="PetsWithAllegies" type="PetSimpleVO">
+    <select id="findPetWithAllergiesById" parameterType="Integer" resultMap="PetWithAllegies">
+        SELECT p.*, a.protein_code
+        FROM PET p
+             LEFT JOIN ALLERGY a ON p.id = a.pet_id
+        WHERE p.ID = #{id}
+    </select>
+
+    <resultMap id="PetWithAllegies" type="PetVO">
         <id property="petId" column="id" />
         <result property="petName" column="name" />
         <collection property="allergies" javaType="java.util.List" ofType="String">

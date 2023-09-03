@@ -15,5 +15,5 @@ public interface PetService {
 
     List<CmCodeVO> getAllCode();
 
-    List<PetSimpleVO> findPetsWithAllergies(Integer memberId);
+    List<PetVO> findPetsWithAllergies(Integer memberId);
 }
