@@ -21,9 +21,9 @@ public class PetController {
         return ResponseEntity.ok(petService.updateFeed(petVO));
     }
 
-    @GetMapping("/{memberId}")
-    public ResponseEntity<List<PetVO>> myPet(@PathVariable int memberId){
-        return ResponseEntity.ok(petService.myPet(memberId));
+    @GetMapping
+    public ResponseEntity<List<PetVO>> myPet(@RequestHeader("Authorization") String token){
+        return ResponseEntity.ok(petService.myPet(token));
     }
 
     @GetMapping("/code")
