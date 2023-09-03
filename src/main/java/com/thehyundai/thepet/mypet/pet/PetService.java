@@ -1,7 +1,7 @@
 package com.thehyundai.thepet.mypet.pet;
 
 
-import com.thehyundai.thepet.global.CmCodeVO;
+import com.thehyundai.thepet.global.cmcode.CmCodeVO;
 
 import java.util.List;
 
@@ -14,4 +14,6 @@ public interface PetService {
     List<PetVO> myPet(int memberId);
 
     List<CmCodeVO> getAllCode();
+
+    List<PetSimpleVO> findPetsWithAllergies(Integer memberId);
 }

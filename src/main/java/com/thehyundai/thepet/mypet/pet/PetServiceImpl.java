@@ -1,7 +1,7 @@
 package com.thehyundai.thepet.mypet.pet;
 
-import com.thehyundai.thepet.global.CmCodeMapper;
-import com.thehyundai.thepet.global.CmCodeVO;
+import com.thehyundai.thepet.global.cmcode.CmCodeMapper;
+import com.thehyundai.thepet.global.cmcode.CmCodeVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,12 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public List<CmCodeVO> getAllCode() {
-
         return cmCodeMapper.getAllCode();
+    }
+
+    @Override
+    public List<PetSimpleVO> findPetsWithAllergies(Integer memberId) {
+        List<PetSimpleVO> pets = petMapper.findPetsWithAllergiesByMemberId(memberId);
+        return pets;
     }
 }

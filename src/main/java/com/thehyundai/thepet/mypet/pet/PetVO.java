@@ -4,6 +4,8 @@ package com.thehyundai.thepet.mypet.pet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 
 @Data
 @NoArgsConstructor
@@ -21,5 +23,5 @@ public class PetVO {
     private String breedCode;
     private String animalTypeCode;
     private String proteinCode;
-
+    private List<String> allergies;
 }

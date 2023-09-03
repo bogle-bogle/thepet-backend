@@ -2,7 +2,7 @@ package com.thehyundai.thepet.member;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import com.thehyundai.thepet.util.AuthTokens;
+import com.thehyundai.thepet.global.jwt.AuthTokens;
 import lombok.Builder;
 import lombok.Data;
 
