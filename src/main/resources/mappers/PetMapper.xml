@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.thehyundai.thepet.mypet.pet.PetMapper">
+<mapper namespace="com.thehyundai.thepet.domain.mypet.pet.PetMapper">
 
     <insert id="registerClub" parameterType="PetVO">
             CALL InsertPetWithAllergies

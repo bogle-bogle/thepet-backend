@@ -1,13 +1,13 @@
 package com.thehyundai.thepet.global;
 
-import com.thehyundai.thepet.exception.BusinessException;
-import com.thehyundai.thepet.member.MemberMapper;
-import com.thehyundai.thepet.product.ProductMapper;
-import com.thehyundai.thepet.subscription.CurationMapper;
+import com.thehyundai.thepet.global.exception.BusinessException;
+import com.thehyundai.thepet.domain.member.MemberMapper;
+import com.thehyundai.thepet.domain.product.ProductMapper;
+import com.thehyundai.thepet.domain.subscription.CurationMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import static com.thehyundai.thepet.exception.ErrorCode.*;
+import static com.thehyundai.thepet.global.exception.ErrorCode.*;
 
 @Component
 @RequiredArgsConstructor
