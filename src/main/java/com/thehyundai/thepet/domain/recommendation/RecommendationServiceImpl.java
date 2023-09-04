@@ -27,15 +27,17 @@ public class RecommendationServiceImpl implements RecommendationService {
     private final EntityValidator entityValidator;
 
     @Override
-    public List<RecommendationVO> recommendProducts(Integer petId) {
+    public RecommendationVO recommendProducts(Integer petId) {
         PetVO petVO = entityValidator.getPresentPet(petId);
-        recommendByPetInfo(petVO);
-        return null;
+        log.info(petVO);
+        RecommendationVO result = recommendByPetInfo(petVO);
+        return result;
     }
 
     public RecommendationVO recommendByPetInfo(PetVO petInfo) {
         // 1. 오늘 날짜 기준으로 강아지 나이 계산
         Integer petAge = calculatePetAge(petInfo.getBirth());
+        log.info(petInfo);
         String ageCmCode = CmCode.convertToPetAgeCode(petAge, petInfo.getSizeCode());
         petInfo.setAgeCode(ageCmCode);
 
@@ -48,22 +50,18 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         // 3. 중복 제거 및 알러지 성분이 아닌 상품들로만 필터링
         List<String> allergies = petInfo.getAllergies();
-        List<ProductVO> recommendations = Stream.concat(
-                                                    productMapper.findProductsBySimplePetInfo(petInfo).stream(),
-                                                    productMapper.findProductsByPetInfoAndOrderLog(petInfo).stream())
+        List<ProductVO> recommendations = Stream.concat(simpleRecommendations.stream(), advancedRecommendations.stream())
                                                 .distinct()
                                                 .filter(product -> !allergies.contains(product.getProteinCode()))
+                                                .limit(4)
                                                 .collect(Collectors.toList());
-
         return new RecommendationVO(petInfo, recommendations);
     }
 
     private Integer calculatePetAge(LocalDate birthDate) {
-        LocalDate today = LocalDate.now();
-        if ((birthDate != null) && (today != null)) {
-            return Period.between(birthDate, today).getYears();
-        } else {
-            throw new BusinessException(ErrorCode.INVALID_BIRTHDATE);
+        if (birthDate != null) {
+            return Period.between(birthDate, LocalDate.now()).getYears();
         }
+        throw new BusinessException(ErrorCode.INVALID_BIRTHDATE);
     }
 }

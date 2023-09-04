@@ -19,7 +19,7 @@ public class RecommendationController {
     @GetMapping("/{petId}")
     @Operation(summary = "반려동물 맞춤 추천 상품 조회하기", description = "반려견 일반 정보 / 알러지 정보 / mbti 등으로 상품을 추천합니다.")
     public ResponseEntity<?> recommendProducts(@PathVariable Integer petId) {
-        List<RecommendationVO> result = recommendationService.recommendProducts(petId);
+        RecommendationVO result = recommendationService.recommendProducts(petId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

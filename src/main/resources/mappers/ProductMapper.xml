@@ -25,12 +25,12 @@
 
     <select id="findProductsBySimplePetInfo" parameterType="PetVO" resultType="ProductVO">
         SELECT * FROM PRODUCT
-        WHERE SUB_CATEGORY_CODE = #{ageCode} OR PROTEIN_CODE = #{favoriteProteinCode}
+        WHERE SUB_CATEGORY_CODE = #{ageCode, jdbcType=VARCHAR} OR PROTEIN_CODE = #{favoriteProteinCode}
     </select>
 
     <select id="findProductsByPetInfoAndOrderLog" parameterType="PetVO" resultType="ProductVO">
         SELECT * FROM PRODUCT
---         WHERE SUB_CATEGORY_CODE = #{ageCode}
+        WHERE SUB_CATEGORY_CODE = #{ageCode, jdbcType=VARCHAR}
     </select>
 
 </mapper>

@@ -10,10 +10,14 @@ import com.thehyundai.thepet.domain.subscription.CurationMapper;
 import com.thehyundai.thepet.domain.subscription.CurationVO;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
+
+import java.util.function.Consumer;
 
 import static com.thehyundai.thepet.global.exception.ErrorCode.*;
 
+@Log4j2
 @Component
 @RequiredArgsConstructor
 public class EntityValidator {
