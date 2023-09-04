@@ -16,10 +16,17 @@ import java.util.List;
 public class RecommendationController {
     private final RecommendationService recommendationService;
 
-    @GetMapping("/{petId}")
-    @Operation(summary = "반려동물 맞춤 추천 상품 조회하기", description = "반려견 일반 정보 / 알러지 정보 / mbti 등으로 상품을 추천합니다.")
-    public ResponseEntity<?> recommendProducts(@PathVariable Integer petId) {
-        RecommendationVO result = recommendationService.recommendProducts(petId);
+    @GetMapping("/simple/{petId}")
+    @Operation(summary = "반려동물 조건에 맞는 상품 추천", description = "나의 반려동물이 좋아하는 단백질원과, 반려동물 연령에 맞는 상품 추천하되, 주 재료에 알러지 성분이 있는 상품은 제거하고 보여줍니다.")
+    public ResponseEntity<?> recommendProductsSimply(@PathVariable Integer petId) {
+        RecommendationVO result = recommendationService.recommendProductsSimply(petId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/detail/{petId}")
+    @Operation(summary = "나의 반려동물 종류 / 비슷한 연령대의 인기 상품 추천", description = "나의 반려동물과 같은 종, 같은 연령대의 반려동물들이 많이 구매한 제품 순으로 추천하되, 주 재료에 알러지 성분이 있는 상품은 제거하고 보여줍니다.")
+    public ResponseEntity<?> recommendProductsInDetail(@PathVariable Integer petId) {
+        RecommendationVO result = recommendationService.recommendProductsInDetail(petId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }

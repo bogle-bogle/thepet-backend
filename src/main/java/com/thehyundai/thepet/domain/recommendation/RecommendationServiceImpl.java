@@ -27,35 +27,39 @@ public class RecommendationServiceImpl implements RecommendationService {
     private final EntityValidator entityValidator;
 
     @Override
-    public RecommendationVO recommendProducts(Integer petId) {
-        PetVO petVO = entityValidator.getPresentPet(petId);
-        log.info(petVO);
-        RecommendationVO result = recommendByPetInfo(petVO);
-        return result;
-    }
+    public RecommendationVO recommendProductsSimply(Integer petId) {
+        // 0. 반려동물 정보 가져오기
+        PetVO petInfo = entityValidator.getPresentPet(petId);
 
-    public RecommendationVO recommendByPetInfo(PetVO petInfo) {
-        // 1. 오늘 날짜 기준으로 강아지 나이 계산
+        // 1. 오늘 날짜 기준으로 반려동물 연령대 알아내기 -> 퍼피 / 어덜트 / 시니어
         Integer petAge = calculatePetAge(petInfo.getBirth());
-        log.info(petInfo);
         String ageCmCode = CmCode.convertToPetAgeCode(petAge, petInfo.getSizeCode());
         petInfo.setAgeCode(ageCmCode);
 
-        // 2. 강아지 정보를 기준으로 추천 상품 조회
-        // 2-1. Product 정보 조회
-        List<ProductVO> simpleRecommendations = productMapper.findProductsBySimplePetInfo(petInfo);      // 연령 + 최애 단백질 기준 추천
-        // 2-2. Product + Order 정보 조회 (Redis 이용)
-        List<ProductVO> advancedRecommendations = productMapper.findProductsByPetInfoAndOrderLog(petInfo);         // 반려동물의 MBTI 기준 추천
-
-
-        // 3. 중복 제거 및 알러지 성분이 아닌 상품들로만 필터링
+        // 2. 기본 정보를 기준으로 추천 상품 조회 (연령대 기준, 최애 단백질원, 알러지 배제)
         List<String> allergies = petInfo.getAllergies();
-        List<ProductVO> recommendations = Stream.concat(simpleRecommendations.stream(), advancedRecommendations.stream())
-                                                .distinct()
-                                                .filter(product -> !allergies.contains(product.getProteinCode()))
-                                                .limit(4)
-                                                .collect(Collectors.toList());
-        return new RecommendationVO(petInfo, recommendations);
+        List<ProductVO> simpleRecommendations = productMapper.findProductsBySimplePetInfo(petInfo)
+                                                             .stream()
+                                                             .filter(product -> !allergies.contains(product.getProteinCode()))
+                                                             .limit(4)
+                                                             .toList();
+        return new RecommendationVO(petInfo, simpleRecommendations);
+    }
+
+    @Override
+    public RecommendationVO recommendProductsInDetail(Integer petId) {
+        // 0. 반려동물 정보 가져오기
+        PetVO petInfo = entityValidator.getPresentPet(petId);
+
+        // 1. 나의 반려동물과 같은 종, 같은 연령대 (1년차 내로)들이 많이 구매한 상품 조회
+        List<String> allergies = petInfo.getAllergies();
+        List<ProductVO> advancedRecommendations = productMapper.findProductsByPetInfoAndOrderLog(petInfo)
+                                                               .stream()
+                                                               .distinct()
+                                                               .filter(product -> !allergies.contains(product.getProteinCode()))
+                                                               .limit(4)
+                                                               .toList();
+        return new RecommendationVO(petInfo, advancedRecommendations);
     }
 
     private Integer calculatePetAge(LocalDate birthDate) {
@@ -64,4 +68,5 @@ public class RecommendationServiceImpl implements RecommendationService {
         }
         throw new BusinessException(ErrorCode.INVALID_BIRTHDATE);
     }
+
 }

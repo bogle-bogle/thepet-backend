@@ -29,8 +29,20 @@
     </select>
 
     <select id="findProductsByPetInfoAndOrderLog" parameterType="PetVO" resultType="ProductVO">
-        SELECT * FROM PRODUCT
-        WHERE SUB_CATEGORY_CODE = #{ageCode, jdbcType=VARCHAR}
+        SELECT P.ID AS ID, P.NAME AS NAME, COUNT(*) AS ORDERED_CNT
+        FROM
+            MEMBER M
+                JOIN
+            PET PT ON M.ID = PT.MEMBER_ID
+                JOIN
+            "ORDER" O ON M.ID = O.MEMBER_ID
+                JOIN
+            ORDER_DETAIL OD ON O.ID = OD.ORDER_ID
+                JOIN
+            PRODUCT P ON OD.PRODUCT_ID = P.ID
+        WHERE PT.BREED_CODE = #{breedCode} AND MONTHS_BETWEEN( PT.BIRTH, #{birth} ) BETWEEN -12 AND 12
+        GROUP BY P.ID, P.NAME
+        ORDER BY ORDERED_CNT DESC
     </select>
 
 </mapper>
