@@ -15,8 +15,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -60,6 +58,16 @@ public class RecommendationServiceImpl implements RecommendationService {
                                                                .limit(4)
                                                                .toList();
         return new RecommendationVO(petInfo, advancedRecommendations);
+    }
+
+    @Override
+    public List<ProductVO> recommendProductsByMbti(String mbtiType) {
+        List<ProductVO> recommendations = productMapper.findProductsByMbti(mbtiType)
+                                                       .stream()
+                                                       .distinct()
+                                                       .limit(4)
+                                                       .toList();
+        return recommendations;
     }
 
     private Integer calculatePetAge(LocalDate birthDate) {

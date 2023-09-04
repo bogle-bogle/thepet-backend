@@ -3,6 +3,7 @@ package com.thehyundai.thepet.domain.product;
 import com.thehyundai.thepet.domain.mypet.pet.PetVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,4 +22,5 @@ public interface ProductMapper {
 
     List<ProductVO> findProductsByPetInfoAndOrderLog(PetVO petVO);
 
+    List<ProductVO> findProductsByMbti(String mbtiType);
 }
