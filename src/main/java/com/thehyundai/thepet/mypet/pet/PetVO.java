@@ -13,7 +13,6 @@ public class PetVO {
     private String photo;
     private String name;
     private String birth;
-    private String allergy;
     private Integer memberId;
     private String favoriteFoodIngredients;
     private String imgUrl;
