@@ -23,12 +23,14 @@
         SELECT COUNT(*) FROM PRODUCT
     </select>
 
-    <!--  pet 나이로만 추천  -->
-    <select id="findProductsByPetInfo" parameterType="PetVO" resultType="ProductVO">
+    <select id="findProductsBySimplePetInfo" parameterType="PetVO" resultType="ProductVO">
         SELECT * FROM PRODUCT
-        WHERE SUB_CATEGORY_CODE = #{ageCode}
-        FETCH FIRST 4 ROWS ONLY
+        WHERE SUB_CATEGORY_CODE = #{ageCode} OR PROTEIN_CODE = #{favoriteProteinCode}
     </select>
 
+    <select id="findProductsByPetInfoAndOrderLog" parameterType="PetVO" resultType="ProductVO">
+        SELECT * FROM PRODUCT
+--         WHERE SUB_CATEGORY_CODE = #{ageCode}
+    </select>
 
 </mapper>

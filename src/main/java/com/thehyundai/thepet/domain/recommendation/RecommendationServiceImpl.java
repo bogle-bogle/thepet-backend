@@ -15,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -36,11 +38,24 @@ public class RecommendationServiceImpl implements RecommendationService {
         Integer petAge = calculatePetAge(petInfo.getBirth());
         String ageCmCode = CmCode.convertToPetAgeCode(petAge, petInfo.getSizeCode());
         petInfo.setAgeCode(ageCmCode);
-        
-        // 2. 강아지 기준으로 추천 상품 조회
-        List<ProductVO> products = productMapper.findProductsByPetInfo(petInfo);
-        RecommendationVO result = new RecommendationVO(petInfo, products);
-        return result;
+
+        // 2. 강아지 정보를 기준으로 추천 상품 조회
+        // 2-1. Product 정보 조회
+        List<ProductVO> simpleRecommendations = productMapper.findProductsBySimplePetInfo(petInfo);      // 연령 + 최애 단백질 기준 추천
+        // 2-2. Product + Order 정보 조회 (Redis 이용)
+        List<ProductVO> advancedRecommendations = productMapper.findProductsByPetInfoAndOrderLog(petInfo);         // 반려동물의 MBTI 기준 추천
+
+
+        // 3. 중복 제거 및 알러지 성분이 아닌 상품들로만 필터링
+        List<String> allergies = petInfo.getAllergies();
+        List<ProductVO> recommendations = Stream.concat(
+                                                    productMapper.findProductsBySimplePetInfo(petInfo).stream(),
+                                                    productMapper.findProductsByPetInfoAndOrderLog(petInfo).stream())
+                                                .distinct()
+                                                .filter(product -> !allergies.contains(product.getProteinCode()))
+                                                .collect(Collectors.toList());
+
+        return new RecommendationVO(petInfo, recommendations);
     }
 
     private Integer calculatePetAge(LocalDate birthDate) {

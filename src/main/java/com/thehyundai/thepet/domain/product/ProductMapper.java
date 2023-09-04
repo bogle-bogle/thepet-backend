@@ -17,6 +17,8 @@ public interface ProductMapper {
 
     Optional<ProductVO> findProductById(Integer id);
 
-    List<ProductVO> findProductsByPetInfo(PetVO petVO);
+    List<ProductVO> findProductsBySimplePetInfo(PetVO petVO);
+
+    List<ProductVO> findProductsByPetInfoAndOrderLog(PetVO petVO);
 
 }
