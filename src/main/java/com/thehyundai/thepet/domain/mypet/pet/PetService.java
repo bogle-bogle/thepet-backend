@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface PetService {
 
-    Integer registerClub(PetVO petVO);
+    Integer registerClub(String token,PetVO petVO);
 
     Integer updateFeed(PetVO petVO);
 
-    List<PetVO> myPet(int memberId);
+    List<PetVO> myPet(String token);
 
     List<CmCodeVO> getAllCode();
 
