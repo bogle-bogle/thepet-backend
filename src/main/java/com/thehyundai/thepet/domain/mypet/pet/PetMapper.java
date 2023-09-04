@@ -3,6 +3,7 @@ package com.thehyundai.thepet.domain.mypet.pet;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface PetMapper {
@@ -10,5 +11,5 @@ public interface PetMapper {
     Integer updateFeed(PetVO petVO);
     List<PetVO> myPet(Integer memberId);
     List<PetVO> findPetsWithAllergiesByMemberId(Integer memberId);
-    PetVO findPetWithAllergiesById(Integer id);
+    Optional<PetVO> findPetWithAllergiesById(Integer id);
 }

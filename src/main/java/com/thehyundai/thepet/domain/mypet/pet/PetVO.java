@@ -4,6 +4,7 @@ package com.thehyundai.thepet.domain.mypet.pet;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.List;
 
 
@@ -14,7 +15,7 @@ public class PetVO {
     private Integer id;
     private String photo;
     private String name;
-    private String birth;
+    private LocalDate birth;
     private String allergy;
     private Integer memberId;
     private String favoriteFoodIngredients;
@@ -22,6 +23,8 @@ public class PetVO {
     private String mbti;
     private String breedCode;
     private String animalTypeCode;
-    private String proteinCode;
+    private String favoriteProteinCode;
+    private String ageCode;
+    private String sizeCode;
     private List<String> allergies;
 }

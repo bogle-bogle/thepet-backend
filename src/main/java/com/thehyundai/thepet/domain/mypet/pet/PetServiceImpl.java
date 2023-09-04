@@ -41,4 +41,5 @@ public class PetServiceImpl implements PetService {
         List<PetVO> pets = petMapper.findPetsWithAllergiesByMemberId(memberId);
         return pets;
     }
+
 }

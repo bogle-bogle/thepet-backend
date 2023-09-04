@@ -23,8 +23,11 @@
         SELECT COUNT(*) FROM PRODUCT
     </select>
 
+    <!--  pet 나이로만 추천  -->
     <select id="findProductsByPetInfo" parameterType="PetVO" resultType="ProductVO">
-        SELECT * FROM PRODUCT WHERE SUB_CATEGORY_CODE = #{}
+        SELECT * FROM PRODUCT
+        WHERE SUB_CATEGORY_CODE = #{ageCode}
+        FETCH FIRST 4 ROWS ONLY
     </select>
 
 
