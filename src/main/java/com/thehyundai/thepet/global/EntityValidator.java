@@ -37,9 +37,9 @@ public class EntityValidator {
                      .orElseThrow(() -> new BusinessException(CURATION_NOT_FOUND));
     }
 
-    public PetVO getPresentPet(Integer petId) {
-        return petMapper.findPetWithAllergiesById(petId)
-                .orElseThrow(() -> new BusinessException(PET_NOT_FOUND));
+    public PetVO getPresentPet(Integer id) {
+        return petMapper.findPetWithAllergiesById(id)
+                        .orElseThrow(() -> new BusinessException(PET_NOT_FOUND));
     }
 
 }

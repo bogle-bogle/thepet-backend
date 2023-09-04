@@ -40,8 +40,8 @@
     </select>
 
     <resultMap id="PetWithAllegies" type="PetVO">
-        <id property="petId" column="id" />
-        <result property="petName" column="name" />
+<!--        <id property="id" column="id" />-->
+<!--        <result property="name" column="name" />-->
         <collection property="allergies" javaType="java.util.List" ofType="String">
             <result property="proteinCode" column="protein_code" />
         </collection>

@@ -11,7 +11,6 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class PetVO {
-
     private Integer id;
     private String photo;
     private String name;
