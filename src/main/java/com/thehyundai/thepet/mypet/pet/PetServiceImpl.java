@@ -2,6 +2,8 @@ package com.thehyundai.thepet.mypet.pet;
 
 import com.thehyundai.thepet.global.CmCodeMapper;
 import com.thehyundai.thepet.global.CmCodeVO;
+import com.thehyundai.thepet.global.DataValidator;
+import com.thehyundai.thepet.util.AuthTokensGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -14,9 +16,14 @@ import java.util.List;
 public class PetServiceImpl implements PetService {
     private final PetMapper petMapper;
     private final CmCodeMapper cmCodeMapper;
+    private final AuthTokensGenerator authTokensGenerator;
+    private final DataValidator dataValidator;
 
     @Override
-    public Integer registerClub(PetVO petVO) {
+    public Integer registerClub(String token, PetVO petVO) {
+        Integer memberId = authTokensGenerator.extractMemberId(token);
+        dataValidator.checkPresentMember(memberId);
+        petVO.setMemberId(memberId);
         petMapper.registerClub(petVO);
         return petVO.getId();
     }
@@ -27,7 +34,9 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<PetVO> myPet(int memberId) {
+    public List<PetVO> myPet(String token) {
+        Integer memberId = authTokensGenerator.extractMemberId(token);
+        dataValidator.checkPresentMember(memberId);
         return petMapper.myPet(memberId);
     }
 
