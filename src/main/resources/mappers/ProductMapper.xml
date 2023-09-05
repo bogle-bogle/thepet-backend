@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.thehyundai.thepet.product.ProductMapper">
+<mapper namespace="com.thehyundai.thepet.domain.product.ProductMapper">
 
     <select id="selectProducts" parameterType="int" resultType="ProductVO">
         SELECT * FROM PRODUCT
@@ -21,6 +21,45 @@
 
     <select id="selectProductCount" resultType="int">
         SELECT COUNT(*) FROM PRODUCT
+    </select>
+
+    <select id="findProductsBySimplePetInfo" parameterType="PetVO" resultType="ProductVO">
+        SELECT * FROM PRODUCT
+        WHERE SUB_CATEGORY_CODE = #{ageCode, jdbcType=VARCHAR} OR PROTEIN_CODE = #{favoriteProteinCode}
+    </select>
+
+    <select id="findProductsByPetInfoAndOrderLog" parameterType="PetVO" resultType="ProductVO">
+        SELECT P.ID AS ID, P.NAME AS NAME, COUNT(*) AS ORDERED_CNT
+        FROM
+            MEMBER M
+                JOIN
+            PET PT ON M.ID = PT.MEMBER_ID
+                JOIN
+            "ORDER" O ON M.ID = O.MEMBER_ID
+                JOIN
+            ORDER_DETAIL OD ON O.ID = OD.ORDER_ID
+                JOIN
+            PRODUCT P ON OD.PRODUCT_ID = P.ID
+        WHERE PT.BREED_CODE = #{breedCode} AND MONTHS_BETWEEN( PT.BIRTH, #{birth} ) BETWEEN -12 AND 12
+        GROUP BY P.ID, P.NAME
+        ORDER BY ORDERED_CNT DESC
+    </select>
+
+    <select id="findProductsByMbti" parameterType="String" resultType="ProductVO">
+        SELECT P.ID AS ID, P.NAME AS NAME, COUNT(*) AS ORDERED_CNT
+        FROM
+            MEMBER M
+                JOIN
+            PET PT ON M.ID = PT.MEMBER_ID
+                JOIN
+            "ORDER" O ON M.ID = O.MEMBER_ID
+                JOIN
+            ORDER_DETAIL OD ON O.ID = OD.ORDER_ID
+                JOIN
+            PRODUCT P ON OD.PRODUCT_ID = P.ID
+        WHERE PT.MBTI = UPPER(#{mbtiType})
+        GROUP BY P.ID, P.NAME
+        ORDER BY ORDERED_CNT DESC
     </select>
 
 </mapper>
