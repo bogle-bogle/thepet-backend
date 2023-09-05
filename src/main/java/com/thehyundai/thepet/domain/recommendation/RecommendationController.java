@@ -4,12 +4,14 @@ import com.thehyundai.thepet.domain.product.ProductVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Log4j2
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Recommendation Controller", description = "상품 추천 관련 컨트롤러")
@@ -18,9 +20,10 @@ public class RecommendationController {
     private final RecommendationService recommendationService;
 
     @GetMapping("/simple/{petId}")
-    @Operation(summary = "반려동물 조건에 맞는 상품 추천", description = "나의 반려동물이 좋아하는 단백질원과, 반려동물 연령에 맞는 상품 추천하되, 주 재료에 알러지 성분이 있는 상품은 제거하고 보여줍니다.")
+    @Operation(summary = "반려동물 조건에 맞는 상품 간단 추천", description = "나의 반려동물이 좋아하는 단백질원과, 반려동물 연령에 맞는 상품 추천하되, 주 재료에 알러지 성분이 있는 상품은 제거하고 보여줍니다.")
     public ResponseEntity<?> recommendProductsSimply(@PathVariable Integer petId) {
         RecommendationVO result = recommendationService.recommendProductsSimply(petId);
+        log.info(result.getPetInfo().getAgeCode());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
