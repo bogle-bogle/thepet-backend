@@ -1,6 +1,9 @@
 package com.thehyundai.thepet.heendycar;
 
+import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 public interface HcService {
 
@@ -9,5 +12,6 @@ public interface HcService {
     List<HcBranchVO> showAllBranches();
 
     HcReservationVO createReservation(String token, HcReservationVO requestVO);
+
 
 }
