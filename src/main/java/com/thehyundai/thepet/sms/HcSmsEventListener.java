@@ -1,16 +1,14 @@
 package com.thehyundai.thepet.sms;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.thehyundai.thepet.heendycar.HcBranchVO;
-import com.thehyundai.thepet.heendycar.HcReservationVO;
-import com.thehyundai.thepet.heendycar.HcService;
-import com.thehyundai.thepet.member.MemberService;
-import com.thehyundai.thepet.member.MemberVO;
+import com.thehyundai.thepet.domain.heendycar.HcBranchVO;
+import com.thehyundai.thepet.domain.heendycar.HcReservationVO;
+import com.thehyundai.thepet.domain.heendycar.HcService;
+import com.thehyundai.thepet.domain.member.MemberService;
+import com.thehyundai.thepet.domain.member.MemberVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;

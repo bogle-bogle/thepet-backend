@@ -1,6 +1,6 @@
 package com.thehyundai.thepet.sms;
 
-import com.thehyundai.thepet.heendycar.HcReservationVO;
+import com.thehyundai.thepet.domain.heendycar.HcReservationVO;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationEvent;
