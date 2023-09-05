@@ -15,7 +15,6 @@ public class PetVO {
     private String photo;       // 컬럼명 수정 필요
     private String name;
     private LocalDate birth;
-//    private String allergy;       // 삭제 필요
     private Integer memberId;
     private String favoriteFoodIngredients;
     private String imgUrl;       // 컬럼명 수정 필요
