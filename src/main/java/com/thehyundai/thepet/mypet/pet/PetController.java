@@ -28,7 +28,6 @@ public class PetController {
 
     @GetMapping("/code")
     public ResponseEntity<List<CmCodeVO>> getAllCode(){
-
         return ResponseEntity.ok(petService.getAllCode());
     }
 }

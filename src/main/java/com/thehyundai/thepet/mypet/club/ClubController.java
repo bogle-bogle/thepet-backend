@@ -18,11 +18,11 @@ import static org.springframework.http.ResponseEntity.ok;
 @RequestMapping("/api/club")
 @RequiredArgsConstructor
 public class ClubController {
-    private final ClubService clubService;
     private final PetService petService;
 
     @PostMapping
     public ResponseEntity<Integer> club(@RequestHeader("Authorization") String token, @RequestBody PetVO petVO){
+        System.out.println(petVO);
         return ResponseEntity.ok(petService.registerClub(token,petVO));
     }
 }
