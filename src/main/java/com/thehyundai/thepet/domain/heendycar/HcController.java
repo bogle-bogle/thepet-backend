@@ -1,9 +1,6 @@
 package com.thehyundai.thepet.domain.heendycar;
 
-import com.thehyundai.thepet.member.MemberService;
-import com.thehyundai.thepet.member.MemberVO;
 import com.thehyundai.thepet.sms.HcSmsEvent;
-import com.thehyundai.thepet.sms.SmsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @Log4j2
 @RestController
