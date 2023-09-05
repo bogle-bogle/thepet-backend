@@ -23,24 +23,41 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
-	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
-    implementation 'org.jetbrains:annotations:23.0.0'
-    compileOnly 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	// DB
 	runtimeOnly 'com.oracle.database.jdbc:ojdbc8'
 	//	runtimeOnly 'org.postgresql:postgresql'
 	implementation 'com.oracle.database.security:osdt_cert'
 	implementation 'com.oracle.database.security:oraclepki'
 	implementation 'com.oracle.database.security:osdt_core'
-	annotationProcessor 'org.projectlombok:lombok'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	// MyBatis
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
 	testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.2'
 
+	// Swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
+	// JWT
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5'
 
+	// AOP
+	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
+	// Redis
+//	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+//	implementation 'org.redisson:redisson-spring-boot-starter:3.20.0'
+
+	// kafka
+//	implementation 'org.springframework.kafka:spring-kafka'
+//	testImplementation 'org.springframework.kafka:spring-kafka-test'
+	
+	// SMS
 	implementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
 
 }
