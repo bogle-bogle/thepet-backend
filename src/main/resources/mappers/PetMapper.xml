@@ -7,7 +7,7 @@
 
     <insert id="registerClub" parameterType="PetVO">
             CALL InsertPetWithAllergies
-            (#{photo},#{name},#{birth},#{memberId},#{favoriteFoodIngredients},#{imgUrl},#{mbti},#{breedCode},#{animalTypeCode},#{proteinCode})
+            (#{petImgUrl},#{name},#{birth},#{memberId},#{favoriteFoodIngredients},#{feedMainImgUrl},#{mbti},#{breedCode},#{animalTypeCode},#{allergyCode},#{feedDescImgUrl},#{sizeCode},#{favoriteProteinCode})
             <selectKey keyProperty="id" resultType="Integer" order="AFTER">
                 SELECT PET_SEQ.CURRVAL FROM DUAL
             </selectKey>
