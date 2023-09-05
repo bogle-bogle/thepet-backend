@@ -20,4 +20,5 @@ public class MemberVO {
     private String nickname;
     private String clubHeendyYn;
     private AuthTokens jwt;
+    private String phoneNumber;
 }

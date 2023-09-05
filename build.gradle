@@ -56,6 +56,10 @@ dependencies {
 	// kafka
 //	implementation 'org.springframework.kafka:spring-kafka'
 //	testImplementation 'org.springframework.kafka:spring-kafka-test'
+	
+	// SMS
+	implementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
+
 }
 
 tasks.named('test') {

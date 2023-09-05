@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -57,6 +58,7 @@ public class HcServiceImpl implements HcService {
         handleAutoCancellation(reservation.getId());
         return reservation;
     }
+
 
     private void handleAutoCancellation(Integer reservationId) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();

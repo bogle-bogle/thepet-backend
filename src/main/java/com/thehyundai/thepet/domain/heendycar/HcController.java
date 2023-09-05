@@ -1,14 +1,20 @@
 package com.thehyundai.thepet.domain.heendycar;
 
+import com.thehyundai.thepet.member.MemberService;
+import com.thehyundai.thepet.member.MemberVO;
+import com.thehyundai.thepet.sms.HcSmsEvent;
+import com.thehyundai.thepet.sms.SmsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Log4j2
 @RestController
@@ -17,6 +23,7 @@ import java.util.List;
 @RequestMapping("/api/hc")
 public class HcController {
     private final HcService hcService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/branch")
     @Operation(summary = "흰디카 대여 가능한 모든 지점 조회하기", description = "흰디카 예약을 위해, 해당하는 모든 지점 정보를 불러옵니다.")
@@ -29,6 +36,13 @@ public class HcController {
     @Operation(summary = "흰디카 예약하기", description = "날짜, 지점을 선택하여 흰디카 예약을 생성합니다.")
     public ResponseEntity<?> createReservation(@RequestHeader("Authorization") String token,  @RequestBody HcReservationVO requestVO) {
         HcReservationVO reservation = hcService.createReservation(token, requestVO);
+
+        if (reservation != null) {
+            // 예약 문자 보내기 - 이벤트 발생
+            log.info("예약하기 실행");
+            HcSmsEvent hcSmsEvent = new HcSmsEvent(this, reservation);
+            eventPublisher.publishEvent(hcSmsEvent);
+        }
         return new ResponseEntity<>(reservation, HttpStatus.OK);
     }
 

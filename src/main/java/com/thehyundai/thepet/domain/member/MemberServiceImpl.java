@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Log4j2
 @Service
 @RequiredArgsConstructor
@@ -21,6 +23,11 @@ public class MemberServiceImpl implements MemberService{
                                       .orElseGet(() -> register(requestVO));
         member.setJwt(authTokensGenerator.generate(member.getId()));
         return member;
+    }
+
+    @Override
+    public Optional<MemberVO> showMember(Integer id) {
+        return memberMapper.findMemberById(id);
     }
 
     private MemberVO register(MemberVO member) {
