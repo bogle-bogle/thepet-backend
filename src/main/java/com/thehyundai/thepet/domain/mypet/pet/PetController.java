@@ -16,9 +16,8 @@ public class PetController {
     private final PetService petService;
 
     @PutMapping("/feed/{id}")
-    public ResponseEntity<Integer> updateFeed(@PathVariable int id, @RequestBody PetVO petVO){
-        petVO.setId(id);
-        return ResponseEntity.ok(petService.updateFeed(petVO));
+    public ResponseEntity<Integer> updateFeed(@PathVariable Integer id, @RequestBody PetVO petVO){
+        return ResponseEntity.ok(petService.updateFeed(petVO,id));
     }
 
     @GetMapping

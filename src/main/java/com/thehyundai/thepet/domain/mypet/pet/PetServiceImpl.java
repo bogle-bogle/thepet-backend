@@ -29,7 +29,8 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Integer updateFeed(PetVO petVO) {
+    public Integer updateFeed(PetVO petVO,Integer id) {
+        petVO.setId(id);
         return petMapper.updateFeed(petVO);
     }
 
