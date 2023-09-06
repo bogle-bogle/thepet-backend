@@ -3,9 +3,7 @@ package com.thehyundai.thepet.domain.product;
 import com.thehyundai.thepet.domain.mypet.pet.PetVO;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Mapper
 public interface ProductMapper {
@@ -14,7 +12,7 @@ public interface ProductMapper {
 
     ProductVO selectProductDetail(int id);
 
-    Integer selectProductCount();
+    Integer selectProductCount(Map<String, Object> map);
 
     Optional<ProductVO> findProductById(Integer id);
 
@@ -23,4 +21,6 @@ public interface ProductMapper {
     List<ProductVO> findProductsByPetInfoAndOrderLog(PetVO petVO);
 
     List<ProductVO> findProductsByMbti(String mbtiType);
+
+    List<ProductVO> filterProduct(Map<String, Object> map);
 }

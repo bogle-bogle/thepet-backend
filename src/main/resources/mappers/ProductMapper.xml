@@ -19,8 +19,21 @@
         SELECT * FROM PRODUCT WHERE id = #{id}
     </select>
 
-    <select id="selectProductCount" resultType="int">
+
+    <select id="selectProductCount" parameterType="HashMap" resultType="int">
         SELECT COUNT(*) FROM PRODUCT
+        WHERE ANIMAL_TYPE_CODE IN
+        <foreach collection="animal_list" item="item" open="(" close=")" separator=", ">
+            #{item}
+        </foreach>
+        AND sub_category_code IN
+        <foreach collection="product_sub_list" item="item" open="(" close=")" separator=", ">
+            #{item}
+        </foreach>
+        AND protein_code IN
+        <foreach collection="protein_list" item="item" open="(" close=")" separator=", ">
+            #{item}
+        </foreach>
     </select>
 
     <select id="findProductsBySimplePetInfo" parameterType="PetVO" resultType="ProductVO">
@@ -60,6 +73,23 @@
         WHERE PT.MBTI = UPPER(#{mbtiType})
         GROUP BY P.ID, P.NAME
         ORDER BY ORDERED_CNT DESC
+    </select>
+
+    <select id="filterProduct" parameterType="HashMap" resultType="ProductVO">
+        SELECT * FROM PRODUCT
+        WHERE ANIMAL_TYPE_CODE IN
+        <foreach collection="animal_list" item="item" open="(" close=")" separator=", ">
+            #{item}
+        </foreach>
+        AND sub_category_code IN
+        <foreach collection="product_sub_list" item="item" open="(" close=")" separator=", ">
+            #{item}
+        </foreach>
+        AND protein_code IN
+        <foreach collection="protein_list" item="item" open="(" close=")" separator=", ">
+            #{item}
+        </foreach>
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
 </mapper>
