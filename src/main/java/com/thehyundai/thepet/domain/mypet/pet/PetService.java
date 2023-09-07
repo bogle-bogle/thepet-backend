@@ -9,7 +9,7 @@ public interface PetService {
 
     Integer registerClub(String token,PetVO petVO);
 
-    Integer updateFeed(PetVO petVO);
+    Integer updateFeed(PetVO petVO,Integer id);
 
     List<PetVO> myPet(String token);
 

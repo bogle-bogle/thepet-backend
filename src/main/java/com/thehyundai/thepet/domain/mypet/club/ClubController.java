@@ -19,7 +19,6 @@ public class ClubController {
 
     @PostMapping
     public ResponseEntity<Integer> club(@RequestHeader("Authorization") String token, @RequestBody PetVO petVO){
-        System.out.println(petVO);
         return ResponseEntity.ok(petService.registerClub(token,petVO));
     }
 }

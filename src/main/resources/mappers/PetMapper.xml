@@ -15,7 +15,9 @@
 
     <update id="updateFeed" parameterType="PetVO">
         UPDATE PET
-        SET favorite_food_ingredients = #{favoriteFoodIngredients}
+        SET
+            feed_main_img_url = #{feedMainImgUrl},
+            feed_desc_img_url = #{feedDescImgUrl}
         WHERE id = #{id}
     </update>
 

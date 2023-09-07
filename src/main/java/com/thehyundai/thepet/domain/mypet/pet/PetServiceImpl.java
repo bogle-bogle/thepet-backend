@@ -21,6 +21,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public Integer registerClub(String token, PetVO petVO) {
+        log.info(petVO);
         Integer memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
         petVO.setMemberId(memberId);
@@ -29,7 +30,8 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Integer updateFeed(PetVO petVO) {
+    public Integer updateFeed(PetVO petVO,Integer id) {
+        petVO.setId(id);
         return petMapper.updateFeed(petVO);
     }
 
