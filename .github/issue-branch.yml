@@ -1,0 +1,2 @@
+branchName: '${feature}/#${issue.number}'
+autoCloseIssue: true
