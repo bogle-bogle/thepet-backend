@@ -6,7 +6,7 @@ import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 import java.util.List;
 
 public interface OrderService {
-    OrderVO orderWholeCart(String token);
+    OrderVO orderWholeCart(String token, String tossOrderId);
 
     OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO);
 

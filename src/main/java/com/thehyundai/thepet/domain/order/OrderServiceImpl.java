@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OrderVO orderWholeCart(String token) {
+    public OrderVO orderWholeCart(String token, String tossOrderId) {
         // 0. 유효성 검사 및 유저 검증
         Integer memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
@@ -48,7 +48,7 @@ public class OrderServiceImpl implements OrderService {
         List<CartVO> wholeCart = cartService.getCart(memberId);
 
         // 2. ORDER 테이블에 저장
-        OrderVO order = buildWholeCartOrder(memberId, wholeCart);
+        OrderVO order = buildWholeCartOrder(memberId, wholeCart, tossOrderId);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. ORDER_DETAIL 테이블에 저장
@@ -154,13 +154,14 @@ public class OrderServiceImpl implements OrderService {
                             .build();
     }
 
-    private OrderVO buildWholeCartOrder(Integer memberId, List<CartVO> wholeCart) {
+    private OrderVO buildWholeCartOrder(Integer memberId, List<CartVO> wholeCart, String tossOrderId) {
         return OrderVO.builder()
                 .totalCnt(wholeCart.size())
                 .totalPrice(calculateTotalPrice(wholeCart))
                 .createdAt(LocalDate.now())
                 .memberId(memberId)
                 .subscribeYn(TableStatus.N.getValue())
+                .tossOrderId(tossOrderId)
                 .build();
     }
 
