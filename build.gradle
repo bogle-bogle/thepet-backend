@@ -61,6 +61,8 @@ dependencies {
 	// SMS
 	implementation 'org.apache.httpcomponents.client5:httpclient5:5.2.1'
 
+	// AWS
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 }
 
 tasks.named('test') {
