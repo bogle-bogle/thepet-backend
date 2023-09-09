@@ -1,7 +1,9 @@
 name: Create Branch
 on:
   issues: 
-    types: [opened] 
+    types: [ opened ] 
+  issue_comment:
+    types: [ created ]
     
 jobs:
   create-branch:
