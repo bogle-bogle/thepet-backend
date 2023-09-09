@@ -1,7 +1,7 @@
 name: Create Branch
 on:
   issues: 
-    types: [ assigned, labeled ] 
+    types: [ opened ] 
   issue_comment:
     types: [ created ]
     
