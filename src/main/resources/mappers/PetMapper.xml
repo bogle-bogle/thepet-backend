@@ -3,11 +3,11 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.thehyundai.thepet.mypet.pet.PetMapper">
+<mapper namespace="com.thehyundai.thepet.domain.mypet.pet.PetMapper">
 
     <insert id="registerClub" parameterType="PetVO">
             CALL InsertPetWithAllergies
-            (#{photo},#{name},#{birth},#{memberId},#{favoriteFoodIngredients},#{imgUrl},#{mbti},#{breedCode},#{animalTypeCode},#{proteinCode})
+            (#{petImgUrl},#{name},#{birth},#{memberId},#{favoriteFoodIngredients},#{feedMainImgUrl},#{mbti},#{breedCode},#{animalTypeCode},#{allergyCode},#{feedDescImgUrl},#{sizeCode},#{favoriteProteinCode})
             <selectKey keyProperty="id" resultType="Integer" order="AFTER">
                 SELECT PET_SEQ.CURRVAL FROM DUAL
             </selectKey>
@@ -15,7 +15,9 @@
 
     <update id="updateFeed" parameterType="PetVO">
         UPDATE PET
-        SET favorite_food_ingredients = #{favoriteFoodIngredients}
+        SET
+            feed_main_img_url = #{feedMainImgUrl},
+            feed_desc_img_url = #{feedDescImgUrl}
         WHERE id = #{id}
     </update>
 
@@ -25,5 +27,36 @@
         WHERE member_id = #{memberId}
     </select>
 
+    <select id="findPetsWithAllergiesByMemberId" parameterType="Integer" resultMap="PetWithAllergies">
+        SELECT p.*, a.protein_code
+        FROM PET p
+             LEFT JOIN ALLERGY a ON p.id = a.pet_id
+        WHERE p.MEMBER_ID = #{memberId}
+    </select>
+
+    <select id="findPetWithAllergiesById" parameterType="Integer" resultMap="PetWithAllergies">
+        SELECT p.*, a.protein_code
+        FROM PET p
+             LEFT JOIN ALLERGY a ON p.id = a.pet_id
+        WHERE p.ID = #{id}
+    </select>
+
+    <resultMap id="PetWithAllergies" type="PetVO">
+        <id property="id" column="id" />
+        <result property="photo" column="photo" />
+        <result property="name" column="name" />
+        <result property="birth" column="birth" />
+        <result property="memberId" column="member_id" />
+        <result property="favoriteFoodIngredients" column="favorite_food_ingredients" />
+        <result property="imgUrl" column="img_url" />
+        <result property="mbti" column="mbti" />
+        <result property="breedCode" column="breed_code" />
+        <result property="animalTypeCode" column="animal_type_code" />
+        <result property="favoriteProteinCode" column="favorite_protein_code" />
+        <result property="sizeCode" column="size_code" />
+        <collection property="allergies" javaType="java.util.List" ofType="String">
+            <result property="proteinCode" column="protein_code" />
+        </collection>
+    </resultMap>
 
 </mapper>
