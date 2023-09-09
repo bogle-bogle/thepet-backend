@@ -1,12 +1,13 @@
 name: Create Jira issue
 on:
   issues: 
-    types: [opened] 
+    types: [ labeled ]
     
 jobs:
   create-issue:
     name: Create Jira issue
     runs-on: ubuntu-latest
+    if: github.event.label.name == 'jira-ticket'
     steps:
     - name: Login
       uses: atlassian/gajira-login@v3

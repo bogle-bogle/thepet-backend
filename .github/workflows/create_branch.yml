@@ -1,0 +1,14 @@
+name: Create Branch and Jira issue
+on:
+  issues: 
+    types: [opened] 
+    
+jobs:
+  create-branch:
+    name: Create Branch
+    runs-on: ubuntu-latest
+    steps:
+    - name: Create Issue Branch
+      uses: robvanderleek/create-issue-branch@v1.5
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
