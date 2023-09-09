@@ -1,4 +1,4 @@
-name: Create Branch and Jira issue
+name: Create Branch
 on:
   issues: 
     types: [opened] 
