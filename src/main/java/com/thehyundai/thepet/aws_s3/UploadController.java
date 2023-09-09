@@ -22,8 +22,13 @@ public class UploadController {
     private final S3Service s3Service;
 
     @PostMapping
+    // @PreAuthorize("hasRole('ROLE_USER')") => 사용자 제한 시큐리티한다면..
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         try {
+            // 파일의 MIME 유형을 확인하여 이미지 파일인지 확인 => image/jpeg, image/png, image/gif에 한함
+            if (!file.getContentType().startsWith("image/")) {
+                return new ResponseEntity<>("이미지 파일만 업로드 가능", HttpStatus.BAD_REQUEST);
+            }
             String imageUrl = s3Service.uploadFileAndGetUrl(file);
             return new ResponseEntity<>(imageUrl, HttpStatus.OK);
         } catch (Exception e) {
