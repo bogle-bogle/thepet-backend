@@ -23,4 +23,8 @@ public interface ProductMapper {
     List<ProductVO> findProductsByMbti(String mbtiType);
 
     List<ProductVO> filterProduct(Map<String, Object> map);
+
+    List<ProductVO> findProductsByFavoriteProteinCode(String favoriteProtein);
+
+    List<ProductVO> findProductsByAgeCode(String ageCmCode);
 }
