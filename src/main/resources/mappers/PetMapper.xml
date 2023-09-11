@@ -61,4 +61,10 @@
         </collection>
     </resultMap>
 
+    <update id="updateMbtiById" parameterType="PetVO">
+        UPDATE PET
+        SET mbti = #{mbti}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

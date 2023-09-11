@@ -4,6 +4,8 @@ import com.thehyundai.thepet.global.EntityValidator;
 import com.thehyundai.thepet.global.cmcode.CmCodeMapper;
 import com.thehyundai.thepet.global.cmcode.CmCodeVO;
 import com.thehyundai.thepet.global.cmcode.ProteinCmCode;
+import com.thehyundai.thepet.global.exception.BusinessException;
+import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -56,6 +57,13 @@ public class PetServiceImpl implements PetService {
     public List<PetVO> findPetsWithAllergies(Integer memberId) {
         List<PetVO> pets = petMapper.findPetsWithAllergiesByMemberId(memberId);
         return pets;
+    }
+
+    @Override
+    public PetVO updateMbti(Integer petId, PetVO petVO) {
+        petVO.setId(petId);
+        if (petMapper.updateMbtiById(petVO) < 1) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+        return petVO;
     }
 
     private Optional<String> findFavoriteProteinCode(PetVO petVO) {

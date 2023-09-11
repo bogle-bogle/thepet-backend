@@ -7,9 +7,17 @@ import java.util.Optional;
 
 @Mapper
 public interface PetMapper {
+
     Integer registerClub(PetVO petVO);
+
     Integer updateFeed(PetVO petVO);
+
     List<PetVO> myPet(Integer memberId);
+
     List<PetVO> findPetsWithAllergiesByMemberId(Integer memberId);
+
     Optional<PetVO> findPetWithAllergiesById(Integer id);
+
+    Integer updateMbtiById(PetVO petVO);
+
 }
