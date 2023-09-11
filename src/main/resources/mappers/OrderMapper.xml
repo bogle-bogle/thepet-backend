@@ -36,14 +36,14 @@
     </resultMap>
 
     <select id="getOrderWithOrderDetailsById" resultMap="OrderWithDetails">
-        SELECT o.*, od.*, od.ID AS DETAIL_ID
+        SELECT o.*, od.*, od.DETAIL_ID AS DETAIL_ID
         FROM "ORDER" o
             LEFT JOIN "ORDER_DETAIL" od ON o.id = od.order_id
         WHERE o.id = #{orderId}
     </select>
 
     <select id="showAllMyOrdersWithDetails" resultMap="OrderWithDetails">
-        SELECT o.*, od.*, od.ID AS DETAIL_ID
+        SELECT o.*, od.*, od.DETAIL_ID AS DETAIL_ID
         FROM "ORDER" o
             LEFT JOIN "ORDER_DETAIL" od ON o.id = od.order_id
         WHERE o.MEMBER_ID = #{memberId}

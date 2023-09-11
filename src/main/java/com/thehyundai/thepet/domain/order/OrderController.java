@@ -15,7 +15,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
-@Tag(name = "Order Controller", description = "흰디카 관련 컨트롤러")
+@Tag(name = "Order Controller", description = "주문 관련 컨트롤러")
 public class OrderController {
     private final OrderService orderService;
 
