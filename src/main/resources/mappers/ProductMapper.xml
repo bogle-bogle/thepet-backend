@@ -20,22 +20,6 @@
     </select>
 
 
-    <select id="selectProductCount" parameterType="HashMap" resultType="int">
-        SELECT COUNT(*) FROM PRODUCT
-        WHERE ANIMAL_TYPE_CODE IN
-        <foreach collection="animal_list" item="item" open="(" close=")" separator=", ">
-            #{item}
-        </foreach>
-        AND sub_category_code IN
-        <foreach collection="product_sub_list" item="item" open="(" close=")" separator=", ">
-            #{item}
-        </foreach>
-        AND protein_code IN
-        <foreach collection="protein_list" item="item" open="(" close=")" separator=", ">
-            #{item}
-        </foreach>
-    </select>
-
     <select id="findProductsBySimplePetInfo" parameterType="PetVO" resultType="ProductVO">
         SELECT * FROM PRODUCT
         WHERE SUB_CATEGORY_CODE = #{ageCode, jdbcType=VARCHAR} OR PROTEIN_CODE = #{favoriteProteinCode}
@@ -85,21 +69,48 @@
         ORDER BY ORDERED_CNT DESC
     </select>
 
-    <select id="filterProduct" parameterType="HashMap" resultType="ProductVO">
+
+    <select id="filterProduct" parameterType="FilterVO" resultType="ProductVO">
         SELECT * FROM PRODUCT
-        WHERE ANIMAL_TYPE_CODE IN
-        <foreach collection="animal_list" item="item" open="(" close=")" separator=", ">
-            #{item}
-        </foreach>
-        AND sub_category_code IN
-        <foreach collection="product_sub_list" item="item" open="(" close=")" separator=", ">
-            #{item}
-        </foreach>
-        AND protein_code IN
-        <foreach collection="protein_list" item="item" open="(" close=")" separator=", ">
-            #{item}
-        </foreach>
+        <where>
+            <if test="mainFilter != ''">
+                AND main_category_code = #{mainFilter}
+            </if>
+            <if test="subFilter != null and subFilter.size() > 0">
+                AND sub_category_code IN
+                <foreach collection="subFilter" item="item" open="(" close=")" separator=", ">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="proteinFilter != null and proteinFilter.size() > 0">
+                AND protein_code IN
+                <foreach collection="proteinFilter" item="item" open="(" close=")" separator=", ">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
+    </select>
+
+    <select id="selectProductCount" parameterType="FilterVO" resultType="int">
+        SELECT COUNT(*) FROM PRODUCT
+        <where>
+            <if test="mainFilter != ''">
+                AND main_category_code = #{mainFilter}
+            </if>
+            <if test="subFilter != null and subFilter.size() > 0">
+                AND sub_category_code IN
+                <foreach collection="subFilter" item="item" open="(" close=")" separator=", ">
+                    #{item}
+                </foreach>
+            </if>
+            <if test="proteinFilter != null and proteinFilter.size() > 0">
+                AND protein_code IN
+                <foreach collection="proteinFilter" item="item" open="(" close=")" separator=", ">
+                    #{item}
+                </foreach>
+            </if>
+        </where>
     </select>
 
 </mapper>
