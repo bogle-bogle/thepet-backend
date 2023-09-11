@@ -12,7 +12,7 @@ public interface ProductMapper {
 
     ProductVO selectProductDetail(int id);
 
-    Integer selectProductCount(Map<String, Object> map);
+//    Integer selectProductCount(Map<String, Object> map);
 
     Optional<ProductVO> findProductById(Integer id);
 
@@ -22,5 +22,8 @@ public interface ProductMapper {
 
     List<ProductVO> findProductsByMbti(String mbtiType);
 
-    List<ProductVO> filterProduct(Map<String, Object> map);
+//    List<ProductVO> filterProduct(Map<String, Object> map);
+    List<ProductVO> filterProduct(FilterVO filterVO);
+
+    Integer selectProductCount(FilterVO filterVO);
 }
