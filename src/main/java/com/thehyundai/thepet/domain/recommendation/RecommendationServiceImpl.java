@@ -36,11 +36,14 @@ public class RecommendationServiceImpl implements RecommendationService {
 
         // 2. 기본 정보를 기준으로 추천 상품 조회 (연령대 기준, 최애 단백질원, 알러지 배제)
         List<String> allergies = petInfo.getAllergies();
-        List<ProductVO> simpleRecommendations = productMapper.findProductsBySimplePetInfo(petInfo)
-                                                             .stream()
-                                                             .filter(product -> !allergies.contains(product.getProteinCode()))
-                                                             .limit(4)
-                                                             .toList();
+
+        String favoriteProtein = petInfo.getFavoriteProteinCode();
+        List<ProductVO> searchedResult = (favoriteProtein != null) ? productMapper.findProductsByFavoriteProteinCode(favoriteProtein) : productMapper.findProductsByAgeCode(ageCmCode);
+
+        List<ProductVO> simpleRecommendations = searchedResult.stream()
+                                                              .filter(product -> !allergies.contains(product.getProteinCode()))
+                                                              .limit(4)
+                                                              .toList();
         return new RecommendationVO(petInfo, simpleRecommendations);
     }
 

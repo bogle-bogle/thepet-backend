@@ -25,6 +25,16 @@
         WHERE SUB_CATEGORY_CODE = #{ageCode, jdbcType=VARCHAR} OR PROTEIN_CODE = #{favoriteProteinCode}
     </select>
 
+    <select id="findProductsByFavoriteProteinCode" parameterType="String" resultType="ProductVO">
+        SELECT * FROM PRODUCT
+        WHERE PROTEIN_CODE = #{favoriteProteinCode}
+    </select>
+
+    <select id="findProductsByAgeCode" parameterType="String" resultType="ProductVO">
+        SELECT * FROM PRODUCT
+        WHERE SUB_CATEGORY_CODE = #{ageCmCode, jdbcType=VARCHAR}
+    </select>
+
     <select id="findProductsByPetInfoAndOrderLog" parameterType="PetVO" resultType="ProductVO">
         SELECT P.*, COUNT(*) AS ORDERED_CNT
         FROM
