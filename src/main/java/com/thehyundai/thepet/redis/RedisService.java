@@ -1,4 +1,7 @@
+package com.thehyundai.thepet.redis;
+
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
@@ -8,32 +11,23 @@ import java.util.concurrent.TimeUnit;
 
 
 @Service
-@RequiredArgsConstructor
 public class RedisService {
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String, String> redisTemplate;
 
-
-    public String getValues(String key){
-        //opsForValue : Strings를 쉽게 Serialize / Deserialize 해주는 Interface
-        ValueOperations<String, String> values = redisTemplate.opsForValue();
-        return values.get(key);
+    @Autowired
+    public RedisService(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
     }
 
+    public String getCachedData(String key) {
+        // Redis에서 캐시된 데이터를 가져옴
+        String cachedData = redisTemplate.opsForValue().get(key);
 
-
-    public void setValues(String key, String value){
-        ValueOperations<String, String> values = redisTemplate.opsForValue();
-        values.set(key,value);
+        return cachedData;
     }
 
-    public void setSets(String key,String... values){
-        redisTemplate.opsForSet().add(key,values);
+    public void cacheData(String key, String data, long timeoutInSeconds) {
+        // 데이터를 Redis에 캐시하고 TTL(Time to Live) 설정
+        redisTemplate.opsForValue().set(key, data, timeoutInSeconds, TimeUnit.SECONDS);
     }
-
-    public Set getSets(String key){
-        return redisTemplate.opsForSet().members(key);
-    }
-
-
-
 }
