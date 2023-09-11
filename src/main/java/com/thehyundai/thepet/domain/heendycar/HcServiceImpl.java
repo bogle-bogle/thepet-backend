@@ -42,9 +42,10 @@ public class HcServiceImpl implements HcService {
 
     @Override
     public HcReservationVO createReservation(String token, HcReservationVO requestVO) {
+        log.info(requestVO);
         // 0. 유효성 검사 및 유저 검증
         validateRemainingCnt(requestVO);
-        valiateAvailableTime(requestVO);
+//        valiateAvailableTime(requestVO);      // 30분 전부터만 예약 가능하게 해둔 로직 -> 일단 고려하지 않기
         Integer memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
 

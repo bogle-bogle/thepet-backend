@@ -17,7 +17,9 @@
         UPDATE PET
         SET
             feed_main_img_url = #{feedMainImgUrl},
-            feed_desc_img_url = #{feedDescImgUrl}
+            feed_desc_img_url = #{feedDescImgUrl},
+            favorite_food_ingredients = #{favoriteFoodIngredients},
+            favorite_protein_code = #{favoriteProteinCode}
         WHERE id = #{id}
     </update>
 
