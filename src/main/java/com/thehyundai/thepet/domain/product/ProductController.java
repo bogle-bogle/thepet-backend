@@ -23,6 +23,7 @@ public class ProductController {
     }
 
     @PostMapping("/list/{page}")
+    @Cacheable(value="productCache",key = "'productList:' + #page")
     public ResponseEntity<ProductListVO> getProducts(@PathVariable int page, @RequestBody FilterVO filterVO) {
         log.info(filterVO);
         filterVO.setPage((page - 1) * 20 + 1);
