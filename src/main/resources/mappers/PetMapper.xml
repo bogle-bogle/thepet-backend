@@ -8,7 +8,7 @@
     <insert id="registerClub" parameterType="PetVO">
             CALL InsertPetWithAllergies
             (#{petImgUrl},#{name},#{birth},#{memberId},#{favoriteFoodIngredients},#{feedMainImgUrl},#{mbti},#{breedCode},#{animalTypeCode},#{allergyCode},#{feedDescImgUrl},#{sizeCode},#{favoriteProteinCode})
-            <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            <selectKey keyProperty="id" resultType="String" order="AFTER">
                 SELECT PET_SEQ.CURRVAL FROM DUAL
             </selectKey>
     </insert>
@@ -23,20 +23,20 @@
         WHERE id = #{id}
     </update>
 
-    <select id="myPet" parameterType="Integer" resultType="PetVO">
+    <select id="myPet" parameterType="String" resultType="PetVO">
         SELECT *
         FROM PET
         WHERE member_id = #{memberId}
     </select>
 
-    <select id="findPetsWithAllergiesByMemberId" parameterType="Integer" resultMap="PetWithAllergies">
+    <select id="findPetsWithAllergiesByMemberId" parameterType="String" resultMap="PetWithAllergies">
         SELECT p.*, a.protein_code
         FROM PET p
              LEFT JOIN ALLERGY a ON p.id = a.pet_id
         WHERE p.MEMBER_ID = #{memberId}
     </select>
 
-    <select id="findPetWithAllergiesById" parameterType="Integer" resultMap="PetWithAllergies">
+    <select id="findPetWithAllergiesById" parameterType="String" resultMap="PetWithAllergies">
         SELECT p.*, a.protein_code
         FROM PET p
              LEFT JOIN ALLERGY a ON p.id = a.pet_id

@@ -16,22 +16,22 @@ public class AuthTokensGenerator {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    public AuthTokens generate(Integer socialId) {
+    public AuthTokens generate(String id) {
         long now = (new Date()).getTime();
         Date accessTokenExpiredAt = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         Date refreshTokenExpiredAt = new Date(now + REFRESH_TOKEN_EXPIRE_TIME);
 
-        String subject = socialId.toString();
+        String subject = id;
         String accessToken = jwtTokenProvider.generate(subject, accessTokenExpiredAt);
         String refreshToken = jwtTokenProvider.generate(subject, refreshTokenExpiredAt);
 
         return AuthTokens.of(accessToken, refreshToken, BEARER_TYPE, Long.valueOf(ACCESS_TOKEN_EXPIRE_TIME / 1000L));
     }
 
-    public Integer extractMemberId(String accessToken) {
+    public String extractMemberId(String accessToken) {
         if (accessToken.startsWith("Bearer ")) {
             accessToken = accessToken.substring(7);
         }
-        return Integer.valueOf(jwtTokenProvider.extractSubject(accessToken));
+        return jwtTokenProvider.extractSubject(accessToken);
     }
 }
