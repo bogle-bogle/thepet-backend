@@ -21,8 +21,10 @@ public class OrderController {
 
     @PostMapping("/cart")
     @Operation(summary = "장바구니 (전체) 일괄 주문하기", description = "장바구니에 담긴 모든 상품을 한번에 주문합니다.")
-    public ResponseEntity<?> orderWholeCart(@RequestHeader("Authorization") String token) {
-        OrderVO result = orderService.orderWholeCart(token);
+    public ResponseEntity<?> orderWholeCart(@RequestHeader("Authorization") String token,
+                                            @RequestHeader("TossOrderId") String tossOrderId) {
+
+        OrderVO result = orderService.orderWholeCart(token, tossOrderId);
         log.info(result);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

@@ -17,6 +17,7 @@ public class OrderVO {
     private LocalDate createdAt;
     private String memberId;
     private String subscribeYn;
+    private String tossOrderId;
 
     private List<OrderDetailVO> orderDetails;
 }
