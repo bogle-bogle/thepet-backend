@@ -25,13 +25,13 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public int deleteCart(int id) {
+    public String deleteCart(String id) {
         cartMapper.deleteCart(id);
         return id;
     }
 
     @Override
-    public List<CartVO> getCart(int memberId) {
+    public List<CartVO> getCart(String memberId) {
         return cartMapper.getCart(memberId);
     }
 

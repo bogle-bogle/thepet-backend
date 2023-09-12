@@ -12,11 +12,11 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubscriptionVO {
-    private Integer id;
+    private String id;
     private LocalDate startDate;
     private LocalDate endDate;
-    private Integer memberId;
-    private Integer curationId;
-    private Integer productId;
+    private String memberId;
+    private String curationId;
+    private String productId;
     private String curationYn;
 }

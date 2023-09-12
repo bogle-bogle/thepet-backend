@@ -6,13 +6,13 @@ import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 import java.util.List;
 
 public interface OrderService {
-    OrderVO orderWholeCart(String token);
+    OrderVO orderWholeCart(String token, String tossOrderId);
 
     OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO);
 
     OrderVO createRegularDeliveryOrder(String token, SubscriptionVO requestVO);
 
-    OrderVO showOrderWithDetails(Integer orderId);
+    OrderVO showOrderWithDetails(String orderId);
 
     List<OrderVO> showAllMyOrdersWithDetails(String token);
 }

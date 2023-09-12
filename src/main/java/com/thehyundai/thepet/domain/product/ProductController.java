@@ -2,6 +2,7 @@ package com.thehyundai.thepet.domain.product;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/list/{page}")
+    @Cacheable(value="productCache",key = "'productList:' + #page")
     public ResponseEntity<ProductListVO> getProducts(@PathVariable int page, @RequestBody FilterVO filterVO) {
         log.info(filterVO);
         filterVO.setPage((page - 1) * 20 + 1);
@@ -24,7 +26,7 @@ public class ProductController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductVO> getProductDetail(@PathVariable int id) {
+    public ResponseEntity<ProductVO> getProductDetail(@PathVariable String id) {
         return ResponseEntity.ok(productService.getProductDetail(id));
     }
 

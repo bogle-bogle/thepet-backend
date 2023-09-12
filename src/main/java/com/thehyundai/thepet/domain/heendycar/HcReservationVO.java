@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HcReservationVO {
-    private Integer id;
+    private String id;
     private String branchCode;
-    private Integer memberId;
+    private String memberId;
     private LocalDateTime reservationTime;
     private LocalDateTime createdAt;
     private String pickupYn;

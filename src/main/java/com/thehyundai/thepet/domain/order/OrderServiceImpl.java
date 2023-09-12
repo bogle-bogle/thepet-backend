@@ -39,16 +39,16 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public OrderVO orderWholeCart(String token) {
+    public OrderVO orderWholeCart(String token, String tossOrderId) {
         // 0. 유효성 검사 및 유저 검증
-        Integer memberId = authTokensGenerator.extractMemberId(token);
+        String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
 
         // 1. 회원의 카트 전체 조회하기
         List<CartVO> wholeCart = cartService.getCart(memberId);
 
         // 2. ORDER 테이블에 저장
-        OrderVO order = buildWholeCartOrder(memberId, wholeCart);
+        OrderVO order = buildWholeCartOrder(memberId, wholeCart, tossOrderId);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. ORDER_DETAIL 테이블에 저장
@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
-        Integer memberId = authTokensGenerator.extractMemberId(token);
+        String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
         requestVO.setMemberId(memberId);
 
@@ -95,7 +95,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public OrderVO createRegularDeliveryOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
-        Integer memberId = authTokensGenerator.extractMemberId(token);
+        String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
         ProductVO product = productService.getProductDetail(requestVO.getProductId());
 
@@ -116,7 +116,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderVO showOrderWithDetails(Integer orderId) {
+    public OrderVO showOrderWithDetails(String orderId) {
         OrderVO result = orderMapper.getOrderWithOrderDetailsById(orderId)
                                     .orElseThrow(() -> new BusinessException(ErrorCode.ORDER_NOT_FOUND));
         return result;
@@ -125,7 +125,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderVO> showAllMyOrdersWithDetails(String token) {
         // 0. 유효성 검사 및 유저 검증
-        Integer memberId = authTokensGenerator.extractMemberId(token);
+        String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
 
         // 1. 데이터 조회하기
@@ -133,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
-    private OrderVO buildCurationOrder(Integer memberId, CurationVO curation) {
+    private OrderVO buildCurationOrder(String memberId, CurationVO curation) {
         return OrderVO.builder()
                       .totalCnt(1)
                       .totalPrice(curation.getPrice())
@@ -143,7 +143,7 @@ public class OrderServiceImpl implements OrderService {
                       .build();
     }
 
-    private OrderDetailVO buildCurationOrderDetail(Integer orderId, CurationVO curation) {
+    private OrderDetailVO buildCurationOrderDetail(String orderId, CurationVO curation) {
         return OrderDetailVO.builder()
                             .orderId(orderId)
                             .cnt(1)
@@ -154,17 +154,22 @@ public class OrderServiceImpl implements OrderService {
                             .build();
     }
 
-    private OrderVO buildWholeCartOrder(Integer memberId, List<CartVO> wholeCart) {
+<<<<<<< HEAD
+    private OrderVO buildWholeCartOrder(Integer memberId, List<CartVO> wholeCart, String tossOrderId) {
+=======
+    private OrderVO buildWholeCartOrder(String memberId, List<CartVO> wholeCart) {
+>>>>>>> 975638b3b78be5a9a86243a390bdf8f954279f07
         return OrderVO.builder()
                 .totalCnt(wholeCart.size())
                 .totalPrice(calculateTotalPrice(wholeCart))
                 .createdAt(LocalDate.now())
                 .memberId(memberId)
                 .subscribeYn(TableStatus.N.getValue())
+                .tossOrderId(tossOrderId)
                 .build();
     }
 
-    private OrderDetailVO buildCartOrderDetail(Integer orderId, CartVO cart) {
+    private OrderDetailVO buildCartOrderDetail(String orderId, CartVO cart) {
         ProductVO product = productService.getProductDetail(cart.getProductId());
         return OrderDetailVO.builder()
                             .orderId(orderId)
@@ -176,7 +181,7 @@ public class OrderServiceImpl implements OrderService {
                             .build();
     }
 
-    private OrderVO buildProductOrder(Integer memberId, ProductVO product) {
+    private OrderVO buildProductOrder(String memberId, ProductVO product) {
         return OrderVO.builder()
                       .totalCnt(1)
                       .totalPrice(product.getPrice())
@@ -186,7 +191,7 @@ public class OrderServiceImpl implements OrderService {
                       .build();
     }
 
-    private OrderDetailVO buildProductOrderDetail(Integer orderId, ProductVO product) {
+    private OrderDetailVO buildProductOrderDetail(String orderId, ProductVO product) {
         return OrderDetailVO.builder()
                             .orderId(orderId)
                             .cnt(1)
