@@ -5,7 +5,7 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.member.MemberMapper">
 
-    <select id="findMemberById" parameterType="Integer" resultType="MemberVO">
+    <select id="findMemberById" parameterType="String" resultType="MemberVO">
         SELECT * FROM MEMBER WHERE ID = #{id}
     </select>
 

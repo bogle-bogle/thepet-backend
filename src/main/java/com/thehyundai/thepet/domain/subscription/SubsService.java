@@ -9,5 +9,5 @@ public interface SubsService {
 
      List<CurationVO> showCurationOfLastOneYear();
 
-     CurationVO showCurationDetail(Integer curationId);
+     CurationVO showCurationDetail(String curationId);
 }

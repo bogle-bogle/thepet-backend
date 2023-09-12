@@ -10,7 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CmCodeVO {
-    private Integer id;
+    private String id;
     private String codeValue;
     private String name;
     private String sectCode;

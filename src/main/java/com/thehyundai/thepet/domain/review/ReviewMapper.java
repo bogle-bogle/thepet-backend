@@ -6,6 +6,6 @@ import java.util.List;
 
 @Mapper
 public interface ReviewMapper {
-    List<ReviewVO> selectAllReviews(int productId);
-    ReviewVO selectReviewDetail(int id);
+    List<ReviewVO> selectAllReviews(String productId);
+    ReviewVO selectReviewDetail(String id);
 }

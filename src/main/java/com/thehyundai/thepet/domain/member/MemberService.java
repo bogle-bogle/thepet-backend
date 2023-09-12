@@ -6,5 +6,5 @@ import java.util.Optional;
 public interface MemberService {
     MemberVO loginOrRegister(MemberVO member);
 
-    Optional<MemberVO> showMember(Integer id);
+    Optional<MemberVO> showMember(String id);
 }

@@ -25,9 +25,9 @@ public class PetServiceImpl implements PetService {
     private final EntityValidator entityValidator;
 
     @Override
-    public Integer registerClub(String token, PetVO petVO) {
+    public String registerClub(String token, PetVO petVO) {
         log.info(petVO);
-        Integer memberId = authTokensGenerator.extractMemberId(token);
+        String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
         petVO.setMemberId(memberId);
         petMapper.registerClub(petVO);
@@ -35,7 +35,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Integer updateFeed(PetVO petVO,Integer id) {
+    public Integer updateFeed(PetVO petVO,String id) {
         petVO.setId(id);
         findFavoriteProteinCode(petVO).ifPresent(petVO::setFavoriteProteinCode);
         return petMapper.updateFeed(petVO);
@@ -43,7 +43,8 @@ public class PetServiceImpl implements PetService {
 
     @Override
     @Cacheable(value= "myPetCache", key="#memberId", cacheManager = "contentCacheManager")
-    public List<PetVO> myPet(Integer memberId) {
+    public List<PetVO> myPet(String token) {
+        String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
         return petMapper.myPet(memberId);
     }
@@ -54,7 +55,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<PetVO> findPetsWithAllergies(Integer memberId) {
+    public List<PetVO> findPetsWithAllergies(String memberId) {
         List<PetVO> pets = petMapper.findPetsWithAllergiesByMemberId(memberId);
         return pets;
     }

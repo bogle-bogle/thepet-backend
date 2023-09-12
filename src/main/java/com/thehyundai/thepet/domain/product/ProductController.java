@@ -17,13 +17,16 @@ public class ProductController {
     @PostMapping("/list/{page}")
     @Cacheable(value="productCache",key = "'productList:' + #page")
     public ResponseEntity<ProductListVO> getProducts(@PathVariable int page, @RequestBody FilterVO filterVO) {
-        ProductListVO result = productService.getAllProducts(page, filterVO);
+        log.info(filterVO);
+        filterVO.setPage((page - 1) * 20 + 1);
+        ProductListVO result = productService.getAllProducts(filterVO);
 
         return ResponseEntity.ok(result);
     }
 
+
     @GetMapping("/{id}")
-    public ResponseEntity<ProductVO> getProductDetail(@PathVariable int id) {
+    public ResponseEntity<ProductVO> getProductDetail(@PathVariable String id) {
         return ResponseEntity.ok(productService.getProductDetail(id));
     }
 

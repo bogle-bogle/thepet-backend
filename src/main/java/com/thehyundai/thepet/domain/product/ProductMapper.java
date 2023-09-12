@@ -10,11 +10,9 @@ public interface ProductMapper {
 
     List<ProductVO> selectProducts(int page);
 
-    ProductVO selectProductDetail(int id);
+    ProductVO selectProductDetail(String id);
 
-    Integer selectProductCount(Map<String, Object> map);
-
-    Optional<ProductVO> findProductById(Integer id);
+    Optional<ProductVO> findProductById(String id);
 
     List<ProductVO> findProductsBySimplePetInfo(PetVO petVO);
 
@@ -22,7 +20,9 @@ public interface ProductMapper {
 
     List<ProductVO> findProductsByMbti(String mbtiType);
 
-    List<ProductVO> filterProduct(Map<String, Object> map);
+    List<ProductVO> filterProduct(FilterVO filterVO);
+
+    Integer selectProductCount(FilterVO filterVO);
 
     List<ProductVO> findProductsByFavoriteProteinCode(String favoriteProtein);
 
