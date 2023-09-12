@@ -3,10 +3,13 @@ package com.thehyundai.thepet.domain.product;
 import com.thehyundai.thepet.domain.mypet.pet.PetVO;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ProductMapper {
+
+    Integer saveGeneralProduct(ProductVO product);
 
     List<ProductVO> selectProducts(int page);
 
@@ -27,4 +30,6 @@ public interface ProductMapper {
     List<ProductVO> findProductsByFavoriteProteinCode(String favoriteProtein);
 
     List<ProductVO> findProductsByAgeCode(String ageCmCode);
+
+
 }
