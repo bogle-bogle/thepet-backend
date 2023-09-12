@@ -2,6 +2,7 @@ package com.thehyundai.thepet.domain.mypet.pet;
 
 import com.thehyundai.thepet.global.cmcode.CmCodeVO;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
+import com.thehyundai.thepet.global.timetrace.TimeTrace;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ public class PetController {
     }
 
     @GetMapping
+    @TimeTrace
     @Operation(summary = "나의 반려동물 목록 조회하기", description = "나의 반려동물 정보를 모두 조회합니다.")
     public ResponseEntity<List<PetVO>> myPet(@RequestHeader("Authorization") String token){
         Integer memberId = authTokensGenerator.extractMemberId(token);

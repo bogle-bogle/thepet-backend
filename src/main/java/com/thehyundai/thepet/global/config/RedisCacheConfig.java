@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.redis;
+package com.thehyundai.thepet.global.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
