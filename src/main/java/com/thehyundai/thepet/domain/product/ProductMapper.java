@@ -10,9 +10,9 @@ public interface ProductMapper {
 
     List<ProductVO> selectProducts(int page);
 
-    ProductVO selectProductDetail(int id);
+    ProductVO selectProductDetail(String id);
 
-    Optional<ProductVO> findProductById(Integer id);
+    Optional<ProductVO> findProductById(String id);
 
     List<ProductVO> findProductsBySimplePetInfo(PetVO petVO);
 

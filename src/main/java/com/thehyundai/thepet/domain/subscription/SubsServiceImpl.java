@@ -50,7 +50,7 @@ public class SubsServiceImpl implements SubsService {
     }
 
     @Override
-    public CurationVO showCurationDetail(Integer curationId) {
+    public CurationVO showCurationDetail(String curationId) {
         CurationVO curation = curationMapper.findCurationById(curationId)
                                             .map(this::bindAllProductsInCuration)
                                             .orElseThrow(() -> new BusinessException(ErrorCode.CURATION_NOT_FOUND));

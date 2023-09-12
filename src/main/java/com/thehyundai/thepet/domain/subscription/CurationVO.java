@@ -14,11 +14,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CurationVO {
-    private Integer id;
+    private String id;
     private LocalDate paymentDate;
-    private Integer product1Id;
-    private Integer product2Id;
-    private Integer product3Id;
+    private String product1Id;
+    private String product2Id;
+    private String product3Id;
     private Integer price;
     private String name;
     private String imgUrl;

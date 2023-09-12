@@ -12,7 +12,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductVO {
-    private Integer id;
+    private String id;
     private String name;
     private Integer price;
     private String mainImgUrl;

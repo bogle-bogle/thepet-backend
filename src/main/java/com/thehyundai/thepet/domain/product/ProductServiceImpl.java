@@ -4,11 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-
 @Log4j2
 @Service
 @RequiredArgsConstructor
@@ -29,7 +24,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductVO getProductDetail(int id) {
+    public ProductVO getProductDetail(String id) {
         return productMapper.selectProductDetail(id);
     }
 }

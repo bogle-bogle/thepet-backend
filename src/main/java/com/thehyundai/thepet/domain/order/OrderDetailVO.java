@@ -8,14 +8,14 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderDetailVO {
-    private Integer detailId;
-    private Integer orderId;
+    private String detailId;
+    private String orderId;
     private Integer cnt;
-    private Integer productId;
+    private String productId;
     private String productName;
     private String productImgUrl;
     private Integer productPrice;
-    private Integer curationId;
+    private String curationId;
     private String curationName;
     private String curationImgUrl;
     private Integer curationPrice;

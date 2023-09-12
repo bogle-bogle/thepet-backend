@@ -14,7 +14,7 @@
         WHERE ID = #{id}
     </update>
 
-    <delete id="deleteCart" parameterType="int">
+    <delete id="deleteCart" parameterType="String">
         DELETE FROM CART
         WHERE ID = #{id}
     </delete>
