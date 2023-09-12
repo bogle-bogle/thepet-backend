@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class PetVO {
+public class PetVO{
     private Integer id;
     private String petImgUrl;
     private String name;

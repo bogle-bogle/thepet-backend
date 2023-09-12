@@ -24,7 +24,7 @@
     </update>
 
     <select id="myPet" parameterType="Integer" resultType="PetVO">
-        SELECT *
+        SELECT id,pet_img_url,name,member_id,favorite_food_ingredients,feed_main_img_url,favorite_protein_code,feed_desc_img_url
         FROM PET
         WHERE member_id = #{memberId}
     </select>
