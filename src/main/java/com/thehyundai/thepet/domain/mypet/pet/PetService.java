@@ -11,7 +11,7 @@ public interface PetService {
 
     Integer updateFeed(PetVO petVO,String id);
 
-    List<PetVO> myPet(Integer memberId);
+    List<PetVO> myPet(String memberId);
 
     List<CmCodeVO> getAllCode();
 

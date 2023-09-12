@@ -31,7 +31,7 @@ public class PetController {
     @TimeTrace
     @Operation(summary = "나의 반려동물 목록 조회하기", description = "나의 반려동물 정보를 모두 조회합니다.")
     public ResponseEntity<List<PetVO>> myPet(@RequestHeader("Authorization") String token){
-        Integer memberId = authTokensGenerator.extractMemberId(token);
+        String memberId = authTokensGenerator.extractMemberId(token);
         return ResponseEntity.ok(petService.myPet(memberId));
     }
 
