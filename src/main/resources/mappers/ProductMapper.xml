@@ -5,6 +5,16 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.product.ProductMapper">
 
+    <insert id="saveGeneralProduct" parameterType="ProductVO" useGeneratedKeys="true">
+        <selectKey keyProperty="id" resultType="String" order="AFTER">
+            SELECT PRODUCT_SEQ.currval From DUAL
+        </selectKey>
+        INSERT INTO PRODUCT (NAME, PRICE, MAIN_IMG_URL, DESC_IMG_URL, INGREDIENTS,
+                                            MAIN_CATEGORY_CODE, SUB_CATEGORY_CODE, ANIMAL_TYPE_CODE, PROTEIN_CODE)
+        VALUES (#{name}, #{price}, #{mainImgUrl}, #{descImgUrl}, #{ingredients},
+                #{mainCategoryCode}, #{subCategoryCode}, #{animalTypeCode}, #{proteinCode})
+    </insert>
+
     <select id="selectProducts" parameterType="int" resultType="ProductVO">
         SELECT * FROM PRODUCT
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
@@ -112,5 +122,7 @@
             </if>
         </where>
     </select>
+
+
 
 </mapper>

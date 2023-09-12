@@ -154,11 +154,7 @@ public class OrderServiceImpl implements OrderService {
                             .build();
     }
 
-<<<<<<< HEAD
-    private OrderVO buildWholeCartOrder(Integer memberId, List<CartVO> wholeCart, String tossOrderId) {
-=======
-    private OrderVO buildWholeCartOrder(String memberId, List<CartVO> wholeCart) {
->>>>>>> 975638b3b78be5a9a86243a390bdf8f954279f07
+    private OrderVO buildWholeCartOrder(String memberId, List<CartVO> wholeCart, String tossOrderId) {
         return OrderVO.builder()
                 .totalCnt(wholeCart.size())
                 .totalPrice(calculateTotalPrice(wholeCart))

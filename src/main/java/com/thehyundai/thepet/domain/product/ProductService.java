@@ -2,7 +2,10 @@ package com.thehyundai.thepet.domain.product;
 
 
 public interface ProductService {
+
+    ProductVO createGeneralProduct(ProductVO productVO);
+
 //    public List<ProductVO> getAllProducts();
-    public ProductListVO getAllProducts(FilterVO filterVO);
-    public ProductVO getProductDetail(String id);
+    ProductListVO getAllProducts(FilterVO filterVO);
+    ProductVO getProductDetail(String id);
 }
