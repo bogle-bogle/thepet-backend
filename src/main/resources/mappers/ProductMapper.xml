@@ -10,12 +10,12 @@
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
-    <select id="selectProductDetail" parameterType="int" resultType="ProductVO">
+    <select id="selectProductDetail" parameterType="String" resultType="ProductVO">
         SELECT * FROM PRODUCT
         WHERE id = #{id}
     </select>
 
-    <select id="findProductById" parameterType="Integer" resultType="ProductVO">
+    <select id="findProductById" parameterType="String" resultType="ProductVO">
         SELECT * FROM PRODUCT WHERE id = #{id}
     </select>
 

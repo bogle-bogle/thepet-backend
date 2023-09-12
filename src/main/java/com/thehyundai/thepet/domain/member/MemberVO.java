@@ -11,7 +11,7 @@ import lombok.Data;
 @NoArgsConstructor
 @Builder
 public class MemberVO {
-    private Integer id;
+    private String id;
     private Long socialId;
     private String name;
     private String email;

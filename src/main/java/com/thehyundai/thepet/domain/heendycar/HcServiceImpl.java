@@ -25,7 +25,7 @@ public class HcServiceImpl implements HcService {
     private final HcReservationMapper reservationMapper;
     private final EntityValidator entityValidator;
     private final CmCodeValidator cmCodeValidator;
-    private final AuthTokensGenerator authTokensGenerator;
+    private final AuthTokensGenerator  authTokensGenerator;
 
     @Override
     public HcBranchVO showBranchInfo(String branchCode) {
@@ -46,7 +46,7 @@ public class HcServiceImpl implements HcService {
         // 0. 유효성 검사 및 유저 검증
         validateRemainingCnt(requestVO);
 //        valiateAvailableTime(requestVO);      // 30분 전부터만 예약 가능하게 해둔 로직 -> 일단 고려하지 않기
-        Integer memberId = authTokensGenerator.extractMemberId(token);
+        String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
 
         // 1. Reservation 생성
@@ -61,13 +61,13 @@ public class HcServiceImpl implements HcService {
     }
 
 
-    private void handleAutoCancellation(Integer reservationId) {
+    private void handleAutoCancellation(String reservationId) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         executor.schedule(() -> cancelIfNotPickedUp(reservationId), 30, TimeUnit.SECONDS);           // 30초 -> 30분으로 변경 예정
         executor.shutdown();
     }
 
-    private void cancelIfNotPickedUp(Integer reservationId) {
+    private void cancelIfNotPickedUp(String reservationId) {
         HcReservationVO reservation = reservationMapper.findReservationById(reservationId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
         if (reservation.getPickupYn().equals(TableStatus.N.getValue())) {
@@ -91,7 +91,7 @@ public class HcServiceImpl implements HcService {
         }
     }
 
-    private HcReservationVO buildReservation(Integer memberId, HcReservationVO requestVO) {
+    private HcReservationVO buildReservation(String memberId, HcReservationVO requestVO) {
         return HcReservationVO.builder()
                                      .branchCode(requestVO.getBranchCode())
                                      .memberId(memberId)

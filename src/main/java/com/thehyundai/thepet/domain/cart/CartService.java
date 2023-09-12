@@ -8,8 +8,8 @@ public interface CartService {
 
     CartVO updateCart(CartVO cartVO);
 
-    int deleteCart(int id);
+    String deleteCart(String id);
 
-    List<CartVO> getCart(int memberId);
+    List<CartVO> getCart(String memberId);
 
 }

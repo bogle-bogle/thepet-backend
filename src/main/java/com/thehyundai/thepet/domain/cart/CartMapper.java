@@ -11,9 +11,9 @@ public interface CartMapper {
 
     void updateCart(CartVO cartVO);
 
-    void deleteCart(int id);
+    void deleteCart(String id);
 
-    List<CartVO> getCart(int memberId);
+    List<CartVO> getCart(String memberId);
 
 
 }

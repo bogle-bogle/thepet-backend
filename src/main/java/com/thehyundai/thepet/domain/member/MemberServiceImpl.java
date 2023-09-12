@@ -26,7 +26,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public Optional<MemberVO> showMember(Integer id) {
+    public Optional<MemberVO> showMember(String id) {
         return memberMapper.findMemberById(id);
     }
 

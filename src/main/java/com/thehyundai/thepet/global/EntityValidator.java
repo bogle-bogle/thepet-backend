@@ -26,22 +26,22 @@ public class EntityValidator {
     private final CurationMapper curationMapper;
     private final PetMapper petMapper;
 
-    public MemberVO getPresentMember(Integer memberId) {
+    public MemberVO getPresentMember(String memberId) {
         return memberMapper.findMemberById(memberId)
                            .orElseThrow(() -> new BusinessException(MEMBER_NOT_FOUND));
     }
 
-    public ProductVO getPresentProduct(Integer productId) {
+    public ProductVO getPresentProduct(String productId) {
         return productMapper.findProductById(productId)
                             .orElseThrow(() -> new BusinessException(PRODUCT_NOT_FOUND));
     }
 
-    public CurationVO getPresentCuration(Integer curationId) {
+    public CurationVO getPresentCuration(String curationId) {
         return curationMapper.findCurationById(curationId)
                      .orElseThrow(() -> new BusinessException(CURATION_NOT_FOUND));
     }
 
-    public PetVO getPresentPet(Integer id) {
+    public PetVO getPresentPet(String id) {
         return petMapper.findPetWithAllergiesById(id)
                         .orElseThrow(() -> new BusinessException(PET_NOT_FOUND));
     }

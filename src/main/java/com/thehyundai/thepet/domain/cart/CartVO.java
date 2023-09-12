@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CartVO {
 
-    private int id;
+    private String id;
     private int cnt;
-    private int memberId;
-    private int productId;
+    private String memberId;
+    private String productId;
 
 }
