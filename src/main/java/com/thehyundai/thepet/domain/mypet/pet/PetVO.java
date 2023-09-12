@@ -11,11 +11,11 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class PetVO {
-    private Integer id;
+    private String id;
     private String petImgUrl;
     private String name;
     private LocalDate birth;
-    private Integer memberId;
+    private String memberId;
     private String favoriteFoodIngredients;
     private String feedMainImgUrl;
     private String feedDescImgUrl;

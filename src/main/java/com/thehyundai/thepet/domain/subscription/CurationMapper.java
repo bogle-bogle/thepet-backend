@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Mapper
 public interface CurationMapper {
-    Optional<CurationVO> findCurationById(Integer id);
+    Optional<CurationVO> findCurationById(String id);
 
     Optional<CurationVO> findCurationByPaymentDate(LocalDate paymentDate);
 

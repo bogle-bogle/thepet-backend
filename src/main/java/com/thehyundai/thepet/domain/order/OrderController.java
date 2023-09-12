@@ -43,7 +43,7 @@ public class OrderController {
 
     @GetMapping("/{orderId}")
     @Operation(summary = "특정 주문 내역 조회하기", description = "주문ID를 통해 해당 주문 내역을 조회합니다.")
-    public ResponseEntity<?> showOrderDetail(@PathVariable Integer orderId) {
+    public ResponseEntity<?> showOrderDetail(@PathVariable String orderId) {
         OrderVO result = orderService.showOrderWithDetails(orderId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

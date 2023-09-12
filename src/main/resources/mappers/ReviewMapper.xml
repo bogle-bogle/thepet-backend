@@ -4,12 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thehyundai.thepet.domain.review.ReviewMapper">
-    <select id="selectAllReviews" parameterType="int" resultType="ReviewVO">
+    <select id="selectAllReviews" parameterType="String" resultType="ReviewVO">
         SELECT * FROM REVIEW
         WHERE product_id = #{product_id}
     </select>
 
-    <select id="selectReviewDetail" parameterType="int" resultType="ReviewVO">
+    <select id="selectReviewDetail" parameterType="String" resultType="ReviewVO">
         SELECT * FROM REVIEW
         WHERE id = #{id}
     </select>
