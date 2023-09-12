@@ -7,6 +7,7 @@ import com.thehyundai.thepet.global.cmcode.ProteinCmCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -41,6 +42,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @Cacheable(value= "myPetCache", key="#memberId", cacheManager = "contentCacheManager")
     public List<PetVO> myPet(String token) {
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
