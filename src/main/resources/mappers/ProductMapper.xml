@@ -5,6 +5,12 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.product.ProductMapper">
 
+    <select id="findProductsByCategoryAndKeyword" parameterType="map" resultType="ProductVO">
+        SELECT * FROM PRODUCT
+        WHERE MAIN_CATEGORY_CODE = #{main-category}
+          AND (NAME LIKE '%' || #{keyword} || '%')
+    </select>
+
     <insert id="saveGeneralProduct" parameterType="ProductVO" useGeneratedKeys="true">
         <selectKey keyProperty="id" resultType="String" order="AFTER">
             SELECT PRODUCT_SEQ.currval From DUAL

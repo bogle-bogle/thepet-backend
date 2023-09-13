@@ -4,10 +4,13 @@ import com.thehyundai.thepet.domain.mypet.pet.PetVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Mapper
 public interface ProductMapper {
+
+    List<ProductVO> findProductsByCategoryAndKeyword(Map<String, String> params);
 
     Integer saveGeneralProduct(ProductVO product);
 
