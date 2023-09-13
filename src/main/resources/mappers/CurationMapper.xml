@@ -5,6 +5,14 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.subscription.CurationMapper">
 
+    <insert id="saveCuration" parameterType="CurationVO" useGeneratedKeys="true">
+        <selectKey keyProperty="id" resultType="String" order="AFTER">
+            SELECT CURATION_SEQ.currval From DUAL
+        </selectKey>
+        INSERT INTO CURATION (PAYMENT_DATE, PRODUCT1_ID, PRODUCT2_ID, PRODUCT3_ID, IMG_URL, PRICE, NAME, THUMBNAIL_IMG_URL)
+        VALUES (#{paymentDate}, #{product1Id}, #{product2Id}, #{product3Id}, #{imgUrl}, #{price}, #{name}, #{thumbnailImgUrl})
+    </insert>
+
     <select id="findCurationById" parameterType="String" resultType="CurationVO">
         SELECT * FROM CURATION WHERE ID = #{id}
     </select>
