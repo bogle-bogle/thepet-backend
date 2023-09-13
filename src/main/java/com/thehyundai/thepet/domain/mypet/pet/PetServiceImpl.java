@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -43,8 +42,7 @@ public class PetServiceImpl implements PetService {
 
     @Override
     @Cacheable(value= "myPetCache", key="#memberId", cacheManager = "contentCacheManager")
-    public List<PetVO> myPet(String token) {
-        String memberId = authTokensGenerator.extractMemberId(token);
+    public List<PetVO> myPet(String memberId) {
         entityValidator.getPresentMember(memberId);
         return petMapper.myPet(memberId);
     }
