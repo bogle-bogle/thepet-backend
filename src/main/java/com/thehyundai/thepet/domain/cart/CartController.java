@@ -20,7 +20,7 @@ public class CartController {
         return ResponseEntity.ok(cartVO);
     }
 
-    @PatchMapping
+    @PutMapping
     public ResponseEntity<CartVO> updateCart(@RequestBody CartVO cartVO) {
         cartService.updateCart(cartVO);
         return ResponseEntity.ok(cartVO);
