@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thehyundai.thepet.global.timetrace.AopMapper">
+
+
+    <insert id="saveAOPTable" parameterType="AopVO">
+        INSERT INTO AOP (CREATED_AT, REQUEST_NAME, METHOD_NAME,EXECUTION_TIME)
+        VALUES (SYSTIMESTAMP, #{requestName}, #{methodName},#{executionTime})
+    </insert>
+
+</mapper>

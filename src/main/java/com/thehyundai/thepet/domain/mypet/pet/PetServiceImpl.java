@@ -5,6 +5,7 @@ import com.thehyundai.thepet.global.cmcode.CmCodeMapper;
 import com.thehyundai.thepet.global.cmcode.CmCodeVO;
 import com.thehyundai.thepet.global.cmcode.ProteinCmCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
+import com.thehyundai.thepet.global.timetrace.TimeTrace;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.Cacheable;
@@ -41,9 +42,11 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @TimeTrace(requestName = "/api/pet", methodName = "myPet")
     @Cacheable(value= "myPetCache", key="#memberId", cacheManager = "contentCacheManager")
     public List<PetVO> myPet(String memberId) {
-        entityValidator.getPresentMember(memberId);
+        //entityValidator.getPresentMember(memberId);
+        System.out.println(";asjf;alskdjf;lskjf");
         return petMapper.myPet(memberId);
     }
 

@@ -5,6 +5,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
@@ -12,14 +13,15 @@ import org.springframework.util.StopWatch;
 @Component
 @Aspect
 public class TimeTraceAspect {
+    @Autowired
+    private AopMapper aopMapper;
 
-    // @Pointcut("execution(* com.example.demo.repository..*(..))")
     @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.TimeTrace)")
     private void timeTracePointcut() {
     }
 
-    @Around("timeTracePointcut()")
-    public Object traceTime(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Around("timeTracePointcut() && @annotation(timeTrace)")
+    public Object traceTime(ProceedingJoinPoint joinPoint, TimeTrace timeTrace) throws Throwable {
         StopWatch stopWatch = new StopWatch();
 
         try {
@@ -27,9 +29,18 @@ public class TimeTraceAspect {
             return joinPoint.proceed(); // 실제 타겟 호출
         } finally {
             stopWatch.stop();
-            log.debug("{} - Total time = {}s",
-                    joinPoint.getSignature().toShortString(),
-                    stopWatch.getTotalTimeSeconds());
+            String executionTime = String.valueOf(stopWatch.getTotalTimeMillis());
+            String methodName = timeTrace.methodName();
+            String requestName = timeTrace.requestName();
+
+            AopVO timeTraceInfo = new AopVO();
+            timeTraceInfo.setMethodName(methodName);
+            timeTraceInfo.setExecutionTime(executionTime);
+            timeTraceInfo.setRequestName(requestName);
+
+            aopMapper.saveAOPTable(timeTraceInfo);
+            // timeTraceInfo 객체를 원하는 대로 로깅하거나 데이터베이스에 저장
+            log.info("URL: {}, Method: {}, Execution Time: {}ms", requestName, methodName, executionTime);
         }
     }
 }
