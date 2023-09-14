@@ -45,8 +45,7 @@ public class PetServiceImpl implements PetService {
     @TimeTrace(requestName = "/api/pet", methodName = "myPet")
     @Cacheable(value= "myPetCache", key="#memberId", cacheManager = "contentCacheManager")
     public List<PetVO> myPet(String memberId) {
-        //entityValidator.getPresentMember(memberId);
-        System.out.println(";asjf;alskdjf;lskjf");
+        entityValidator.getPresentMember(memberId);
         return petMapper.myPet(memberId);
     }
 
