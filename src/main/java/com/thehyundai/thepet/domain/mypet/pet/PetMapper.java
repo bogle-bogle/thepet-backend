@@ -9,7 +9,6 @@ import java.util.Optional;
 public interface PetMapper {
 
     Integer registerClub(PetVO petVO);
-
     Integer updateFeed(PetVO petVO);
     List<PetVO> myPet(String memberId);
     List<PetVO> findPetsWithAllergiesByMemberId(String memberId);

@@ -24,7 +24,19 @@
     </update>
 
     <select id="myPet" parameterType="String" resultType="PetVO">
-        SELECT id,pet_img_url,name,member_id,favorite_food_ingredients,feed_main_img_url,favorite_protein_code,feed_desc_img_url
+        SELECT ID,
+               PET_IMG_URL,
+               NAME,
+               BIRTH,
+               MEMBER_ID,
+               FAVORITE_FOOD_INGREDIENTS,
+               FEED_MAIN_IMG_URL,
+               FEED_DESC_IMG_URL,
+               MBTI,
+               BREED_CODE,
+               ANIMAL_TYPE_CODE,
+               SIZE_CODE,
+               FAVORITE_PROTEIN_CODE
         FROM PET
         WHERE member_id = #{memberId}
     </select>

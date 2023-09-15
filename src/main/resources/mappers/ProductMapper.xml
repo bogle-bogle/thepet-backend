@@ -35,8 +35,6 @@
         SELECT * FROM PRODUCT WHERE id = #{id}
     </select>
 
-    </select>
-
     <select id="findProductsByFavoriteProteinCode" parameterType="String" resultType="ProductVO">
         SELECT * FROM PRODUCT
         WHERE PROTEIN_CODE = #{favoriteProteinCode}
