@@ -16,12 +16,12 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
 
     @Override
-    public List<ReviewVO> getAllReviews(int productId) {
+    public List<ReviewVO> getAllReviews(String productId) {
         return reviewMapper.selectAllReviews(productId);
     }
 
     @Override
-    public ReviewVO getReviewDetail(int id) {
+    public ReviewVO getReviewDetail(String id) {
         ReviewVO result = reviewMapper.selectReviewDetail(id);
         if (result == null) {
             throw new BusinessException(REVIEW_NOT_FOUND);

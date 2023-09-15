@@ -25,7 +25,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     private final EntityValidator entityValidator;
 
     @Override
-    public RecommendationVO recommendProductsSimply(Integer petId) {
+    public RecommendationVO recommendProductsSimply(String petId) {
         // 0. 반려동물 정보 가져오기
         PetVO petInfo = entityValidator.getPresentPet(petId);
 
@@ -48,7 +48,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    public RecommendationVO recommendProductsInDetail(Integer petId) {
+    public RecommendationVO recommendProductsInDetail(String petId) {
         // 0. 반려동물 정보 가져오기
         PetVO petInfo = entityValidator.getPresentPet(petId);
 

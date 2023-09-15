@@ -9,6 +9,7 @@ import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -25,9 +26,9 @@ public class PetServiceImpl implements PetService {
     private final EntityValidator entityValidator;
 
     @Override
-    public Integer registerClub(String token, PetVO petVO) {
+    public String registerClub(String token, PetVO petVO) {
         log.info(petVO);
-        Integer memberId = authTokensGenerator.extractMemberId(token);
+        String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
         petVO.setMemberId(memberId);
         petMapper.registerClub(petVO);
@@ -35,15 +36,15 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Integer updateFeed(PetVO petVO,Integer id) {
+    public Integer updateFeed(PetVO petVO,String id) {
         petVO.setId(id);
         findFavoriteProteinCode(petVO).ifPresent(petVO::setFavoriteProteinCode);
         return petMapper.updateFeed(petVO);
     }
 
     @Override
-    public List<PetVO> myPet(String token) {
-        Integer memberId = authTokensGenerator.extractMemberId(token);
+    @Cacheable(value= "myPetCache", key="#memberId", cacheManager = "contentCacheManager")
+    public List<PetVO> myPet(String memberId) {
         entityValidator.getPresentMember(memberId);
         return petMapper.myPet(memberId);
     }
@@ -54,7 +55,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public List<PetVO> findPetsWithAllergies(Integer memberId) {
+    public List<PetVO> findPetsWithAllergies(String memberId) {
         List<PetVO> pets = petMapper.findPetsWithAllergiesByMemberId(memberId);
         return pets;
     }

@@ -38,7 +38,7 @@ public class SubsController {
 
     @GetMapping("/curation/{curationId}")
     @Operation(summary = "더펫박스 상세 조회하기", description = "curationId를 이용하여 한 개의 더펫박스 상세 정보를 불러옵니다.")
-    public ResponseEntity<?> showCurationDetail(@PathVariable Integer curationId) {
+    public ResponseEntity<?> showCurationDetail(@PathVariable String curationId) {
         CurationVO curation = subsService.showCurationDetail(curationId);
         return new ResponseEntity<>(curation, HttpStatus.OK);
     }

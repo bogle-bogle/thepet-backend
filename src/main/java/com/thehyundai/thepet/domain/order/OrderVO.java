@@ -11,12 +11,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class OrderVO {
-    private Integer id;
+    private String id;
     private Integer totalCnt;
     private Integer totalPrice;
     private LocalDate createdAt;
-    private Integer memberId;
+    private String memberId;
     private String subscribeYn;
+    private String tossOrderId;
 
     private List<OrderDetailVO> orderDetails;
 }

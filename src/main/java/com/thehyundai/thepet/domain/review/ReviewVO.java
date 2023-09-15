@@ -8,12 +8,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewVO {
-    private int id;
+    private String id;
     private String title;
     private String content;
     private String imgUrl;
     private int starRating;
     private String memberNickname;
-    private int memberId;
-    private int productId;
+    private String memberId;
+    private String productId;
 }

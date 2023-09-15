@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface PetService {
 
-    Integer registerClub(String token,PetVO petVO);
+    String registerClub(String token,PetVO petVO);
 
-    Integer updateFeed(PetVO petVO,Integer id);
+    Integer updateFeed(PetVO petVO,String id);
 
-    List<PetVO> myPet(String token);
+    List<PetVO> myPet(String memberId);
 
     List<CmCodeVO> getAllCode();
 
-    List<PetVO> findPetsWithAllergies(Integer memberId);
+    List<PetVO> findPetsWithAllergies(String memberId);
 
-    PetVO updateMbti(Integer petId, PetVO petVO);
+    PetVO updateMbti(String petId, PetVO petVO);
 }

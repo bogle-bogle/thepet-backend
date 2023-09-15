@@ -8,6 +8,6 @@ import java.util.Optional;
 @Mapper
 public interface OrderMapper {
     Integer saveOrder(OrderVO order);
-    Optional<OrderVO> getOrderWithOrderDetailsById(Integer orderId);
-    List<OrderVO> showAllMyOrdersWithDetails(Integer memberId);
+    Optional<OrderVO> getOrderWithOrderDetailsById(String orderId);
+    List<OrderVO> showAllMyOrdersWithDetails(String memberId);
 }
