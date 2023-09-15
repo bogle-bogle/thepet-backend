@@ -3,9 +3,14 @@
 <mapper namespace="com.thehyundai.thepet.global.timetrace.AopMapper">
 
 
-    <insert id="saveAOPTable" parameterType="AopVO">
-        INSERT INTO AOP (CREATED_AT, REQUEST_NAME, METHOD_NAME,EXECUTION_TIME)
+    <insert id="saveAOPServiceTable" parameterType="AopServiceVO">
+        INSERT INTO AOP_SERVICE (CREATED_AT, REQUEST_NAME, METHOD_NAME,EXECUTION_TIME)
         VALUES (SYSTIMESTAMP, #{requestName}, #{methodName},#{executionTime})
+    </insert>
+
+    <insert id="saveAOPControllerTable" parameterType="AopServiceVO">
+        INSERT INTO AOP_CONTROLLER (CREATED_AT, REQUEST_MAPPING, METHOD_NAME,PARAMETER_NAME, EXECUTION_TIME)
+        VALUES (SYSTIMESTAMP, #{requestMapping}, #{methodName},#{parameterName},#{executionTime})
     </insert>
 
 </mapper>

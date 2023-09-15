@@ -2,7 +2,6 @@ package com.thehyundai.thepet.domain.mypet.pet;
 
 import com.thehyundai.thepet.global.cmcode.CmCodeVO;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.timetrace.TimeTrace;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;

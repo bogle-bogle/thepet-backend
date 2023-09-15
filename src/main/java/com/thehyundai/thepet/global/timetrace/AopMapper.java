@@ -4,5 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface AopMapper {
-    Integer saveAOPTable(AopVO aopVO);
+    void saveAOPServiceTable(AopServiceVO aopserviceVO);
+
+    void saveAOPControllerTable(AopControllerVO aopcontrollerVO);
 }

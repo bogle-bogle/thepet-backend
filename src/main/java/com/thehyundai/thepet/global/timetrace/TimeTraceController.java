@@ -7,7 +7,5 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface TimeTrace {
-    String requestName();
-    String methodName();
+public @interface TimeTraceController {
 }
