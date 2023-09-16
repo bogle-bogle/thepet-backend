@@ -20,8 +20,6 @@ public interface ProductMapper {
 
     Optional<ProductVO> findProductById(String id);
 
-    List<ProductVO> findProductsBySimplePetInfo(PetVO petVO);
-
     List<ProductVO> findProductsByPetInfoAndOrderLog(PetVO petVO);
 
     List<ProductVO> findProductsByMbti(String mbtiType);
