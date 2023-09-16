@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class HcServiceImpl implements HcService {
     private final HcBranchMapper branchMapper;
     private final HcReservationMapper reservationMapper;
@@ -29,7 +30,6 @@ public class HcServiceImpl implements HcService {
     private final AuthTokensGenerator  authTokensGenerator;
 
     @Override
-    @TimeTraceService
     public HcBranchVO showBranchInfo(String branchCode) {
         HcBranchVO result = branchMapper.findBranchInfoByBranchCode(branchCode)
                                         .orElseThrow(() -> new BusinessException(ErrorCode.CM_CODE_NOT_FOUND));
@@ -37,14 +37,12 @@ public class HcServiceImpl implements HcService {
     }
 
     @Override
-    @TimeTraceService
     public List<HcBranchVO> showAllBranches() {
         List<HcBranchVO> result = branchMapper.findAllBranches();
         return result;
     }
 
     @Override
-    @TimeTraceService
     public HcReservationVO createReservation(String token, HcReservationVO requestVO) {
         log.info(requestVO);
         // 0. 유효성 검사 및 유저 검증
@@ -65,13 +63,13 @@ public class HcServiceImpl implements HcService {
     }
 
 
-    @TimeTraceService
+
     private void handleAutoCancellation(String reservationId) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         executor.schedule(() -> cancelIfNotPickedUp(reservationId), 30, TimeUnit.SECONDS);           // 30초 -> 30분으로 변경 예정
         executor.shutdown();
     }
-    @TimeTraceService
+
     private void cancelIfNotPickedUp(String reservationId) {
         HcReservationVO reservation = reservationMapper.findReservationById(reservationId)
                 .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
@@ -83,19 +81,18 @@ public class HcServiceImpl implements HcService {
             log.info("이미 픽업됨!");
         }
     }
-    @TimeTraceService
+
     private void validateRemainingCnt(HcReservationVO requestVO) {
         HcBranchVO branchInfo = branchMapper.findBranchInfoByBranchCode(requestVO.getBranchCode())
                                                       .orElseThrow(() -> new BusinessException(ErrorCode.CM_CODE_NOT_FOUND));
         if (branchInfo.getCnt() <= 0) throw new BusinessException(ErrorCode.NO_HEENDYCAR_AVAILABLE);
     }
-    @TimeTraceService
+
     private void valiateAvailableTime(HcReservationVO requestVO) {
         if (requestVO.getReservationTime().isAfter(LocalDateTime.now().plusMinutes(30))) {
             throw new BusinessException(ErrorCode.NOT_AVAILABLE_RESERVATION_TIME);
         }
     }
-    @TimeTraceService
     private HcReservationVO buildReservation(String memberId, HcReservationVO requestVO) {
         return HcReservationVO.builder()
                                      .branchCode(requestVO.getBranchCode())

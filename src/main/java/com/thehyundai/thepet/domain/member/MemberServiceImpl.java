@@ -13,13 +13,13 @@ import java.util.Optional;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class MemberServiceImpl implements MemberService{
 
     private final MemberMapper memberMapper;
     private final AuthTokensGenerator authTokensGenerator;
 
     @Override
-    @TimeTraceService
     public MemberVO loginOrRegister(MemberVO requestVO) {
         MemberVO member = memberMapper.findMemberBySocialId(requestVO.getSocialId())
                                       .orElseGet(() -> register(requestVO));
@@ -28,11 +28,10 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    @TimeTraceService
     public Optional<MemberVO> showMember(String id) {
         return memberMapper.findMemberById(id);
     }
-    @TimeTraceService
+
     private MemberVO register(MemberVO member) {
         if (memberMapper.register(member) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
         return member;

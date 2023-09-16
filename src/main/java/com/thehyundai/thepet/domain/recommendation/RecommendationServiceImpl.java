@@ -21,13 +21,13 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Service
+@TimeTraceService
 public class RecommendationServiceImpl implements RecommendationService {
     private final ProductMapper productMapper;
     private final PetMapper petMapper;
     private final EntityValidator entityValidator;
 
     @Override
-    @TimeTraceService
     @Cacheable(value= "recommendProductSimply", key="#petId", cacheManager = "contentCacheManager")
     public RecommendationVO recommendProductsSimply(String petId) {
         // 0. 반려동물 정보 가져오기
@@ -52,7 +52,6 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    @TimeTraceService
     @Cacheable(value= "recommendProductDetail", key="#petId", cacheManager = "contentCacheManager")
     public RecommendationVO recommendProductsInDetail(String petId) {
         // 0. 반려동물 정보 가져오기
@@ -70,7 +69,6 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
-    @TimeTraceService
     public List<ProductVO> recommendProductsByMbti(String mbtiType) {
         List<ProductVO> recommendations = productMapper.findProductsByMbti(mbtiType)
                                                        .stream()
@@ -79,7 +77,7 @@ public class RecommendationServiceImpl implements RecommendationService {
                                                        .toList();
         return recommendations;
     }
-    @TimeTraceService
+
     private Integer calculatePetAge(LocalDate birthDate) {
         if (birthDate != null) {
             return Period.between(birthDate, LocalDate.now()).getYears();

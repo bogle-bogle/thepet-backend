@@ -20,23 +20,24 @@ import java.lang.reflect.Method;
 @Component
 @Aspect
 public class TimeTraceAspect {
+
     @Autowired
     private AopMapper aopMapper;
 
     @Autowired
     private ControllerInfoAspect controllerInfoAspect;
 
-    @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.TimeTraceService)")
+    @Pointcut("@within(com.thehyundai.thepet.global.timetrace.TimeTraceService)")
     private void timeTraceServicePointcut() {
     }
 
-    @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.TimeTraceController)")
+    @Pointcut("@within(com.thehyundai.thepet.global.timetrace.TimeTraceController)")
     private void timeTraceControllerPointcut(){
     }
 
 
 
-    @Around("timeTraceServicePointcut() && @annotation(timeTrace)")
+    @Around("timeTraceServicePointcut() && @within(timeTrace)")
     public Object traceTime(ProceedingJoinPoint joinPoint, TimeTraceService timeTrace) throws Throwable {
         StopWatch stopWatch = new StopWatch();
 
@@ -62,7 +63,7 @@ public class TimeTraceAspect {
         }
     }
 
-    @Around("timeTraceControllerPointcut() && @annotation(timeTrace)")
+    @Around("timeTraceControllerPointcut() && @within(timeTrace)")
     public Object traceTime(ProceedingJoinPoint joinPoint, TimeTraceController timeTrace) throws Throwable {
         StopWatch stopWatch = new StopWatch();
 

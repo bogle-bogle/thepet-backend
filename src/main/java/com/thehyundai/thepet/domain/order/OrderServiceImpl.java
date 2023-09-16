@@ -26,6 +26,7 @@ import java.util.List;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderDetailMapper orderDetailMapper;
@@ -40,7 +41,6 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    @TimeTraceService
     public OrderVO orderWholeCart(String token, String tossOrderId) {
         // 0. 유효성 검사 및 유저 검증
         String memberId = authTokensGenerator.extractMemberId(token);
@@ -68,7 +68,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @TimeTraceService
     @Transactional
     public OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
@@ -96,7 +95,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @TimeTraceService
     public OrderVO createRegularDeliveryOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         String memberId = authTokensGenerator.extractMemberId(token);
@@ -120,7 +118,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @TimeTraceService
     public OrderVO showOrderWithDetails(String orderId) {
         OrderVO result = orderMapper.getOrderWithOrderDetailsById(orderId)
                                     .orElseThrow(() -> new BusinessException(ErrorCode.ORDER_NOT_FOUND));
@@ -128,7 +125,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @TimeTraceService
     public List<OrderVO> showAllMyOrdersWithDetails(String token) {
         // 0. 유효성 검사 및 유저 검증
         String memberId = authTokensGenerator.extractMemberId(token);
@@ -138,7 +134,7 @@ public class OrderServiceImpl implements OrderService {
         List<OrderVO> result = orderMapper.showAllMyOrdersWithDetails(memberId);
         return result;
     }
-    @TimeTraceService
+
     private OrderVO buildCurationOrder(String memberId, CurationVO curation) {
         return OrderVO.builder()
                       .totalCnt(1)
@@ -148,7 +144,7 @@ public class OrderServiceImpl implements OrderService {
                       .subscribeYn(TableStatus.Y.getValue())
                       .build();
     }
-    @TimeTraceService
+
     private OrderDetailVO buildCurationOrderDetail(String orderId, CurationVO curation) {
         return OrderDetailVO.builder()
                             .orderId(orderId)
@@ -159,7 +155,7 @@ public class OrderServiceImpl implements OrderService {
                             .curationPrice(curation.getPrice())
                             .build();
     }
-    @TimeTraceService
+
     private OrderVO buildWholeCartOrder(String memberId, List<CartVO> wholeCart, String tossOrderId) {
         return OrderVO.builder()
                 .totalCnt(wholeCart.size())
@@ -170,7 +166,7 @@ public class OrderServiceImpl implements OrderService {
                 .tossOrderId(tossOrderId)
                 .build();
     }
-    @TimeTraceService
+
     private OrderDetailVO buildCartOrderDetail(String orderId, CartVO cart) {
         ProductVO product = productService.getProductDetail(cart.getProductId());
         return OrderDetailVO.builder()
@@ -182,7 +178,7 @@ public class OrderServiceImpl implements OrderService {
                             .productPrice(product.getPrice())
                             .build();
     }
-    @TimeTraceService
+
     private OrderVO buildProductOrder(String memberId, ProductVO product) {
         return OrderVO.builder()
                       .totalCnt(1)
@@ -192,7 +188,7 @@ public class OrderServiceImpl implements OrderService {
                       .subscribeYn(TableStatus.Y.getValue())
                       .build();
     }
-    @TimeTraceService
+
     private OrderDetailVO buildProductOrderDetail(String orderId, ProductVO product) {
         return OrderDetailVO.builder()
                             .orderId(orderId)
@@ -203,13 +199,13 @@ public class OrderServiceImpl implements OrderService {
                             .productPrice(product.getPrice())
                             .build();
     }
-    @TimeTraceService
+
     private Integer calculateTotalPrice(List<CartVO> carts) {
         return  carts.stream()
                      .mapToInt(this::calculateEachCartPrice)
                      .sum();
     }
-    @TimeTraceService
+
     private Integer calculateEachCartPrice(CartVO cart) {
         return cart.getCnt() + productService.getProductDetail(cart.getProductId()).getPrice();
     }

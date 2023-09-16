@@ -13,17 +13,16 @@ import static com.thehyundai.thepet.global.exception.ErrorCode.REVIEW_NOT_FOUND;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
 
     @Override
-    @TimeTraceService
     public List<ReviewVO> getAllReviews(String productId) {
         return reviewMapper.selectAllReviews(productId);
     }
 
     @Override
-    @TimeTraceService
     public ReviewVO getReviewDetail(String id) {
         ReviewVO result = reviewMapper.selectReviewDetail(id);
         if (result == null) {

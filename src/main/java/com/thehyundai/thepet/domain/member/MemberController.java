@@ -13,6 +13,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/member")
 public class MemberController {
@@ -20,7 +21,6 @@ public class MemberController {
     private final PetService petService;
 
     @PostMapping("/login")
-    @TimeTraceController
     public ResponseEntity<?> loginOrRegister(@RequestBody MemberVO requestVO) {
         MemberVO member = memberService.loginOrRegister(requestVO);
         List<PetVO> pets = petService.findPetsWithAllergies(member.getId());

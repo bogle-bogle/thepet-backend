@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/curation")
 public class CurationController {
     private final CurationService curationService;
 
     @PostMapping
-    @TimeTraceController
     @Operation(summary = "월간 구독 상품 등록", description = "백오피스 상품 등록")
     public ResponseEntity<?> createGeneralProduct(@RequestBody CurationVO curationVO) {
         curationService.createCuration(curationVO);

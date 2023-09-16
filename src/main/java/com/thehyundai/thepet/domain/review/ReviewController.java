@@ -13,19 +13,18 @@ import java.util.List;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequestMapping("/api/review")
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
 
     @GetMapping("/list/{productId}")
-    @TimeTraceController
     public ResponseEntity<List<ReviewVO>> getReviews(@PathVariable String productId) {
         return ResponseEntity.ok(reviewService.getAllReviews(productId));
     }
 
     @GetMapping("/{id}")
-    @TimeTraceController
     public ResponseEntity<ReviewVO> getReviewDetail(@PathVariable String id) {
         return ResponseEntity.ok(reviewService.getReviewDetail(id));
     }

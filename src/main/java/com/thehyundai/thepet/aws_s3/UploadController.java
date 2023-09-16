@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.aws_s3;
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @Tag(name = "S3 Upload Controller", description = "S3 이미지 업로드 컨트롤러")
 @RequestMapping("/api/upload")
 @RequiredArgsConstructor

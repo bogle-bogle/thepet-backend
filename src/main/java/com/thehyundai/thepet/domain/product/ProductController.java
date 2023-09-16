@@ -15,13 +15,13 @@ import java.util.Map;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/product")
 public class ProductController {
     private final ProductService productService;
 
     @PostMapping("/general")
-    @TimeTraceController
     @Operation(summary = "일반 상품 등록", description = "백오피스 상품 등록")
     public ResponseEntity<?> createGeneralProduct(@RequestBody ProductVO productVO) {
         productService.createGeneralProduct(productVO);
@@ -29,7 +29,6 @@ public class ProductController {
     }
 
     @GetMapping("/search")
-    @TimeTraceController
     @Operation(summary = "카테고리와 상품명으로 상품 검색", description = "백오피스 구독 상품 등록")
     public ResponseEntity<?> searchProductsForCuration(@RequestParam(name="main-category") String mainCategory,
                                                        @RequestParam(name="keyword") String keyword) {
@@ -42,7 +41,6 @@ public class ProductController {
     }
 
     @PostMapping("/list/{page}")
-    @TimeTraceController
     public ResponseEntity<ProductListVO> getProducts(@PathVariable int page, @RequestBody FilterVO filterVO) {
         log.info(filterVO);
         filterVO.setPage((page - 1) * 20 + 1);
@@ -51,7 +49,6 @@ public class ProductController {
         return ResponseEntity.ok(result);
     }
     @GetMapping("/{id}")
-    @TimeTraceController
     public ResponseEntity<ProductVO> getProductDetail(@PathVariable String id) {
         return ResponseEntity.ok(productService.getProductDetail(id));
     }

@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequestMapping("/api/club")
 @RequiredArgsConstructor
 public class ClubController {
     private final PetService petService;
 
     @PostMapping
-    @TimeTraceController
     public ResponseEntity<String> club(@RequestHeader("Authorization") String token, @RequestBody PetVO petVO){
         return ResponseEntity.ok(petService.registerClub(token,petVO));
     }
