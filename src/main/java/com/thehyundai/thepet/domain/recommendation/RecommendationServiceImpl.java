@@ -11,6 +11,7 @@ import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -27,6 +28,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     @TimeTraceService
+    @Cacheable(value= "recommendProductSimply", key="#petId", cacheManager = "contentCacheManager")
     public RecommendationVO recommendProductsSimply(String petId) {
         // 0. 반려동물 정보 가져오기
         PetVO petInfo = entityValidator.getPresentPet(petId);
@@ -51,6 +53,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     @TimeTraceService
+    @Cacheable(value= "recommendProductDetail", key="#petId", cacheManager = "contentCacheManager")
     public RecommendationVO recommendProductsInDetail(String petId) {
         // 0. 반려동물 정보 가져오기
         PetVO petInfo = entityValidator.getPresentPet(petId);

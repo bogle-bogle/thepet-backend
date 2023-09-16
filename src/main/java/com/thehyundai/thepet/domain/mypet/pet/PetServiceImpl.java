@@ -45,7 +45,6 @@ public class PetServiceImpl implements PetService {
 
     @Override
     @TimeTraceService
-    @Cacheable(value= "myPetCache", key="#memberId", cacheManager = "contentCacheManager")
     public List<PetVO> myPet(String memberId) {
         entityValidator.getPresentMember(memberId);
         return petMapper.myPet(memberId);
