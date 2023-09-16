@@ -115,6 +115,10 @@ public class TimeTraceAspect {
         StringBuilder parameters = new StringBuilder();
 
         for (Object it : joinPoint.getArgs()) {
+            if (it instanceof String && ((String) it).startsWith("Bearer")) {
+                // 'Bearer'로 시작하는 문자열이면 null 반환
+                return null;
+            }
             parameters.append(" ");
             parameters.append(it.toString());
         }

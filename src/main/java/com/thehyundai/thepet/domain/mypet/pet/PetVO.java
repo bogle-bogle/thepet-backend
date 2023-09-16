@@ -1,6 +1,10 @@
 package com.thehyundai.thepet.domain.mypet.pet;
 
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +18,8 @@ public class PetVO {
     private String id;
     private String petImgUrl;
     private String name;
+    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
     private LocalDate birth;
     private String memberId;
     private String favoriteFoodIngredients;
