@@ -25,6 +25,7 @@ public class PetServiceImpl implements PetService {
     private final EntityValidator entityValidator;
 
     @Override
+    @TimeTraceService
     public String registerClub(String token, PetVO petVO) {
         log.info(petVO);
         String memberId = authTokensGenerator.extractMemberId(token);
@@ -35,6 +36,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @TimeTraceService
     public Integer updateFeed(PetVO petVO,String id) {
         petVO.setId(id);
         findFavoriteProteinCode(petVO).ifPresent(petVO::setFavoriteProteinCode);
@@ -50,16 +52,18 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @TimeTraceService
     public List<CmCodeVO> getAllCode() {
         return cmCodeMapper.getAllCode();
     }
 
     @Override
+    @TimeTraceService
     public List<PetVO> findPetsWithAllergies(String memberId) {
         List<PetVO> pets = petMapper.findPetsWithAllergiesByMemberId(memberId);
         return pets;
     }
-
+    @TimeTraceService
     private Optional<String> findFavoriteProteinCode(PetVO petVO) {
         List<String> ingredients = List.of(petVO.getFavoriteFoodIngredients().split(","));
 
@@ -69,7 +73,7 @@ public class PetServiceImpl implements PetService {
                           .map(Optional::get)
                           .findFirst();
     }
-
+    @TimeTraceService
     private Optional<String> getProteinCodeValue(String ingredientName) {
         return Arrays.stream(ProteinCmCode.values())
                      .filter(protein -> ingredientName.contains(protein.getName()))

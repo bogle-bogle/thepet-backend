@@ -2,6 +2,7 @@ package com.thehyundai.thepet.domain.member;
 
 import com.thehyundai.thepet.domain.mypet.pet.PetService;
 import com.thehyundai.thepet.domain.mypet.pet.PetVO;
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class MemberController {
     private final PetService petService;
 
     @PostMapping("/login")
+    @TimeTraceController
     public ResponseEntity<?> loginOrRegister(@RequestBody MemberVO requestVO) {
         MemberVO member = memberService.loginOrRegister(requestVO);
         List<PetVO> pets = petService.findPetsWithAllergies(member.getId());

@@ -1,6 +1,7 @@
 package com.thehyundai.thepet.domain.subscription;
 
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class SubsController {
     private final SubsService subsService;
 
     @GetMapping("/curation/monthly")
+    @TimeTraceController
     @Operation(summary = "이 달의 더펫박스 조회하기", description = "이번 달의 더펫박스 상세 정보를 불러옵니다.")    // API 정보 설정
     public ResponseEntity<?> showCurationOfCurrMonth() {
         CurationVO result = subsService.showCurationOfCurrMonth();
@@ -30,6 +32,7 @@ public class SubsController {
     }
 
     @GetMapping("/curation/annual")
+    @TimeTraceController
     @Operation(summary = "지난 1년간의 더펫박스 조회하기", description = "지난 1년간의 더펫박스 상세 정보를 불러옵니다.")
     public ResponseEntity<?> showCurationOfLastOneYear() {
         List<CurationVO> result = subsService.showCurationOfLastOneYear();
@@ -37,6 +40,7 @@ public class SubsController {
     }
 
     @GetMapping("/curation/{curationId}")
+    @TimeTraceController
     @Operation(summary = "더펫박스 상세 조회하기", description = "curationId를 이용하여 한 개의 더펫박스 상세 정보를 불러옵니다.")
     public ResponseEntity<?> showCurationDetail(@PathVariable String curationId) {
         CurationVO curation = subsService.showCurationDetail(curationId);

@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.subscription;
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,6 +19,7 @@ public class CurationController {
     private final CurationService curationService;
 
     @PostMapping
+    @TimeTraceController
     @Operation(summary = "월간 구독 상품 등록", description = "백오피스 상품 등록")
     public ResponseEntity<?> createGeneralProduct(@RequestBody CurationVO curationVO) {
         curationService.createCuration(curationVO);

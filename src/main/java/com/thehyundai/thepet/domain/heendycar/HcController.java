@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.heendycar;
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import com.thehyundai.thepet.sms.HcSmsEvent;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,6 +23,7 @@ public class HcController {
     private final ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/branch")
+    @TimeTraceController
     @Operation(summary = "흰디카 대여 가능한 모든 지점 조회하기", description = "흰디카 예약을 위해, 해당하는 모든 지점 정보를 불러옵니다.")
     public ResponseEntity<?> showAllBranches() {
         List<HcBranchVO> result = hcService.showAllBranches();
@@ -29,6 +31,7 @@ public class HcController {
     }
 
     @PostMapping("/reservation")
+    @TimeTraceController
     @Operation(summary = "흰디카 예약하기", description = "날짜, 지점을 선택하여 흰디카 예약을 생성합니다.")
     public ResponseEntity<?> createReservation(@RequestHeader("Authorization") String token,  @RequestBody HcReservationVO requestVO) {
         HcReservationVO reservation = hcService.createReservation(token, requestVO);
@@ -43,6 +46,7 @@ public class HcController {
     }
 
     @GetMapping("/branch/{branchCode}")
+    @TimeTraceController
     @Operation(summary = "지점별 흰디카 잔여 개수 조회하기", description = "지점을 선택하면, 해당 지점 흰디카 정보를 불러옵니다.")
     public ResponseEntity<?> showBranchHeendyCar(@PathVariable String branchCode) {
         HcBranchVO result = hcService.showBranchInfo(branchCode);

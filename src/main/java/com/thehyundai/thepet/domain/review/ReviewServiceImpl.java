@@ -1,6 +1,7 @@
 package com.thehyundai.thepet.domain.review;
 
 import com.thehyundai.thepet.global.exception.BusinessException;
+import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,13 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewMapper reviewMapper;
 
     @Override
+    @TimeTraceService
     public List<ReviewVO> getAllReviews(String productId) {
         return reviewMapper.selectAllReviews(productId);
     }
 
     @Override
+    @TimeTraceService
     public ReviewVO getReviewDetail(String id) {
         ReviewVO result = reviewMapper.selectReviewDetail(id);
         if (result == null) {

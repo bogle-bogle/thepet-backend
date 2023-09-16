@@ -8,8 +8,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.HandlerMethod;
 
 import java.lang.reflect.Method;
 
@@ -20,13 +23,18 @@ public class TimeTraceAspect {
     @Autowired
     private AopMapper aopMapper;
 
+    @Autowired
+    private ControllerInfoAspect controllerInfoAspect;
+
     @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.TimeTraceService)")
     private void timeTraceServicePointcut() {
     }
 
     @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.TimeTraceController)")
-    private void timeTraceControllerPointcut() {
+    private void timeTraceControllerPointcut(){
     }
+
+
 
     @Around("timeTraceServicePointcut() && @annotation(timeTrace)")
     public Object traceTime(ProceedingJoinPoint joinPoint, TimeTraceService timeTrace) throws Throwable {
@@ -65,17 +73,20 @@ public class TimeTraceAspect {
             double executionTimeMillis = stopWatch.getTotalTimeMillis();
             String executionTimeFormatted = String.format("%.2f", executionTimeMillis);
             String methodName = getMethodName(joinPoint);
-            String requestName =getClassName(joinPoint);
+
+
+            String requestMapping =getRequestMapping(joinPoint);
             String parameterName = getParameter(joinPoint);
 
             AopControllerVO timeTraceControllerInfo = new AopControllerVO();
             timeTraceControllerInfo.setParameterName(parameterName);
             timeTraceControllerInfo.setMethodName(methodName);
+            timeTraceControllerInfo.setRequestMapping(requestMapping);
             timeTraceControllerInfo.setExecutionTime(executionTimeFormatted);
 
             aopMapper.saveAOPControllerTable(timeTraceControllerInfo);
             // timeTraceInfo 객체를 원하는 대로 로깅하거나 데이터베이스에 저장
-            log.info("URL: {}, Method: {}, Execution Time: {}ms", requestName, methodName, executionTimeFormatted);
+            log.info("URL: {}, Method: {}, Execution Time: {}ms", requestMapping, methodName, executionTimeFormatted);
         }
     }
 
@@ -109,4 +120,44 @@ public class TimeTraceAspect {
         return parameters.toString();
     }
 
+
+    // 매핑된 URL 가져오기
+    public String getRequestMapping(JoinPoint joinPoint) {
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Method method = signature.getMethod();
+
+
+        String baseUrl = controllerInfoAspect.getBaseUrl();
+        GetMapping getMappingAnnotation = method.getAnnotation(GetMapping.class);
+        if (getMappingAnnotation != null && getMappingAnnotation.value().length > 0) {
+            return baseUrl + getMappingAnnotation.value()[0];
+        }
+
+        // PostMapping 처리
+        PostMapping postMappingAnnotation = method.getAnnotation(PostMapping.class);
+        if (postMappingAnnotation != null && postMappingAnnotation.value().length > 0) {
+            return baseUrl + postMappingAnnotation.value()[0];
+        }
+
+        // DeleteMapping 처리
+        DeleteMapping deleteMappingAnnotation = method.getAnnotation(DeleteMapping.class);
+        if (deleteMappingAnnotation != null && deleteMappingAnnotation.value().length > 0) {
+            return baseUrl + deleteMappingAnnotation.value()[0];
+        }
+
+        // PatchMapping 처리
+        PatchMapping patchMappingAnnotation = method.getAnnotation(PatchMapping.class);
+        if (patchMappingAnnotation != null && patchMappingAnnotation.value().length > 0) {
+            return baseUrl + patchMappingAnnotation.value()[0];
+        }
+
+        // PutMapping 처리
+        PutMapping putMappingAnnotation = method.getAnnotation(PutMapping.class);
+        if (putMappingAnnotation != null && putMappingAnnotation.value().length > 0) {
+            return baseUrl + putMappingAnnotation.value()[0];
+        }
+
+        // 기본 URL 반환
+        return baseUrl;
+    }
 }
