@@ -21,10 +21,10 @@ public class PetController {
     private final PetService petService;
     private final AuthTokensGenerator authTokensGenerator;
 
-    @PutMapping("/feed/{id}")
+    @PutMapping("/feed/{petId}")
     @Operation(summary = "반려동물이 좋아하는 사료 정보 저장하기", description = "반려동물이 가장 좋아하는 사료의 전 성분, 주 성분, 사료 표지 이미지, 사료 성분표 이미지를 저장합니다.")
-    public ResponseEntity<Integer> updateFeed(@PathVariable String id, @RequestBody PetVO petVO){
-        return ResponseEntity.ok(petService.updateFeed(petVO,id));
+    public ResponseEntity<Integer> updateFeed(@PathVariable String petId, @RequestBody PetVO petVO){
+        return ResponseEntity.ok(petService.updateFeed(petVO,petId));
     }
 
     @GetMapping
@@ -40,4 +40,12 @@ public class PetController {
     public ResponseEntity<List<CmCodeVO>> getAllCode(){
         return ResponseEntity.ok(petService.getAllCode());
     }
+
+    @PutMapping("/mbti/{petId}")
+    @Operation(summary = "반려동물 MBTI 저장하기", description = "반려동물의 MBTI를 저장합니다.")
+    public ResponseEntity<?> updateMbti(@PathVariable String petId, @RequestBody PetVO petVO) {
+        PetVO result = petService.updateMbti(petId, petVO);
+        return ResponseEntity.ok(result);
+    }
+
 }

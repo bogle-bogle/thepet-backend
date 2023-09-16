@@ -16,4 +16,6 @@ public interface PetService {
     List<CmCodeVO> getAllCode();
 
     List<PetVO> findPetsWithAllergies(String memberId);
+
+    PetVO updateMbti(String petId, PetVO petVO);
 }

@@ -35,12 +35,6 @@
         SELECT * FROM PRODUCT WHERE id = #{id}
     </select>
 
-
-    <select id="findProductsBySimplePetInfo" parameterType="PetVO" resultType="ProductVO">
-        SELECT * FROM PRODUCT
-        WHERE SUB_CATEGORY_CODE = #{ageCode, jdbcType=VARCHAR} OR PROTEIN_CODE = #{favoriteProteinCode}
-    </select>
-
     <select id="findProductsByFavoriteProteinCode" parameterType="String" resultType="ProductVO">
         SELECT * FROM PRODUCT
         WHERE PROTEIN_CODE = #{favoriteProteinCode}
@@ -80,7 +74,7 @@
             ORDER_DETAIL OD ON O.ID = OD.ORDER_ID
                 JOIN
             PRODUCT P ON OD.PRODUCT_ID = P.ID
-        WHERE PT.MBTI = UPPER(#{mbtiType})
+        WHERE PT.MBTI = #{mbtiType}
         GROUP BY P.ID, P.NAME
         ORDER BY ORDERED_CNT DESC
     </select>

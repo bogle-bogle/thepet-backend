@@ -65,7 +65,7 @@ public class RecommendationServiceImpl implements RecommendationService {
 
     @Override
     public List<ProductVO> recommendProductsByMbti(String mbtiType) {
-        List<ProductVO> recommendations = productMapper.findProductsByMbti(mbtiType)
+        List<ProductVO> recommendations = productMapper.findProductsByMbti(mbtiType.toUpperCase())
                                                        .stream()
                                                        .distinct()
                                                        .limit(4)
