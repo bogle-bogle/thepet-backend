@@ -46,7 +46,8 @@ public class TimeTraceAspect {
         } finally {
             stopWatch.stop();
             double executionTimeMillis = stopWatch.getTotalTimeMillis();
-            String executionTimeFormatted = String.format("%.2f", executionTimeMillis);
+            double executionTimeSeconds = executionTimeMillis / 1000.0; // 밀리초를 초로 변환
+            String executionTimeFormatted = String.format("%.2f", executionTimeSeconds); // 소수점 두 자리까지 표시
             String methodName = getMethodName(joinPoint);
             String requestName =getClassName(joinPoint);
 
@@ -71,7 +72,8 @@ public class TimeTraceAspect {
         } finally {
             stopWatch.stop();
             double executionTimeMillis = stopWatch.getTotalTimeMillis();
-            String executionTimeFormatted = String.format("%.2f", executionTimeMillis);
+            double executionTimeSeconds = executionTimeMillis / 1000.0; // 밀리초를 초로 변환
+            String executionTimeFormatted = String.format("%.2f", executionTimeSeconds); // 소수점 두 자리까지 표시
             String methodName = getMethodName(joinPoint);
 
 
