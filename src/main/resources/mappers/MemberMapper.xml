@@ -52,4 +52,9 @@
              )
     </insert>
 
+    <update id="updateMemberInfo" parameterType="MemberVO">
+        UPDATE MEMBER
+        SET PHONE_NUMBER = #{phoneNumber}
+        WHERE ID = #{id}
+    </update>
 </mapper>

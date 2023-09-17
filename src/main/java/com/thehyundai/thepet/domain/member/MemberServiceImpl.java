@@ -36,6 +36,12 @@ public class MemberServiceImpl implements MemberService{
         if (memberMapper.register(member) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
         return member;
     }
+
+    @Override
+    public MemberVO updateMemberInfo(MemberVO memberVO) {
+        if (memberMapper.updateMemberInfo(memberVO) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+        return memberVO;
+    }
 }
 
 

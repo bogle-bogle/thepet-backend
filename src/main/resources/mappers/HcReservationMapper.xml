@@ -39,4 +39,16 @@
         WHERE ID = #{id}
     </update>
 
+    <select id="showAllMyReservations" parameterType="String">
+        SELECT r.ID,
+               r.RESERVATION_TIME,
+               r.CREATED_AT,
+               r.BRANCH_CODE,
+               b.IMG_URL AS branchImgUrl
+        FROM HEENDY_CAR_RESERVATION r
+        JOIN BRANCH_HEENDY_CAR b
+            ON r.BRANCH_CODE = b.BRANCH_CODE
+        WHERE r.MEMBER_ID = #{memberId}
+    </select>
+
 </mapper>

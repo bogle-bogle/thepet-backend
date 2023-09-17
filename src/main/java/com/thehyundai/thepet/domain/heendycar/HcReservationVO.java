@@ -19,4 +19,6 @@ public class HcReservationVO {
     private String pickupYn;
     private String cancelYn;
     private String returnYn;
+    private String branchImgUrl;
+    private String phoneNumber;
 }

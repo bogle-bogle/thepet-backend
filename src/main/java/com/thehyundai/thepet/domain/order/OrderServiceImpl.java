@@ -22,6 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
@@ -99,6 +101,7 @@ public class OrderServiceImpl implements OrderService {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
+        requestVO.setMemberId(memberId);
         ProductVO product = productService.getProductDetail(requestVO.getProductId());
 
         // 1. ORDER 테이블에 저장
@@ -135,6 +138,25 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    @Override
+    public List<OrderVO> showMyNormalOrdersWithDetails(String token) {
+        String memberId = authTokensGenerator.extractMemberId(token);
+        entityValidator.getPresentMember(memberId);
+
+        List<OrderVO> result = orderMapper.showMyNormalOrdersWithDetails(memberId);
+        return result;    }
+
+    @Override
+    public Map<String, List<OrderVO>> showMySubscriptionWithDetails(String token) {
+        String memberId = authTokensGenerator.extractMemberId(token);
+        entityValidator.getPresentMember(memberId);
+
+        Map<String, List<OrderVO>> result = orderMapper.showMySubscriptionWithDetails(memberId)
+                                                       .stream()
+                                                       .collect(Collectors.groupingBy(order -> "Y".equals(order.getCurationYn()) ? "curationY" : "curationN"));
+        return result;
+    }
+
     private OrderVO buildCurationOrder(String memberId, CurationVO curation) {
         return OrderVO.builder()
                       .totalCnt(1)
@@ -142,6 +164,7 @@ public class OrderServiceImpl implements OrderService {
                       .createdAt(LocalDate.now())
                       .memberId(memberId)
                       .subscribeYn(TableStatus.Y.getValue())
+                      .curationYn(TableStatus.Y.getValue())
                       .build();
     }
 
@@ -151,7 +174,7 @@ public class OrderServiceImpl implements OrderService {
                             .cnt(1)
                             .curationId(curation.getId())
                             .curationName(curation.getName())
-                            .curationImgUrl(curation.getImgUrl())
+                            .curationImgUrl(curation.getThumbnailImgUrl())
                             .curationPrice(curation.getPrice())
                             .build();
     }

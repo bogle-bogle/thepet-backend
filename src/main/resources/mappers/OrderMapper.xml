@@ -11,6 +11,7 @@
              CREATED_AT,
              MEMBER_ID,
              SUBSCRIBE_YN,
+             CURATION_YN,
              TOSS_ORDER_ID
              )
         VALUES
@@ -20,6 +21,7 @@
              #{createdAt},
              #{memberId},
              #{subscribeYn},
+             #{curationYn},
              #{tossOrderId}
              )
     </insert>
@@ -31,6 +33,7 @@
         <result property="createdAt" column="created_at" />
         <result property="memberId" column="member_id" />
         <result property="subscribeYn" column="subscribe_yn" />
+        <result property="curationYn" column="curation_yn" />
 
         <collection property="orderDetails" ofType="OrderDetailVO">
             <id property="detailId" column="detail_id" />
@@ -54,6 +57,7 @@
                o.CREATED_AT,
                o.MEMBER_ID,
                o.SUBSCRIBE_YN,
+               o.CURATION_YN,
                o.TOSS_ORDER_ID,
                od.DETAIL_ID AS DETAIL_ID,
                od.CNT,
@@ -65,6 +69,7 @@
         LEFT JOIN "ORDER_DETAIL" od
             ON o.ID = od.ORDER_ID
         WHERE o.ID = #{orderId}
+        ORDER BY o.CREATED_AT DESC
     </select>
 
     <select id="showAllMyOrdersWithDetails" resultMap="OrderWithDetails">
@@ -72,7 +77,31 @@
                o.TOTAL_CNT,
                o.TOTAL_PRICE,
                o.CREATED_AT,
-               o.MEMBER_ID,
+               o.SUBSCRIBE_YN,
+               o.CURATION_YN,
+               o.TOSS_ORDER_ID,
+               od.DETAIL_ID AS DETAIL_ID,
+               od.CNT,
+               od.PRODUCT_ID,
+               od.PRODUCT_NAME,
+               od.PRODUCT_IMG_URL,
+               od.PRODUCT_PRICE,
+               od.CURATION_ID,
+               od.CURATION_NAME,
+               od.CURATION_IMG_URL,
+               od.CURATION_PRICE
+        FROM "ORDER" o
+        LEFT JOIN "ORDER_DETAIL" od
+            ON o.ID = od.ORDER_ID
+        WHERE o.MEMBER_ID = #{memberId}
+        ORDER BY o.CREATED_AT DESC
+    </select>
+
+    <select id="showMyNormalOrdersWithDetails" resultMap="OrderWithDetails">
+        SELECT o.ID,
+               o.TOTAL_CNT,
+               o.TOTAL_PRICE,
+               o.CREATED_AT,
                o.SUBSCRIBE_YN,
                o.TOSS_ORDER_ID,
                od.DETAIL_ID AS DETAIL_ID,
@@ -85,6 +114,34 @@
         LEFT JOIN "ORDER_DETAIL" od
             ON o.ID = od.ORDER_ID
         WHERE o.MEMBER_ID = #{memberId}
+            AND SUBSCRIBE_YN = 'N'
+        ORDER BY o.CREATED_AT DESC
+    </select>
+
+    <select id="showMySubscriptionWithDetails" resultMap="OrderWithDetails">
+        SELECT o.ID,
+               o.TOTAL_CNT,
+               o.TOTAL_PRICE,
+               o.CREATED_AT,
+               o.SUBSCRIBE_YN,
+               o.CURATION_YN,
+               o.TOSS_ORDER_ID,
+               od.DETAIL_ID AS DETAIL_ID,
+               od.CNT,
+               od.PRODUCT_ID,
+               od.PRODUCT_NAME,
+               od.PRODUCT_IMG_URL,
+               od.PRODUCT_PRICE,
+               od.CURATION_ID,
+               od.CURATION_NAME,
+               od.CURATION_IMG_URL,
+               od.CURATION_PRICE
+        FROM "ORDER" o
+        LEFT JOIN "ORDER_DETAIL" od
+            ON o.ID = od.ORDER_ID
+        WHERE o.MEMBER_ID = #{memberId}
+            AND SUBSCRIBE_YN = 'Y'
+        ORDER BY o.CREATED_AT DESC
     </select>
 
 </mapper>
