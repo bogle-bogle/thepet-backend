@@ -49,10 +49,10 @@ public class PetServiceImpl implements PetService {
         return result;
     }
 
-    @Override
-    public List<CmCodeVO> getAllCode() {
-        return cmCodeMapper.getAllCode();
-    }
+//    @Override
+//    public List<CmCodeVO> getAllCode() {
+//        return cmCodeMapper.getAllCode();
+//    }
 
     @Override
     public List<PetVO> findPetsWithAllergies(String memberId) {

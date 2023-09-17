@@ -13,7 +13,7 @@ public interface PetService {
 
     List<PetVO> myPet(String memberId);
 
-    List<CmCodeVO> getAllCode();
+//    List<CmCodeVO> getAllCode();
 
     List<PetVO> findPetsWithAllergies(String memberId);
 

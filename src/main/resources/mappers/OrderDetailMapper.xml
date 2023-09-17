@@ -1,17 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thehyundai.thepet.domain.order.OrderDetailMapper">
 
-    <insert id="saveOrderDetail" useGeneratedKeys="true" parameterType="OrderDetailVO">
-        <selectKey keyProperty="detailId" resultType="String" order="AFTER">
-            SELECT ORDER_DETAIL_SEQ.currval From DUAL
-        </selectKey>
-        INSERT INTO "ORDER_DETAIL" (ORDER_ID, CNT, PRODUCT_ID, PRODUCT_NAME, PRODUCT_IMG_URL, CURATION_ID, CURATION_NAME, CURATION_IMG_URL, CURATION_PRICE)
-        VALUES (#{orderId}, #{cnt}, #{productId}, #{productName}, #{productImgUrl}, #{curationId}, #{curationName}, #{curationImgUrl}, #{curationPrice})
+    <insert id="saveOrderDetail" useGeneratedKeys="true" parameterType="OrderDetailVO" keyProperty="detailId" keyColumn="detail_id">
+        INSERT INTO "ORDER_DETAIL"
+            (
+             ORDER_ID,
+             CNT,
+             PRODUCT_ID,
+             PRODUCT_NAME,
+             PRODUCT_IMG_URL,
+             CURATION_ID,
+             CURATION_NAME,
+             CURATION_IMG_URL,
+             CURATION_PRICE
+             )
+        VALUES
+            (
+             #{orderId},
+             #{cnt},
+             #{productId},
+             #{productName},
+             #{productImgUrl},
+             #{curationId},
+             #{curationName},
+             #{curationImgUrl},
+             #{curationPrice}
+             )
     </insert>
-
-
 
 </mapper>

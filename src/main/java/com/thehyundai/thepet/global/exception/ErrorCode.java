@@ -13,6 +13,8 @@ public enum ErrorCode {
     TYPE_MISMATCH("입력된 enum값이 유효하지 않습니다.", 400),
     METHOD_NOT_ALLOWED("유효하지 않은 HTTP method입니다.", 400),
 
+    EXPIRED_TOKEN("만료된 토큰입니다. 재로그인이 필요합니다.", 401),
+
     // 403 FORBIDDEN
 
     // 404 NOT FOUND
