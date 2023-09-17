@@ -68,6 +68,7 @@
                THUMBNAIL_IMG_URL
         FROM CURATION
         WHERE PAYMENT_DATE >= #{paymentDate}
+        ORDER BY PAYMENT_DATE DESC
     </select>
 
 </mapper>
