@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.heendycar;
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import com.thehyundai.thepet.sms.HcSmsEvent;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,6 +15,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @Tag(name = "HeendyCar Controller", description = "흰디카 관련 컨트롤러")
 @RequestMapping("/api/hc")

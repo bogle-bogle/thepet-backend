@@ -5,6 +5,7 @@ import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.domain.product.ProductService;
 import com.thehyundai.thepet.domain.product.ProductVO;
+import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.stream.Stream;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class SubsServiceImpl implements SubsService {
     private final SubsMapper subsMapper;
     private final CurationMapper curationMapper;

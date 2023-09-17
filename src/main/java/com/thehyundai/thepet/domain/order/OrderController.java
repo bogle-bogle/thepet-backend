@@ -1,6 +1,7 @@
 package com.thehyundai.thepet.domain.order;
 
 import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
 @Tag(name = "Order Controller", description = "주문 관련 컨트롤러")

@@ -13,6 +13,7 @@ import com.thehyundai.thepet.domain.subscription.CurationVO;
 import com.thehyundai.thepet.domain.subscription.SubsService;
 import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
+import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ import java.util.List;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderDetailMapper orderDetailMapper;

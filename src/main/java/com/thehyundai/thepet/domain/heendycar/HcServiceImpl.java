@@ -6,6 +6,7 @@ import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.cmcode.CmCodeValidator;
 import com.thehyundai.thepet.global.EntityValidator;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
+import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class HcServiceImpl implements HcService {
     private final HcBranchMapper branchMapper;
     private final HcReservationMapper reservationMapper;
@@ -61,6 +63,7 @@ public class HcServiceImpl implements HcService {
     }
 
 
+
     private void handleAutoCancellation(String reservationId) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
         executor.schedule(() -> cancelIfNotPickedUp(reservationId), 30, TimeUnit.SECONDS);           // 30초 -> 30분으로 변경 예정
@@ -90,7 +93,6 @@ public class HcServiceImpl implements HcService {
             throw new BusinessException(ErrorCode.NOT_AVAILABLE_RESERVATION_TIME);
         }
     }
-
     private HcReservationVO buildReservation(String memberId, HcReservationVO requestVO) {
         return HcReservationVO.builder()
                                      .branchCode(requestVO.getBranchCode())

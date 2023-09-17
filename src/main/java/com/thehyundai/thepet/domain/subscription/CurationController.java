@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.subscription;
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/curation")
 public class CurationController {
