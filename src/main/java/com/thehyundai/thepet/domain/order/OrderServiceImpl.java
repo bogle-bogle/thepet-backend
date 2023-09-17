@@ -174,7 +174,7 @@ public class OrderServiceImpl implements OrderService {
                             .cnt(1)
                             .curationId(curation.getId())
                             .curationName(curation.getName())
-                            .curationImgUrl(curation.getImgUrl())
+                            .curationImgUrl(curation.getThumbnailImgUrl())
                             .curationPrice(curation.getPrice())
                             .build();
     }

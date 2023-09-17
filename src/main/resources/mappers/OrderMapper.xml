@@ -69,6 +69,7 @@
         LEFT JOIN "ORDER_DETAIL" od
             ON o.ID = od.ORDER_ID
         WHERE o.ID = #{orderId}
+        ORDER BY o.CREATED_AT DESC
     </select>
 
     <select id="showAllMyOrdersWithDetails" resultMap="OrderWithDetails">
@@ -87,11 +88,13 @@
                od.PRODUCT_PRICE,
                od.CURATION_ID,
                od.CURATION_NAME,
-               od.CURATION_IMG_URL
+               od.CURATION_IMG_URL,
+               od.CURATION_PRICE
         FROM "ORDER" o
         LEFT JOIN "ORDER_DETAIL" od
             ON o.ID = od.ORDER_ID
         WHERE o.MEMBER_ID = #{memberId}
+        ORDER BY o.CREATED_AT DESC
     </select>
 
     <select id="showMyNormalOrdersWithDetails" resultMap="OrderWithDetails">
@@ -112,6 +115,7 @@
             ON o.ID = od.ORDER_ID
         WHERE o.MEMBER_ID = #{memberId}
             AND SUBSCRIBE_YN = 'N'
+        ORDER BY o.CREATED_AT DESC
     </select>
 
     <select id="showMySubscriptionWithDetails" resultMap="OrderWithDetails">
@@ -130,12 +134,14 @@
                od.PRODUCT_PRICE,
                od.CURATION_ID,
                od.CURATION_NAME,
-               od.CURATION_IMG_URL
+               od.CURATION_IMG_URL,
+               od.CURATION_PRICE
         FROM "ORDER" o
         LEFT JOIN "ORDER_DETAIL" od
             ON o.ID = od.ORDER_ID
         WHERE o.MEMBER_ID = #{memberId}
             AND SUBSCRIBE_YN = 'Y'
+        ORDER BY o.CREATED_AT DESC
     </select>
 
 </mapper>
