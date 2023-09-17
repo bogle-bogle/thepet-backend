@@ -11,4 +11,5 @@ public interface HcService {
     HcReservationVO createReservation(String token, HcReservationVO requestVO);
 
 
+    List<HcReservationVO> showBranchReservation(String branchCode);
 }

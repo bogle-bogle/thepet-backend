@@ -60,6 +60,11 @@ public class HcServiceImpl implements HcService {
         return reservation;
     }
 
+    @Override
+    public List<HcReservationVO> showBranchReservation(String branchCode) {
+        return reservationMapper.findBranchReservation(branchCode);
+    }
+
 
     private void handleAutoCancellation(String reservationId) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();

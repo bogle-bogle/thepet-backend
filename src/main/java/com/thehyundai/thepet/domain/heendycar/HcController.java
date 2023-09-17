@@ -49,4 +49,11 @@ public class HcController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/branch/{branchCode}/reservation")
+    @Operation(summary = "지점별 흰디카 예약현황 조회하기", description = "지점을 선택하면, 해당 지점 흰디카 정보를 불러옵니다.")
+    public ResponseEntity<?> showBranchReservation(@PathVariable String branchCode) {
+        List<HcReservationVO> result = hcService.showBranchReservation(branchCode);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
