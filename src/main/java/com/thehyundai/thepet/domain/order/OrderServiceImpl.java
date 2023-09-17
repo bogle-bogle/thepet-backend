@@ -99,6 +99,7 @@ public class OrderServiceImpl implements OrderService {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
+        requestVO.setMemberId(memberId);
         ProductVO product = productService.getProductDetail(requestVO.getProductId());
 
         // 1. ORDER 테이블에 저장
