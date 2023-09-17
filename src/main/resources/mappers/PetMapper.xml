@@ -5,12 +5,9 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.mypet.pet.PetMapper">
 
-    <insert id="registerClub" parameterType="PetVO">
+    <insert id="registerClub" parameterType="PetVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
             CALL InsertPetWithAllergies
             (#{petImgUrl},#{name},#{birth},#{memberId},#{favoriteFoodIngredients},#{feedMainImgUrl},#{mbti},#{breedCode},#{animalTypeCode},#{allergyCode},#{feedDescImgUrl},#{sizeCode},#{favoriteProteinCode})
-            <selectKey keyProperty="id" resultType="String" order="AFTER">
-                SELECT PET_SEQ.CURRVAL FROM DUAL
-            </selectKey>
     </insert>
 
     <update id="updateFeed" parameterType="PetVO">
@@ -62,6 +59,8 @@
         <result property="birth" column="birth" />
         <result property="memberId" column="member_id" />
         <result property="favoriteFoodIngredients" column="favorite_food_ingredients" />
+        <result property="feedMainImgUrl" column="feed_main_img_url" />
+        <result property="feedDescImgUrl" column="feed_desc_img_url" />
         <result property="imgUrl" column="img_url" />
         <result property="mbti" column="mbti" />
         <result property="breedCode" column="breed_code" />

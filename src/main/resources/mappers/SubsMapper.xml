@@ -5,18 +5,12 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.subscription.SubsMapper">
 
-    <insert id="saveCurationSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT SUBSCRIPTION_SEQ.currval From DUAL
-        </selectKey>
+    <insert id="saveCurationSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO" keyProperty="id" keyColumn="id">
         INSERT INTO SUBSCRIPTION (START_DATE, END_DATE, MEMBER_ID, CURATION_ID, PRODUCT_ID, CURATION_YN)
         VALUES (#{startDate}, #{endDate}, #{memberId}, #{curationId}, #{productId}, #{curationYn})
     </insert>
 
-    <insert id="saveProductSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT SUBSCRIPTION_SEQ.currval From DUAL
-        </selectKey>
+    <insert id="saveProductSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO" keyProperty="id" keyColumn="id">
         INSERT INTO SUBSCRIPTION (START_DATE, END_DATE, MEMBER_ID, CURATION_ID, PRODUCT_ID, CURATION_YN)
         VALUES (#{startDate}, #{endDate}, #{memberId}, #{curationId}, #{productId}, #{curationYn})
     </insert>

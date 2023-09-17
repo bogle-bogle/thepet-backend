@@ -11,10 +11,7 @@
           AND (NAME LIKE '%' || #{keyword} || '%')
     </select>
 
-    <insert id="saveGeneralProduct" parameterType="ProductVO" useGeneratedKeys="true">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT PRODUCT_SEQ.currval From DUAL
-        </selectKey>
+    <insert id="saveGeneralProduct" parameterType="ProductVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO PRODUCT (NAME, PRICE, MAIN_IMG_URL, DESC_IMG_URL, INGREDIENTS,
                                             MAIN_CATEGORY_CODE, SUB_CATEGORY_CODE, ANIMAL_TYPE_CODE, PROTEIN_CODE)
         VALUES (#{name}, #{price}, #{mainImgUrl}, #{descImgUrl}, #{ingredients},

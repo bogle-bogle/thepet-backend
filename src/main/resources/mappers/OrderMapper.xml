@@ -4,10 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.thehyundai.thepet.domain.order.OrderMapper">
 
-    <insert id="saveOrder" useGeneratedKeys="true" parameterType="OrderVO">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT ORDER_SEQ.currval From DUAL
-        </selectKey>
+    <insert id="saveOrder" useGeneratedKeys="true" parameterType="OrderVO" keyProperty="id" keyColumn="id">
         INSERT INTO "ORDER" (TOTAL_CNT, TOTAL_PRICE, CREATED_AT, MEMBER_ID, SUBSCRIBE_YN, TOSS_ORDER_ID)
         VALUES (#{totalCnt}, #{totalPrice}, #{createdAt}, #{memberId}, #{subscribeYn}, #{tossOrderId})
     </insert>

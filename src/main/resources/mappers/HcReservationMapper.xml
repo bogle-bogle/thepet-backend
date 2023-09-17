@@ -3,10 +3,7 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.heendycar.HcReservationMapper">
 
-    <insert id="saveReservation" parameterType="HcReservationVO" useGeneratedKeys="true">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT HEENDY_CAR_RESERVATION_SEQ.currval From DUAL
-        </selectKey>
+    <insert id="saveReservation" parameterType="HcReservationVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO HEENDY_CAR_RESERVATION (BRANCH_CODE, MEMBER_ID, RESERVATION_TIME, CREATED_AT) VALUES (#{branchCode}, #{memberId}, #{reservationTime}, #{createdAt})
     </insert>
 
