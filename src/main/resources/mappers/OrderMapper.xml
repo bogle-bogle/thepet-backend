@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.thehyundai.thepet.domain.order.OrderMapper">
 
     <insert id="saveOrder" useGeneratedKeys="true" parameterType="OrderVO" keyProperty="id" keyColumn="id">
-        INSERT INTO "ORDER" (TOTAL_CNT, TOTAL_PRICE, CREATED_AT, MEMBER_ID, SUBSCRIBE_YN, TOSS_ORDER_ID)
-        VALUES (#{totalCnt}, #{totalPrice}, #{createdAt}, #{memberId}, #{subscribeYn}, #{tossOrderId})
+        INSERT INTO "ORDER"
+            (
+             TOTAL_CNT,
+             TOTAL_PRICE,
+             CREATED_AT,
+             MEMBER_ID,
+             SUBSCRIBE_YN,
+             TOSS_ORDER_ID
+             )
+        VALUES
+            (
+             #{totalCnt},
+             #{totalPrice},
+             #{createdAt},
+             #{memberId},
+             #{subscribeYn},
+             #{tossOrderId}
+             )
     </insert>
 
     <resultMap id="OrderWithDetails" type="OrderVO">
@@ -33,16 +48,42 @@
     </resultMap>
 
     <select id="getOrderWithOrderDetailsById" resultMap="OrderWithDetails">
-        SELECT o.*, od.*, od.DETAIL_ID AS DETAIL_ID
+        SELECT o.ID,
+               o.TOTAL_CNT,
+               o.TOTAL_PRICE,
+               o.CREATED_AT,
+               o.MEMBER_ID,
+               o.SUBSCRIBE_YN,
+               o.TOSS_ORDER_ID,
+               od.DETAIL_ID AS DETAIL_ID,
+               od.CNT,
+               od.PRODUCT_ID,
+               od.PRODUCT_NAME,
+               od.PRODUCT_IMG_URL,
+               od.PRODUCT_PRICE
         FROM "ORDER" o
-            LEFT JOIN "ORDER_DETAIL" od ON o.id = od.order_id
-        WHERE o.id = #{orderId}
+        LEFT JOIN "ORDER_DETAIL" od
+            ON o.ID = od.ORDER_ID
+        WHERE o.ID = #{orderId}
     </select>
 
     <select id="showAllMyOrdersWithDetails" resultMap="OrderWithDetails">
-        SELECT o.*, od.*, od.DETAIL_ID AS DETAIL_ID
+        SELECT o.ID,
+               o.TOTAL_CNT,
+               o.TOTAL_PRICE,
+               o.CREATED_AT,
+               o.MEMBER_ID,
+               o.SUBSCRIBE_YN,
+               o.TOSS_ORDER_ID,
+               od.DETAIL_ID AS DETAIL_ID,
+               od.CNT,
+               od.PRODUCT_ID,
+               od.PRODUCT_NAME,
+               od.PRODUCT_IMG_URL,
+               od.PRODUCT_PRICE
         FROM "ORDER" o
-            LEFT JOIN "ORDER_DETAIL" od ON o.id = od.order_id
+        LEFT JOIN "ORDER_DETAIL" od
+            ON o.ID = od.ORDER_ID
         WHERE o.MEMBER_ID = #{memberId}
     </select>
 

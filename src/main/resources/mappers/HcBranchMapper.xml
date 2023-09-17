@@ -4,15 +4,26 @@
 <mapper namespace="com.thehyundai.thepet.domain.heendycar.HcBranchMapper">
 
     <select id="findBranchInfoByBranchCode" resultType="HcBranchVO">
-        SELECT b.*, cm.name AS name
-            FROM BRANCH_HEENDY_CAR b LEFT JOIN CM_CODE cm ON b.BRANCH_CODE = cm.CODE_VALUE
-            WHERE b.BRANCH_CODE = #{branchCode}
+        SELECT b.BRANCH_CODE,
+               b.CNT,
+               b.DESCRIPTION,
+               b.IMG_URL,
+               cm.NAME AS name
+        FROM BRANCH_HEENDY_CAR b
+        LEFT JOIN CM_CODE cm
+             ON b.BRANCH_CODE = cm.CODE_VALUE
+        WHERE b.BRANCH_CODE = #{branchCode}
     </select>
 
     <select id="findAllBranches" resultType="HcBranchVO">
-        SELECT b.*, cm.name AS name
-            FROM BRANCH_HEENDY_CAR b
-                LEFT JOIN CM_CODE cm ON b.BRANCH_CODE = cm.CODE_VALUE
+        SELECT b.BRANCH_CODE,
+               b.CNT,
+               b.DESCRIPTION,
+               b.IMG_URL,
+               cm.NAME AS name
+        FROM BRANCH_HEENDY_CAR b
+        LEFT JOIN CM_CODE cm
+             ON b.BRANCH_CODE = cm.CODE_VALUE
     </select>
 
 </mapper>

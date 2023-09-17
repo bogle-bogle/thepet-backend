@@ -35,11 +35,11 @@ public class PetController {
         return ResponseEntity.ok(petService.myPet(memberId));
     }
 
-    @GetMapping("/code")
-    @Operation(summary = "공통 코드 조회하기", description = "공통 코드 테이블의 값들을 모두 불러옵니다.")
-    public ResponseEntity<List<CmCodeVO>> getAllCode(){
-        return ResponseEntity.ok(petService.getAllCode());
-    }
+//    @GetMapping("/code")
+//    @Operation(summary = "공통 코드 조회하기", description = "공통 코드 테이블의 값들을 모두 불러옵니다.")
+//    public ResponseEntity<List<CmCodeVO>> getAllCode(){
+//        return ResponseEntity.ok(petService.getAllCode());
+//    }
 
     @PutMapping("/mbti/{petId}")
     @Operation(summary = "반려동물 MBTI 저장하기", description = "반려동물의 MBTI를 저장합니다.")

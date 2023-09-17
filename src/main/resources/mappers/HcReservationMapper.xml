@@ -4,15 +4,39 @@
 <mapper namespace="com.thehyundai.thepet.domain.heendycar.HcReservationMapper">
 
     <insert id="saveReservation" parameterType="HcReservationVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO HEENDY_CAR_RESERVATION (BRANCH_CODE, MEMBER_ID, RESERVATION_TIME, CREATED_AT) VALUES (#{branchCode}, #{memberId}, #{reservationTime}, #{createdAt})
+        INSERT INTO HEENDY_CAR_RESERVATION
+            (
+             BRANCH_CODE,
+             MEMBER_ID,
+             RESERVATION_TIME,
+             CREATED_AT
+             )
+        VALUES
+            (
+             #{branchCode},
+             #{memberId},
+             #{reservationTime},
+             #{createdAt}
+             )
     </insert>
 
     <select id="findReservationById" resultType="HcReservationVO">
-        SELECT * FROM HEENDY_CAR_RESERVATION WHERE ID = #{reservationId}
+        SELECT ID,
+               BRANCH_CODE,
+               MEMBER_ID,
+               RESERVATION_TIME,
+               CREATED_AT,
+               PICKUP_YN,
+               CANCEL_YN,
+               RETURN_YN
+        FROM HEENDY_CAR_RESERVATION
+        WHERE ID = #{reservationId}
     </select>
 
     <update id="updateReservation" parameterType="HcReservationVO">
-        UPDATE HEENDY_CAR_RESERVATION SET CANCEL_YN = #{cancelYn} WHERE ID = #{id}
+        UPDATE HEENDY_CAR_RESERVATION
+            SET CANCEL_YN = #{cancelYn}
+        WHERE ID = #{id}
     </update>
 
 </mapper>
