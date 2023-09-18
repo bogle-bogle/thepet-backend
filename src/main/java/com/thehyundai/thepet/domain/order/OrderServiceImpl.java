@@ -2,16 +2,13 @@ package com.thehyundai.thepet.domain.order;
 
 import com.thehyundai.thepet.domain.cart.CartService;
 import com.thehyundai.thepet.domain.cart.CartVO;
+import com.thehyundai.thepet.domain.subscription.*;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.domain.product.ProductService;
 import com.thehyundai.thepet.domain.product.ProductVO;
-import com.thehyundai.thepet.domain.subscription.CurationMapper;
-import com.thehyundai.thepet.domain.subscription.CurationVO;
-import com.thehyundai.thepet.domain.subscription.SubsService;
-import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
 import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +29,6 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderDetailMapper orderDetailMapper;
-    private final CurationMapper curationMapper;
 
     private final AuthTokensGenerator authTokensGenerator;
     private final EntityValidator entityValidator;
@@ -40,7 +36,7 @@ public class OrderServiceImpl implements OrderService {
     private final SubsService subsService;
     private final CartService cartService;
     private final ProductService productService;
-
+    private final CurationService curationService;
 
     @Override
     @Transactional
@@ -79,7 +75,7 @@ public class OrderServiceImpl implements OrderService {
         requestVO.setMemberId(memberId);
 
         // 1. ORDER 테이블에 저장
-        CurationVO thisMonthCuration = subsService.showCurationOfCurrMonth();
+        CurationVO thisMonthCuration = curationService.showCurationOfCurrMonth();
         OrderVO order = buildCurationOrder(memberId, thisMonthCuration);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
@@ -89,7 +85,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
         requestVO.setCurationYn(TableStatus.Y.getValue());
-        subsService.createSubscription(requestVO);
+        subsService.createCurationSubscription(requestVO);
 
         // 4. 주문 내역 반환
         order.setOrderDetails(List.of(orderDetail));
@@ -115,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
         requestVO.setCurationYn(TableStatus.N.getValue());
-        subsService.createSubscription(requestVO);
+        subsService.createProductSubscription(requestVO);
 
         // 4. 주문 내역 반환
         order.setOrderDetails(List.of(orderDetail));
