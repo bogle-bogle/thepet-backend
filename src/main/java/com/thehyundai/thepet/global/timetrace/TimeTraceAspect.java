@@ -8,18 +8,25 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.HandlerMethod;
 
+import javax.sql.DataSource;
 import java.lang.reflect.Method;
 
 @Log4j2
 @Component
 @Aspect
 public class TimeTraceAspect {
+
+
+    @Autowired
+    @Qualifier("secondary")
+    private DataSource dataSource;
 
     @Autowired
     private AopMapper aopMapper;
