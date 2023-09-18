@@ -1,10 +1,9 @@
 package com.thehyundai.thepet.domain.subscription;
 
-import com.thehyundai.thepet.global.cmcode.TableStatus;
-import com.thehyundai.thepet.global.exception.BusinessException;
-import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.domain.product.ProductService;
 import com.thehyundai.thepet.domain.product.ProductVO;
+import com.thehyundai.thepet.global.exception.BusinessException;
+import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -27,7 +26,6 @@ public class SubsServiceImpl implements SubsService {
 
     @Override
     public SubscriptionVO createSubscription(SubscriptionVO requestVO) {
-        requestVO.setCurationYn((requestVO.getCurationId() != null) ? TableStatus.Y.getValue() : TableStatus.N.getValue());
         if (subsMapper.saveCurationSubscription(requestVO) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
         return requestVO;
     }

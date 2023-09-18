@@ -9,7 +9,6 @@
              START_DATE,
              END_DATE,
              MEMBER_ID,
-             CURATION_ID,
              CURATION_YN
              )
         VALUES
@@ -17,7 +16,6 @@
              #{startDate},
              #{endDate},
              #{memberId},
-             #{curationId},
              #{curationYn}
              )
     </insert>

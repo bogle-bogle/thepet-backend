@@ -78,18 +78,17 @@ public class OrderServiceImpl implements OrderService {
         entityValidator.getPresentMember(memberId);
         requestVO.setMemberId(memberId);
 
-        CurationVO curation = curationMapper.findCurationById(requestVO.getCurationId())
-                                            .orElseThrow(() -> new BusinessException(ErrorCode.CURATION_NOT_FOUND));
-
         // 1. ORDER 테이블에 저장
-        OrderVO order = buildCurationOrder(memberId, curation);
+        CurationVO thisMonthCuration = subsService.showCurationOfCurrMonth();
+        OrderVO order = buildCurationOrder(memberId, thisMonthCuration);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 2. ORDER_DETAIL 테이블에 저장
-        OrderDetailVO orderDetail = buildCurationOrderDetail(order.getId(), curation);
+        OrderDetailVO orderDetail = buildCurationOrderDetail(order.getId(), thisMonthCuration);
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
+        requestVO.setCurationYn(TableStatus.Y.getValue());
         subsService.createSubscription(requestVO);
 
         // 4. 주문 내역 반환
@@ -115,6 +114,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
+        requestVO.setCurationYn(TableStatus.N.getValue());
         subsService.createSubscription(requestVO);
 
         // 4. 주문 내역 반환
