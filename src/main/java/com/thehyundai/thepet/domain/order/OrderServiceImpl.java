@@ -37,6 +37,14 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
     private final ProductService productService;
 
+    // 추가
+    @Override
+    public OrderVO showOrderWithDetailsByTossOrderId(String tossOrderId) {
+        OrderVO result = orderMapper.getOrderWithOrderDetailsByTossOrderId(tossOrderId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.ORDER_NOT_FOUND));
+        return result;
+    }
+
 
     @Override
     public OrderVO orderWholeCart(String token, String tossOrderId) {
@@ -121,6 +129,8 @@ public class OrderServiceImpl implements OrderService {
                                     .orElseThrow(() -> new BusinessException(ErrorCode.ORDER_NOT_FOUND));
         return result;
     }
+
+
 
     @Override
     public List<OrderVO> showAllMyOrdersWithDetails(String token) {

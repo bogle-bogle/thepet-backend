@@ -4,8 +4,8 @@
 
 
     <insert id="insertCart" parameterType="CartVO">
-        INSERT INTO CART (CNT, MEMBER_ID, PRODUCT_ID)
-        VALUES (#{cnt}, #{memberId}, #{productId})
+        INSERT INTO CART (CNT, MEMBER_ID, PRODUCT_ID, CREATED_AT)
+        VALUES (#{cnt}, #{memberId}, #{productId}, sysdate)
     </insert>
 
     <update id="updateCart" parameterType="CartVO">
@@ -14,15 +14,17 @@
         WHERE ID = #{id}
     </update>
 
-    <delete id="deleteCart" parameterType="String">
-        DELETE FROM CART
+    <update id="deleteCart" parameterType="CartVO">
+        UPDATE CART
+        SET DELETE_YN = 'Y'
         WHERE ID = #{id}
-    </delete>
+    </update>
 
     <select id="getCart" resultType="CartVO">
-        SELECT *
-        FROM CART
-        WHERE MEMBER_ID = #{memberId}
+        SELECT c.CNT, c.MEMBER_ID, c.PRODUCT_ID, p.NAME, p.PRICE, p.MAIN_IMG_URL
+        FROM CART c
+                 JOIN PRODUCT p ON c.PRODUCT_ID = p.ID
+        WHERE c.MEMBER_ID = #{memberId} and c.DELETE_YN = 'N'
     </select>
 
 </mapper>

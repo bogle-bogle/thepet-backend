@@ -9,5 +9,6 @@ import java.util.Optional;
 public interface OrderMapper {
     Integer saveOrder(OrderVO order);
     Optional<OrderVO> getOrderWithOrderDetailsById(String orderId);
+    Optional<OrderVO> getOrderWithOrderDetailsByTossOrderId(String tossOrderId);
     List<OrderVO> showAllMyOrdersWithDetails(String memberId);
 }

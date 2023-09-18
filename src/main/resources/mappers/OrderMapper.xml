@@ -8,8 +8,8 @@
         <selectKey keyProperty="id" resultType="String" order="AFTER">
             SELECT ORDER_SEQ.currval From DUAL
         </selectKey>
-        INSERT INTO "ORDER" (TOTAL_CNT, TOTAL_PRICE, CREATED_AT, MEMBER_ID, SUBSCRIBE_YN, TOSS_ORDER_ID)
-        VALUES (#{totalCnt}, #{totalPrice}, #{createdAt}, #{memberId}, #{subscribeYn}, #{tossOrderId})
+        INSERT INTO "ORDER" (TOTAL_CNT, TOTAL_PRICE, CREATED_AT, MEMBER_ID, SUBSCRIBE_YN, TOSS_ORDER_ID, CREATED_AT)
+        VALUES (#{totalCnt}, #{totalPrice}, #{createdAt}, #{memberId}, #{subscribeYn}, #{tossOrderId}, sysdate)
     </insert>
 
     <resultMap id="OrderWithDetails" type="OrderVO">
@@ -40,6 +40,13 @@
         FROM "ORDER" o
             LEFT JOIN "ORDER_DETAIL" od ON o.id = od.order_id
         WHERE o.id = #{orderId}
+    </select>
+
+    <select id="getOrderWithOrderDetailsByTossOrderId" resultMap="OrderWithDetails">
+        SELECT o.*, od.*, od.DETAIL_ID AS DETAIL_ID
+        FROM "ORDER" o
+        LEFT JOIN "ORDER_DETAIL" od ON o.id = od.order_id
+        WHERE o.id = #{tossOrderId}
     </select>
 
     <select id="showAllMyOrdersWithDetails" resultMap="OrderWithDetails">
