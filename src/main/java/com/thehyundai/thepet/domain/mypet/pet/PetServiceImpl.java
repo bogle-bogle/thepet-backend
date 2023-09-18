@@ -1,12 +1,11 @@
 package com.thehyundai.thepet.domain.mypet.pet;
 
-import com.thehyundai.thepet.global.util.EntityValidator;
-import com.thehyundai.thepet.global.cmcode.CmCodeMapper;
-import com.thehyundai.thepet.global.util.ProteinCmCode;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
 import com.thehyundai.thepet.global.timetrace.TimeTraceService;
+import com.thehyundai.thepet.global.util.EntityValidator;
+import com.thehyundai.thepet.global.util.ProteinCmCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -21,7 +20,6 @@ import java.util.Optional;
 @TimeTraceService
 public class PetServiceImpl implements PetService {
     private final PetMapper petMapper;
-    private final CmCodeMapper cmCodeMapper;
     private final AuthTokensGenerator authTokensGenerator;
     private final EntityValidator entityValidator;
 
@@ -47,11 +45,6 @@ public class PetServiceImpl implements PetService {
         List<PetVO> result = petMapper.myPet(memberId);
         return result;
     }
-
-//    @Override
-//    public List<CmCodeVO> getAllCode() {
-//        return cmCodeMapper.getAllCode();
-//    }
 
     @Override
     public List<PetVO> findPetsWithAllergies(String memberId) {

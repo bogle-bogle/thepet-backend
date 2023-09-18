@@ -43,6 +43,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
+    @Transactional
     public OrderVO orderWholeCart(String token, String tossOrderId) {
         // 0. 유효성 검사 및 유저 검증
         String memberId = authTokensGenerator.extractMemberId(token);
@@ -97,6 +98,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderVO createRegularDeliveryOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         String memberId = authTokensGenerator.extractMemberId(token);

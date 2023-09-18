@@ -7,6 +7,7 @@ import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -20,6 +21,7 @@ public class MemberServiceImpl implements MemberService{
     private final AuthTokensGenerator authTokensGenerator;
 
     @Override
+    @Transactional
     public MemberVO loginOrRegister(MemberVO requestVO) {
         MemberVO member = memberMapper.findMemberBySocialId(requestVO.getSocialId())
                                       .orElseGet(() -> register(requestVO));

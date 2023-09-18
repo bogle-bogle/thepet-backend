@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @TimeTraceService
 public class CurationServiceImpl implements CurationService {
-
     private final CurationMapper curationMapper;
+
     @Override
     public CurationVO createCuration(CurationVO curationVO) {
         if (curationMapper.saveCuration(curationVO) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
