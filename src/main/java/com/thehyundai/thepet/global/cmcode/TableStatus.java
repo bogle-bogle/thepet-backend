@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.global;
+package com.thehyundai.thepet.global.cmcode;
 
 import lombok.Getter;
 

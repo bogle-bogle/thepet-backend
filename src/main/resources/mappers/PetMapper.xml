@@ -1,45 +1,94 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thehyundai.thepet.domain.mypet.pet.PetMapper">
 
-    <insert id="registerClub" parameterType="PetVO">
-            CALL InsertPetWithAllergies
-            (#{petImgUrl},#{name},#{birth},#{memberId},#{favoriteFoodIngredients},#{feedMainImgUrl},#{mbti},#{breedCode},#{animalTypeCode},#{allergyCode},#{feedDescImgUrl},#{sizeCode},#{favoriteProteinCode})
-            <selectKey keyProperty="id" resultType="String" order="AFTER">
-                SELECT PET_SEQ.CURRVAL FROM DUAL
-            </selectKey>
+    <insert id="registerClub" parameterType="PetVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    CALL InsertPetWithAllergies
+        (
+        #{petImgUrl},
+        #{name},
+        #{birth},
+        #{memberId},
+        #{favoriteFoodIngredients},
+        #{feedMainImgUrl},
+        #{mbti},
+        #{breedCode},
+        #{animalTypeCode},
+        #{allergyCode},
+        #{feedDescImgUrl},
+        #{sizeCode},
+        #{favoriteProteinCode}
+        )
     </insert>
 
     <update id="updateFeed" parameterType="PetVO">
         UPDATE PET
-        SET
-            feed_main_img_url = #{feedMainImgUrl},
-            feed_desc_img_url = #{feedDescImgUrl},
-            favorite_food_ingredients = #{favoriteFoodIngredients},
-            favorite_protein_code = #{favoriteProteinCode}
-        WHERE id = #{id}
+            SET
+                FEED_MAIN_IMG_URL = #{feedMainImgUrl},
+                FEED_DESC_IMG_URL = #{feedDescImgUrl},
+                FAVORITE_FOOD_INGREDIENTS = #{favoriteFoodIngredients},
+                FAVORITE_PROTEIN_CODE = #{favoriteProteinCode}
+        WHERE ID = #{id}
     </update>
 
     <select id="myPet" parameterType="String" resultType="PetVO">
-        SELECT id,pet_img_url,name,member_id,favorite_food_ingredients,feed_main_img_url,favorite_protein_code,feed_desc_img_url
+        SELECT ID,
+               PET_IMG_URL,
+               NAME,
+               BIRTH,
+               MEMBER_ID,
+               FAVORITE_FOOD_INGREDIENTS,
+               FEED_MAIN_IMG_URL,
+               FEED_DESC_IMG_URL,
+               MBTI,
+               BREED_CODE,
+               ANIMAL_TYPE_CODE,
+               SIZE_CODE,
+               FAVORITE_PROTEIN_CODE
         FROM PET
-        WHERE member_id = #{memberId}
+        WHERE MEMBER_ID = #{memberId}
     </select>
 
     <select id="findPetsWithAllergiesByMemberId" parameterType="String" resultMap="PetWithAllergies">
-        SELECT p.*, a.protein_code
+        SELECT p.ID,
+               p.PET_IMG_URL,
+               p.NAME,
+               p.BIRTH,
+               p.MEMBER_ID,
+               p.FAVORITE_FOOD_INGREDIENTS,
+               p.FEED_MAIN_IMG_URL,
+               p.FEED_DESC_IMG_URL,
+               p.MBTI,
+               p.BREED_CODE,
+               p.ANIMAL_TYPE_CODE,
+               p.SIZE_CODE,
+               p.FAVORITE_PROTEIN_CODE,
+               a.PROTEIN_CODE
         FROM PET p
-             LEFT JOIN ALLERGY a ON p.id = a.pet_id
+        LEFT JOIN ALLERGY a
+            ON p.ID = a.PET_ID
         WHERE p.MEMBER_ID = #{memberId}
     </select>
 
     <select id="findPetWithAllergiesById" parameterType="String" resultMap="PetWithAllergies">
-        SELECT p.*, a.protein_code
+        SELECT p.ID,
+               p.PET_IMG_URL,
+               p.NAME,
+               p.BIRTH,
+               p.MEMBER_ID,
+               p.FAVORITE_FOOD_INGREDIENTS,
+               p.FEED_MAIN_IMG_URL,
+               p.FEED_DESC_IMG_URL,
+               p.MBTI,
+               p.BREED_CODE,
+               p.ANIMAL_TYPE_CODE,
+               p.SIZE_CODE,
+               p.FAVORITE_PROTEIN_CODE,
+               a.PROTEIN_CODE
         FROM PET p
-             LEFT JOIN ALLERGY a ON p.id = a.pet_id
+        LEFT JOIN ALLERGY a
+            ON p.ID = a.PET_ID
         WHERE p.ID = #{id}
     </select>
 
@@ -50,6 +99,8 @@
         <result property="birth" column="birth" />
         <result property="memberId" column="member_id" />
         <result property="favoriteFoodIngredients" column="favorite_food_ingredients" />
+        <result property="feedMainImgUrl" column="feed_main_img_url" />
+        <result property="feedDescImgUrl" column="feed_desc_img_url" />
         <result property="imgUrl" column="img_url" />
         <result property="mbti" column="mbti" />
         <result property="breedCode" column="breed_code" />
@@ -60,5 +111,11 @@
             <result property="proteinCode" column="protein_code" />
         </collection>
     </resultMap>
+
+    <update id="updateMbtiById" parameterType="PetVO">
+        UPDATE PET
+            SET MBTI = #{mbti}
+        WHERE ID = #{id}
+    </update>
 
 </mapper>

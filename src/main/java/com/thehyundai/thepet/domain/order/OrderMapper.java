@@ -7,7 +7,14 @@ import java.util.Optional;
 
 @Mapper
 public interface OrderMapper {
+
     Integer saveOrder(OrderVO order);
+
     Optional<OrderVO> getOrderWithOrderDetailsById(String orderId);
+
     List<OrderVO> showAllMyOrdersWithDetails(String memberId);
+
+    List<OrderVO> showMyNormalOrdersWithDetails(String memberId);
+
+    List<OrderVO> showMySubscriptionWithDetails(String memberId);
 }

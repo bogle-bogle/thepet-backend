@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.aws_s3;
+package com.thehyundai.thepet.global.aws;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
@@ -14,9 +14,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class S3Service {
     private final AmazonS3 amazonS3;
-    private final String bucketName = "heendy-feed"; // S3 버킷 이름
 
-    public String uploadFileAndGetUrl(MultipartFile file) throws IOException {
+    public String uploadFileAndGetUrl(MultipartFile file, String bucketName) throws IOException {
         String fileName = UUID.randomUUID().toString() + "-" + file.getOriginalFilename();
 
         ObjectMetadata metadata = new ObjectMetadata();

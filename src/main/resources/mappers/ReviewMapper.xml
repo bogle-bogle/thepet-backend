@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thehyundai.thepet.domain.review.ReviewMapper">
+
     <select id="selectAllReviews" parameterType="String" resultType="ReviewVO">
-        SELECT * FROM REVIEW
-        WHERE product_id = #{product_id}
+        SELECT ID,
+               TITLE,
+               CONTENT,
+               IMG_URL,
+               STAR_RATING,
+               MEMBER_NICKNAME,
+               MEMBER_ID
+        FROM REVIEW
+        WHERE PRODUCT_ID = #{product_id}
     </select>
 
     <select id="selectReviewDetail" parameterType="String" resultType="ReviewVO">
-        SELECT * FROM REVIEW
-        WHERE id = #{id}
+        SELECT ID,
+               TITLE,
+               CONTENT,
+               IMG_URL,
+               STAR_RATING,
+               MEMBER_NICKNAME,
+               MEMBER_ID
+        FROM REVIEW
+        WHERE ID = #{id}
     </select>
+
 </mapper>

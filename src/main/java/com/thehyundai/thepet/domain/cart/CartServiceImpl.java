@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.cart;
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import java.util.List;
 @Service
 @Log4j2
 @RequiredArgsConstructor
+@TimeTraceService
 public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
 

@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface CmCodeMapper {
     Optional<CmCodeVO> findCmCodeByCodeValue(String codeValue);
 
-    List<CmCodeVO> getAllCode();
+//    List<CmCodeVO> getAllCode();
 }

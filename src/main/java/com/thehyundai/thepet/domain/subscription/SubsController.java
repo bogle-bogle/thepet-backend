@@ -1,6 +1,7 @@
 package com.thehyundai.thepet.domain.subscription;
 
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @Tag(name = "Subscription Controller", description = "구독 관련 컨트롤러")    // Contoller 정보 설정
 @RequestMapping("/api/sub")

@@ -1,105 +1,195 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thehyundai.thepet.domain.product.ProductMapper">
 
-    <select id="findProductsByCategoryAndKeyword" parameterType="map" resultType="ProductVO">
-        SELECT * FROM PRODUCT
+    <select id="findProductsByCategoryAndKeyword" parameterType="Map" resultType="ProductVO">
+        SELECT ID,
+               NAME,
+               PRICE,
+               MAIN_IMG_URL,
+               DESC_IMG_URL,
+               INGREDIENTS,
+               MAIN_CATEGORY_CODE,
+               SUB_CATEGORY_CODE,
+               ANIMAL_TYPE_CODE,
+               PROTEIN_CODE
+        FROM PRODUCT
         WHERE MAIN_CATEGORY_CODE = #{main-category}
-          AND (NAME LIKE '%' || #{keyword} || '%')
+            AND (NAME LIKE '%' || #{keyword} || '%')
     </select>
 
-    <insert id="saveGeneralProduct" parameterType="ProductVO" useGeneratedKeys="true">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT PRODUCT_SEQ.currval From DUAL
-        </selectKey>
-        INSERT INTO PRODUCT (NAME, PRICE, MAIN_IMG_URL, DESC_IMG_URL, INGREDIENTS,
-                                            MAIN_CATEGORY_CODE, SUB_CATEGORY_CODE, ANIMAL_TYPE_CODE, PROTEIN_CODE)
-        VALUES (#{name}, #{price}, #{mainImgUrl}, #{descImgUrl}, #{ingredients},
-                #{mainCategoryCode}, #{subCategoryCode}, #{animalTypeCode}, #{proteinCode})
+    <insert id="saveGeneralProduct" parameterType="ProductVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO PRODUCT
+            (
+             NAME,
+             PRICE,
+             MAIN_IMG_URL,
+             DESC_IMG_URL,
+             INGREDIENTS,
+             MAIN_CATEGORY_CODE,
+             SUB_CATEGORY_CODE,
+             ANIMAL_TYPE_CODE,
+             PROTEIN_CODE)
+        VALUES
+            (
+             #{name},
+             #{price},
+             #{mainImgUrl},
+             #{descImgUrl},
+             #{ingredients},
+             #{mainCategoryCode},
+             #{subCategoryCode},
+             #{animalTypeCode},
+             #{proteinCode}
+             )
     </insert>
 
     <select id="selectProducts" parameterType="int" resultType="ProductVO">
-        SELECT * FROM PRODUCT
+        SELECT ID,
+               NAME,
+               PRICE,
+               MAIN_IMG_URL,
+               DESC_IMG_URL,
+               INGREDIENTS,
+               MAIN_CATEGORY_CODE,
+               SUB_CATEGORY_CODE,
+               ANIMAL_TYPE_CODE,
+               PROTEIN_CODE
+        FROM PRODUCT
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
     <select id="selectProductDetail" parameterType="String" resultType="ProductVO">
-        SELECT * FROM PRODUCT
-        WHERE id = #{id}
+        SELECT ID,
+               NAME,
+               PRICE,
+               MAIN_IMG_URL,
+               DESC_IMG_URL,
+               INGREDIENTS,
+               MAIN_CATEGORY_CODE,
+               SUB_CATEGORY_CODE,
+               ANIMAL_TYPE_CODE,
+               PROTEIN_CODE
+        FROM PRODUCT
+        WHERE ID = #{id}
     </select>
 
     <select id="findProductById" parameterType="String" resultType="ProductVO">
-        SELECT * FROM PRODUCT WHERE id = #{id}
-    </select>
-
-
-    <select id="findProductsBySimplePetInfo" parameterType="PetVO" resultType="ProductVO">
-        SELECT * FROM PRODUCT
-        WHERE SUB_CATEGORY_CODE = #{ageCode, jdbcType=VARCHAR} OR PROTEIN_CODE = #{favoriteProteinCode}
+        SELECT ID,
+               NAME,
+               PRICE,
+               MAIN_IMG_URL,
+               DESC_IMG_URL,
+               INGREDIENTS,
+               MAIN_CATEGORY_CODE,
+               SUB_CATEGORY_CODE,
+               ANIMAL_TYPE_CODE,
+               PROTEIN_CODE
+        FROM PRODUCT
+        WHERE ID = #{id}
     </select>
 
     <select id="findProductsByFavoriteProteinCode" parameterType="String" resultType="ProductVO">
-        SELECT * FROM PRODUCT
+        SELECT ID,
+               NAME,
+               PRICE,
+               MAIN_IMG_URL,
+               DESC_IMG_URL,
+               INGREDIENTS,
+               MAIN_CATEGORY_CODE,
+               SUB_CATEGORY_CODE,
+               ANIMAL_TYPE_CODE,
+               PROTEIN_CODE
+        FROM PRODUCT
         WHERE PROTEIN_CODE = #{favoriteProteinCode}
     </select>
 
     <select id="findProductsByAgeCode" parameterType="String" resultType="ProductVO">
-        SELECT * FROM PRODUCT
+        SELECT ID,
+               NAME,
+               PRICE,
+               MAIN_IMG_URL,
+               DESC_IMG_URL,
+               INGREDIENTS,
+               MAIN_CATEGORY_CODE,
+               SUB_CATEGORY_CODE,
+               ANIMAL_TYPE_CODE,
+               PROTEIN_CODE
+        FROM PRODUCT
         WHERE SUB_CATEGORY_CODE = #{ageCmCode, jdbcType=VARCHAR}
     </select>
 
     <select id="findProductsByPetInfoAndOrderLog" parameterType="PetVO" resultType="ProductVO">
-        SELECT P.*, COUNT(*) AS ORDERED_CNT
+        SELECT
+            p.ID,
+            p.NAME,
+            p.PRICE,
+            p.MAIN_IMG_URL,
+            COUNT(*) AS ORDERED_CNT
         FROM
-            MEMBER M
+            MEMBER m
                 JOIN
-            PET PT ON M.ID = PT.MEMBER_ID
+            PET pt ON m.ID = pt.MEMBER_ID
                 JOIN
-            "ORDER" O ON M.ID = O.MEMBER_ID
+            "ORDER" o ON m.ID = o.MEMBER_ID
                 JOIN
-            ORDER_DETAIL OD ON O.ID = OD.ORDER_ID
+            ORDER_DETAIL od ON o.ID = od.ORDER_ID
                 JOIN
-            PRODUCT P ON OD.PRODUCT_ID = P.ID
-        WHERE PT.BREED_CODE = #{breedCode} AND MONTHS_BETWEEN( PT.BIRTH, #{birth} ) BETWEEN -12 AND 12
-        GROUP BY P.ID, P.NAME, PRICE, MAIN_IMG_URL, DESC_IMG_URL, INGREDIENTS, MAIN_CATEGORY_CODE, SUB_CATEGORY_CODE, P.ANIMAL_TYPE_CODE, PROTEIN_CODE
-        ORDER BY ORDERED_CNT DESC
+            PRODUCT p ON od.PRODUCT_ID = p.ID
+        WHERE
+            pt.BREED_CODE = #{breedCode}
+            AND MONTHS_BETWEEN(pt.BIRTH, #{birth}) BETWEEN -12 AND 12
+        GROUP BY
+            p.ID, p.NAME, p.PRICE, p.MAIN_IMG_URL
+        ORDER BY
+            ORDERED_CNT DESC
     </select>
 
     <select id="findProductsByMbti" parameterType="String" resultType="ProductVO">
-        SELECT P.ID AS ID, P.NAME AS NAME, COUNT(*) AS ORDERED_CNT
+        SELECT
+            p.ID,
+            p.NAME,
+            p.PRICE,
+            p.MAIN_IMG_URL,
+            COUNT(*) AS ORDERED_CNT
         FROM
-            MEMBER M
+            MEMBER m
                 JOIN
-            PET PT ON M.ID = PT.MEMBER_ID
+            PET pt ON m.ID = pt.MEMBER_ID
                 JOIN
-            "ORDER" O ON M.ID = O.MEMBER_ID
+            "ORDER" o ON m.ID = o.MEMBER_ID
                 JOIN
-            ORDER_DETAIL OD ON O.ID = OD.ORDER_ID
+            ORDER_DETAIL od ON o.ID = od.ORDER_ID
                 JOIN
-            PRODUCT P ON OD.PRODUCT_ID = P.ID
-        WHERE PT.MBTI = UPPER(#{mbtiType})
-        GROUP BY P.ID, P.NAME
-        ORDER BY ORDERED_CNT DESC
+            PRODUCT p ON od.PRODUCT_ID = p.ID
+        WHERE
+            pt.MBTI = #{mbtiType}
+        GROUP BY
+            p.ID, p.NAME, p.PRICE, p.MAIN_IMG_URL
+        ORDER BY
+            ORDERED_CNT DESC
     </select>
 
 
     <select id="filterProduct" parameterType="FilterVO" resultType="ProductVO">
-        SELECT * FROM PRODUCT
+        SELECT ID,
+               NAME,
+               PRICE,
+               MAIN_IMG_URL
+        FROM PRODUCT
         <where>
             <if test="mainFilter != ''">
-                AND main_category_code = #{mainFilter}
+                MAIN_CATEGORY_CODE = #{mainFilter}
             </if>
             <if test="subFilter != null and subFilter.size() > 0">
-                AND sub_category_code IN
+                AND SUB_CATEGORY_CODE IN
                 <foreach collection="subFilter" item="item" open="(" close=")" separator=", ">
                     #{item}
                 </foreach>
             </if>
             <if test="proteinFilter != null and proteinFilter.size() > 0">
-                AND protein_code IN
+                AND PROTEIN_CODE IN
                 <foreach collection="proteinFilter" item="item" open="(" close=")" separator=", ">
                     #{item}
                 </foreach>
@@ -112,23 +202,21 @@
         SELECT COUNT(*) FROM PRODUCT
         <where>
             <if test="mainFilter != ''">
-                AND main_category_code = #{mainFilter}
+                MAIN_CATEGORY_CODE = #{mainFilter}
             </if>
             <if test="subFilter != null and subFilter.size() > 0">
-                AND sub_category_code IN
+                AND SUB_CATEGORY_CODE IN
                 <foreach collection="subFilter" item="item" open="(" close=")" separator=", ">
                     #{item}
                 </foreach>
             </if>
             <if test="proteinFilter != null and proteinFilter.size() > 0">
-                AND protein_code IN
+                AND PROTEIN_CODE IN
                 <foreach collection="proteinFilter" item="item" open="(" close=")" separator=", ">
                     #{item}
                 </foreach>
             </if>
         </where>
     </select>
-
-
 
 </mapper>

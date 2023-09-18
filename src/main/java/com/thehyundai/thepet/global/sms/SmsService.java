@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.sms;
+package com.thehyundai.thepet.global.sms;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

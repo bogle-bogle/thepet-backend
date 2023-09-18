@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.global;
+package com.thehyundai.thepet.global.util;
 
 import com.thehyundai.thepet.domain.member.MemberMapper;
 import com.thehyundai.thepet.domain.member.MemberVO;

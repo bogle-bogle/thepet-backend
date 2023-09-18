@@ -12,4 +12,6 @@ public interface MemberService {
     List<MemberVO> getAllMember();
 
     List<MemberVO> getAllHeendyMember();
+
+    MemberVO updateMemberInfo(MemberVO memberVO);
 }

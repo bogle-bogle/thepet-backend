@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.thehyundai.thepet.global.cmcode.CmCodeMapper">
 
     <select id="findCmCodeByCodeValue" resultType="CmCodeVO">
-        SELECT * FROM CM_CODE WHERE CODE_VALUE = #{codeValue}
+        SELECT ID,
+               CODE_VALUE,
+               NAME,
+               SECT_CODE,
+               PARENT_CODE
+        FROM CM_CODE
+        WHERE CODE_VALUE = #{codeValue}
     </select>
-
-    <select id="getAllCode" resultType="CmCodeVO">
-        SELECT * FROM CM_CODE
-    </select>
-
     
 </mapper>

@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.sms;
+package com.thehyundai.thepet.global.sms;
 
 import com.thehyundai.thepet.domain.heendycar.HcReservationVO;
 import lombok.Getter;

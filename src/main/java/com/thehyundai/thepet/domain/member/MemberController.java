@@ -2,6 +2,7 @@ package com.thehyundai.thepet.domain.member;
 
 import com.thehyundai.thepet.domain.mypet.pet.PetService;
 import com.thehyundai.thepet.domain.mypet.pet.PetVO;
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/member")
 public class MemberController {

@@ -10,5 +10,5 @@ public interface HcService {
 
     HcReservationVO createReservation(String token, HcReservationVO requestVO);
 
-
+    List<HcReservationVO> showAllMyReservations(String token);
 }
