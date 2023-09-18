@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thehyundai.thepet.global.timetrace.AopMapper">
+
+
+    <insert id="saveAOPServiceTable" parameterType="AopServiceVO">
+        INSERT INTO AOP_SERVICE (CREATED_AT, REQUEST_NAME, METHOD_NAME,EXECUTION_TIME)
+        VALUES (SYSTIMESTAMP, #{requestName}, #{methodName},#{executionTime})
+    </insert>
+
+    <insert id="saveAOPControllerTable" parameterType="AopServiceVO">
+        INSERT INTO AOP_CONTROLLER (CREATED_AT, REQUEST_MAPPING, METHOD_NAME,PARAMETER_NAME, EXECUTION_TIME)
+        VALUES (SYSTIMESTAMP, #{requestMapping}, #{methodName},#{parameterName},#{executionTime})
+    </insert>
+
+</mapper>

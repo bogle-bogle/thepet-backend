@@ -11,6 +11,11 @@ public interface HcReservationMapper {
     List<HcReservationVO> findBranchReservation(String branchCode);
 
     Integer saveReservation(HcReservationVO requestVO);
+
     Optional<HcReservationVO> findReservationById(String reservationId);
+
     Integer updateReservation(HcReservationVO reservation);
+
+    List<HcReservationVO> showAllMyReservations(String memberId);
+
 }

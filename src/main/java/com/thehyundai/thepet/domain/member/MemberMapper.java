@@ -5,7 +5,12 @@ import java.util.Optional;
 
 @Mapper
 public interface MemberMapper {
+
     Optional<MemberVO> findMemberById(String id);
+
     Optional<MemberVO> findMemberBySocialId(Long socialId);
+
     Integer register(MemberVO member);
+
+    Integer updateMemberInfo(MemberVO memberVO);
 }
