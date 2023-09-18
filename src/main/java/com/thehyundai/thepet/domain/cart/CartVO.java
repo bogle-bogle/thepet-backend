@@ -14,7 +14,7 @@ public class CartVO {
     private String memberId;
     private String productId;
     private String createdAt;
-    private String deletedYn;
+    private String deleteYN;
 
     // 장바구니의 상품 정보
     private String name;

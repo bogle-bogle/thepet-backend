@@ -21,7 +21,7 @@
     </update>
 
     <select id="getCart" resultType="CartVO">
-        SELECT c.CNT, c.MEMBER_ID, c.PRODUCT_ID, p.NAME, p.PRICE, p.MAIN_IMG_URL
+        SELECT c.ID, c.CNT, c.MEMBER_ID, c.PRODUCT_ID, c.DELETE_YN, c.CREATED_AT, p.NAME, p.PRICE, p.MAIN_IMG_URL
         FROM CART c
                  JOIN PRODUCT p ON c.PRODUCT_ID = p.ID
         WHERE c.MEMBER_ID = #{memberId} and c.DELETE_YN = 'N'
