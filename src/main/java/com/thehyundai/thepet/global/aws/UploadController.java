@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.aws_s3;
+package com.thehyundai.thepet.global.aws;
 
 import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.aws_s3;
+package com.thehyundai.thepet.global.aws;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;

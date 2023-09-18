@@ -4,7 +4,7 @@ import com.thehyundai.thepet.domain.mypet.pet.PetMapper;
 import com.thehyundai.thepet.domain.mypet.pet.PetVO;
 import com.thehyundai.thepet.domain.product.ProductMapper;
 import com.thehyundai.thepet.domain.product.ProductVO;
-import com.thehyundai.thepet.global.EntityValidator;
+import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.cmcode.CmCode;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
