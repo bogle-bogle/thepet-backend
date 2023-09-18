@@ -1,21 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thehyundai.thepet.domain.member.MemberMapper">
 
     <select id="findMemberById" parameterType="String" resultType="MemberVO">
-        SELECT * FROM MEMBER WHERE ID = #{id}
+        SELECT ID,
+               NAME,
+               EMAIL,
+               IMG_URL,
+               ADDRESS,
+               NICKNAME,
+               CLUB_HEENDY_YN,
+               SOCIAL_ID,
+               PHONE_NUMBER,
+               BILLINGKEY
+        FROM MEMBER
+        WHERE ID = #{id}
     </select>
 
     <select id="findMemberBySocialId" parameterType="long" resultType="MemberVO">
-        SELECT * FROM member
-        WHERE social_id = #{socialId}
+        SELECT ID,
+               NAME,
+               EMAIL,
+               IMG_URL,
+               ADDRESS,
+               NICKNAME,
+               CLUB_HEENDY_YN,
+               SOCIAL_ID,
+               PHONE_NUMBER,
+               BILLINGKEY
+        FROM member
+        WHERE SOCIAL_ID = #{socialId}
     </select>
   
     <insert id="register" parameterType="MemberVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO member (name, email, img_url, nickname, social_id) VALUES (#{name}, #{email}, #{imgUrl}, #{nickname}, #{socialId})
+        INSERT INTO member
+            (
+             NAME,
+             EMAIL,
+             IMG_URL,
+             NICKNAME,
+             SOCIAL_ID
+             )
+        VALUES
+            (
+             #{name},
+             #{email},
+             #{imgUrl},
+             #{nickname},
+             #{socialId}
+             )
     </insert>
 
+    <update id="updateMemberInfo" parameterType="MemberVO">
+        UPDATE MEMBER
+        SET PHONE_NUMBER = #{phoneNumber}
+        WHERE ID = #{id}
+    </update>
 </mapper>

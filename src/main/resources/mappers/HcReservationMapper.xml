@@ -3,19 +3,52 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.heendycar.HcReservationMapper">
 
-    <insert id="saveReservation" parameterType="HcReservationVO" useGeneratedKeys="true">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT HEENDY_CAR_RESERVATION_SEQ.currval From DUAL
-        </selectKey>
-        INSERT INTO HEENDY_CAR_RESERVATION (BRANCH_CODE, MEMBER_ID, RESERVATION_TIME, CREATED_AT) VALUES (#{branchCode}, #{memberId}, #{reservationTime}, #{createdAt})
+    <insert id="saveReservation" parameterType="HcReservationVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO HEENDY_CAR_RESERVATION
+            (
+             BRANCH_CODE,
+             MEMBER_ID,
+             RESERVATION_TIME,
+             CREATED_AT
+             )
+        VALUES
+            (
+             #{branchCode},
+             #{memberId},
+             #{reservationTime},
+             #{createdAt}
+             )
     </insert>
 
     <select id="findReservationById" resultType="HcReservationVO">
-        SELECT * FROM HEENDY_CAR_RESERVATION WHERE ID = #{reservationId}
+        SELECT ID,
+               BRANCH_CODE,
+               MEMBER_ID,
+               RESERVATION_TIME,
+               CREATED_AT,
+               PICKUP_YN,
+               CANCEL_YN,
+               RETURN_YN
+        FROM HEENDY_CAR_RESERVATION
+        WHERE ID = #{reservationId}
     </select>
 
     <update id="updateReservation" parameterType="HcReservationVO">
-        UPDATE HEENDY_CAR_RESERVATION SET CANCEL_YN = #{cancelYn} WHERE ID = #{id}
+        UPDATE HEENDY_CAR_RESERVATION
+            SET CANCEL_YN = #{cancelYn}
+        WHERE ID = #{id}
     </update>
+
+    <select id="showAllMyReservations" parameterType="String">
+        SELECT r.ID,
+               r.RESERVATION_TIME,
+               r.CREATED_AT,
+               r.BRANCH_CODE,
+               b.IMG_URL AS branchImgUrl
+        FROM HEENDY_CAR_RESERVATION r
+        JOIN BRANCH_HEENDY_CAR b
+            ON r.BRANCH_CODE = b.BRANCH_CODE
+        WHERE r.MEMBER_ID = #{memberId}
+    </select>
 
 </mapper>

@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.global.jwt;
 
+import com.thehyundai.thepet.global.exception.BusinessException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
+import static com.thehyundai.thepet.global.exception.ErrorCode.EXPIRED_TOKEN;
+
 @Component
 public class JwtTokenProvider {
     private final Key key;
@@ -23,10 +26,10 @@ public class JwtTokenProvider {
 
     public String generate(String subject, Date expiredAt) {
         return Jwts.builder()
-                .setSubject(subject)
-                .setExpiration(expiredAt)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact();
+                   .setSubject(subject)
+                   .setExpiration(expiredAt)
+                   .signWith(key, SignatureAlgorithm.HS512)
+                   .compact();
     }
 
     public String extractSubject(String accessToken) {
@@ -42,7 +45,7 @@ public class JwtTokenProvider {
                     .parseClaimsJws(accessToken)
                     .getBody();
         } catch (ExpiredJwtException e) {
-            return e.getClaims();
+            throw new BusinessException(EXPIRED_TOKEN);
         }
     }
 

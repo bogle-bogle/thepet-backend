@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thehyundai.thepet.domain.subscription.SubsMapper">
 
-    <insert id="saveCurationSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT SUBSCRIPTION_SEQ.currval From DUAL
-        </selectKey>
-        INSERT INTO SUBSCRIPTION (START_DATE, END_DATE, MEMBER_ID, CURATION_ID, PRODUCT_ID, CURATION_YN)
-        VALUES (#{startDate}, #{endDate}, #{memberId}, #{curationId}, #{productId}, #{curationYn})
+    <insert id="saveCurationSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO" keyProperty="id" keyColumn="id">
+        INSERT INTO SUBSCRIPTION
+            (
+             START_DATE,
+             END_DATE,
+             MEMBER_ID,
+             CURATION_ID,
+             CURATION_YN
+             )
+        VALUES
+            (
+             #{startDate},
+             #{endDate},
+             #{memberId},
+             #{curationId},
+             #{curationYn}
+             )
     </insert>
 
-    <insert id="saveProductSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT SUBSCRIPTION_SEQ.currval From DUAL
-        </selectKey>
-        INSERT INTO SUBSCRIPTION (START_DATE, END_DATE, MEMBER_ID, CURATION_ID, PRODUCT_ID, CURATION_YN)
-        VALUES (#{startDate}, #{endDate}, #{memberId}, #{curationId}, #{productId}, #{curationYn})
+    <insert id="saveProductSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO" keyProperty="id" keyColumn="id">
+        INSERT INTO SUBSCRIPTION
+            (
+             START_DATE,
+             END_DATE,
+             MEMBER_ID,
+             PRODUCT_ID,
+             CURATION_YN
+             )
+        VALUES
+            (
+             #{startDate},
+             #{endDate},
+             #{memberId},
+             #{productId},
+             #{curationYn}
+             )
     </insert>
 
 </mapper>

@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.global;
+package com.thehyundai.thepet.global.util;
 
 import com.thehyundai.thepet.ThepetApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;

@@ -1,10 +1,12 @@
 package com.thehyundai.thepet.domain.recommendation;
 
 import com.thehyundai.thepet.domain.product.ProductVO;
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @Tag(name = "Recommendation Controller", description = "상품 추천 관련 컨트롤러")
 @RequestMapping("/api/recommendation")
