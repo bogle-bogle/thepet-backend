@@ -39,6 +39,11 @@
         WHERE ID = #{id}
     </update>
 
+    <select id="findBranchReservation" parameterType="String" resultType="HcReservationVO">
+        SELECT member_id, reservation_time, created_at,pickup_yn, cancel_yn,return_yn
+        FROM HEENDY_CAR_RESERVATION 
+        WHERE branch_code = #{branchCode}
+
     <select id="showAllMyReservations" parameterType="String">
         SELECT r.ID,
                r.RESERVATION_TIME,
