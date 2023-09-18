@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Log4j2
@@ -33,6 +34,16 @@ public class MemberServiceImpl implements MemberService{
     private MemberVO register(MemberVO member) {
         if (memberMapper.register(member) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
         return member;
+    }
+
+    @Override
+    public List<MemberVO> getAllMember() {
+        return memberMapper.selectAllMember();
+    }
+
+    @Override
+    public List<MemberVO> getAllHeendyMember() {
+        return memberMapper.selectHeendyMember();
     }
 }
 

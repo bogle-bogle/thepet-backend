@@ -26,4 +26,19 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/entire")
+    public ResponseEntity<List<MemberVO>> getMembers() {
+        return new ResponseEntity<>(memberService.getAllMember(), HttpStatus.OK);
+    }
+
+    @GetMapping("/heendy")
+    public ResponseEntity<List<MemberVO>> getHeendyMembers() {
+        return new ResponseEntity<>(memberService.getAllHeendyMember(), HttpStatus.OK);
+    }
+
+    @GetMapping("/subscribe")
+    public ResponseEntity<List<MemberVO>> getSubscribeMembers() {
+        return new ResponseEntity<>(memberService.getAllMember(), HttpStatus.OK);
+    }
+
 }
