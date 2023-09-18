@@ -2,14 +2,14 @@ package com.thehyundai.thepet.domain.heendycar;
 
 import com.thehyundai.thepet.domain.member.MemberService;
 import com.thehyundai.thepet.domain.member.MemberVO;
-import com.thehyundai.thepet.global.TableStatus;
+import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.cmcode.CmCodeValidator;
-import com.thehyundai.thepet.global.EntityValidator;
+import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
 import com.thehyundai.thepet.global.timetrace.TimeTraceService;
-import com.thehyundai.thepet.sms.HcSmsEvent;
+import com.thehyundai.thepet.global.sms.HcSmsEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationEventPublisher;

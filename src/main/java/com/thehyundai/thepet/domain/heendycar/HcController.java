@@ -1,12 +1,10 @@
 package com.thehyundai.thepet.domain.heendycar;
 
 import com.thehyundai.thepet.global.timetrace.TimeTraceController;
-import com.thehyundai.thepet.sms.HcSmsEvent;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

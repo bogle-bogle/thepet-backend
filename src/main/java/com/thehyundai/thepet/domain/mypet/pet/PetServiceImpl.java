@@ -1,9 +1,8 @@
 package com.thehyundai.thepet.domain.mypet.pet;
 
-import com.thehyundai.thepet.global.EntityValidator;
+import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.cmcode.CmCodeMapper;
-import com.thehyundai.thepet.global.cmcode.CmCodeVO;
-import com.thehyundai.thepet.global.cmcode.ProteinCmCode;
+import com.thehyundai.thepet.global.util.ProteinCmCode;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;

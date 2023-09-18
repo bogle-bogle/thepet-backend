@@ -1,6 +1,6 @@
 package com.thehyundai.thepet.domain.subscription;
 
-import com.thehyundai.thepet.global.TableStatus;
+import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.domain.product.ProductService;
