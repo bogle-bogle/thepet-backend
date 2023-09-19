@@ -22,6 +22,26 @@ import java.util.Map;
 public class OrderController {
     private final OrderService orderService;
 
+//    // 장바구니 선택 결제로 인해 추가
+//    @GetMapping("/{tossOrderId}")
+//    @Operation(summary = "토스 주문번호로 조회하기", description = "토스 주문번호를 통해 해당 주문 내역을 조회합니다.")
+//    public ResponseEntity<?> showOrderDetailByToss(@PathVariable String tossOrderId) {
+//        OrderVO result = orderService.showOrderWithDetailsByTossOrderId(tossOrderId);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+//
+//    // 장바구니 선택 결제로 인해 추가 - service에서 처리가 다름
+//    @PostMapping
+//    @Operation(summary = "주문하기", description = "장바구니에서 선택된 상품을 한번에 주문합니다.")
+//    public ResponseEntity<?> orderCart(@RequestHeader("Authorization") String token,
+//                                       @RequestHeader("TossOrderId") String tossOrderId) {
+//
+//        OrderVO result = orderService.orderWholeCart(token, tossOrderId);
+//        log.info(result);
+//        return new ResponseEntity<>(result, HttpStatus.OK);
+//    }
+
+
     @PostMapping("/cart")
     @Operation(summary = "장바구니 (전체) 일괄 주문하기", description = "장바구니에 담긴 모든 상품을 한번에 주문합니다.")
     public ResponseEntity<?> orderWholeCart(@RequestHeader("Authorization") String token,
