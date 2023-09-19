@@ -11,5 +11,7 @@ public interface ProductService {
     ProductVO createGeneralProduct(ProductVO productVO);
 
     ProductListVO getAllProducts(FilterVO filterVO);
+
     ProductVO getProductDetail(String id);
+
 }

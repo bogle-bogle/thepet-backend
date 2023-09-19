@@ -16,7 +16,7 @@ public interface ProductMapper {
 
     List<ProductVO> selectProducts(int page);
 
-    ProductVO selectProductDetail(String id);
+    Optional<ProductVO> selectProductDetail(String id);
 
     Optional<ProductVO> findProductById(String id);
 
