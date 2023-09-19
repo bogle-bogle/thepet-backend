@@ -1,14 +1,13 @@
 package com.thehyundai.thepet.domain.recommendation;
 
-import com.thehyundai.thepet.domain.mypet.pet.PetMapper;
 import com.thehyundai.thepet.domain.mypet.pet.PetVO;
 import com.thehyundai.thepet.domain.product.ProductMapper;
 import com.thehyundai.thepet.domain.product.ProductVO;
-import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.cmcode.CmCode;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.timetrace.TimeTraceService;
+import com.thehyundai.thepet.global.util.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.cache.annotation.Cacheable;
@@ -24,7 +23,6 @@ import java.util.List;
 @TimeTraceService
 public class RecommendationServiceImpl implements RecommendationService {
     private final ProductMapper productMapper;
-    private final PetMapper petMapper;
     private final EntityValidator entityValidator;
 
     @Override

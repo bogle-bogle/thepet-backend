@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -50,6 +51,7 @@ public class HcServiceImpl implements HcService {
     }
 
     @Override
+    @Transactional
     public HcReservationVO createReservation(String token, HcReservationVO requestVO) {
         // 0. 유효성 검사 및 유저 검증
         validateRemainingCnt(requestVO);
@@ -90,6 +92,11 @@ public class HcServiceImpl implements HcService {
         // 1. 나의 모든 예약 내역 가져오기
         List<HcReservationVO> result = reservationMapper.showAllMyReservations(memberId);
         return result;
+    }
+
+    @Override
+    public List<HcReservationVO> showBranchReservation(String branchCode) {
+        return reservationMapper.findBranchReservation(branchCode);
     }
 
 

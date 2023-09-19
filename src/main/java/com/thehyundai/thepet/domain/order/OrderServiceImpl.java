@@ -2,16 +2,13 @@ package com.thehyundai.thepet.domain.order;
 
 import com.thehyundai.thepet.domain.cart.CartService;
 import com.thehyundai.thepet.domain.cart.CartVO;
+import com.thehyundai.thepet.domain.subscription.*;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.domain.product.ProductService;
 import com.thehyundai.thepet.domain.product.ProductVO;
-import com.thehyundai.thepet.domain.subscription.CurationMapper;
-import com.thehyundai.thepet.domain.subscription.CurationVO;
-import com.thehyundai.thepet.domain.subscription.SubsService;
-import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
 import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +29,6 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderDetailMapper orderDetailMapper;
-    private final CurationMapper curationMapper;
 
     private final AuthTokensGenerator authTokensGenerator;
     private final EntityValidator entityValidator;
@@ -40,9 +36,10 @@ public class OrderServiceImpl implements OrderService {
     private final SubsService subsService;
     private final CartService cartService;
     private final ProductService productService;
-
+    private final CurationService curationService;
 
     @Override
+    @Transactional
     public OrderVO orderWholeCart(String token, String tossOrderId) {
         // 0. 유효성 검사 및 유저 검증
         String memberId = authTokensGenerator.extractMemberId(token);
@@ -77,19 +74,18 @@ public class OrderServiceImpl implements OrderService {
         entityValidator.getPresentMember(memberId);
         requestVO.setMemberId(memberId);
 
-        CurationVO curation = curationMapper.findCurationById(requestVO.getCurationId())
-                                            .orElseThrow(() -> new BusinessException(ErrorCode.CURATION_NOT_FOUND));
-
         // 1. ORDER 테이블에 저장
-        OrderVO order = buildCurationOrder(memberId, curation);
+        CurationVO thisMonthCuration = curationService.showCurationOfCurrMonth();
+        OrderVO order = buildCurationOrder(memberId, thisMonthCuration);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 2. ORDER_DETAIL 테이블에 저장
-        OrderDetailVO orderDetail = buildCurationOrderDetail(order.getId(), curation);
+        OrderDetailVO orderDetail = buildCurationOrderDetail(order.getId(), thisMonthCuration);
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
-        subsService.createSubscription(requestVO);
+        requestVO.setCurationYn(TableStatus.Y.getValue());
+        subsService.createCurationSubscription(requestVO);
 
         // 4. 주문 내역 반환
         order.setOrderDetails(List.of(orderDetail));
@@ -97,6 +93,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderVO createRegularDeliveryOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         String memberId = authTokensGenerator.extractMemberId(token);
@@ -113,7 +110,8 @@ public class OrderServiceImpl implements OrderService {
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
-        subsService.createSubscription(requestVO);
+        requestVO.setCurationYn(TableStatus.N.getValue());
+        subsService.createProductSubscription(requestVO);
 
         // 4. 주문 내역 반환
         order.setOrderDetails(List.of(orderDetail));

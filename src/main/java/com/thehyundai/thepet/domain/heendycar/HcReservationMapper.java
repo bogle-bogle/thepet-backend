@@ -8,6 +8,8 @@ import java.util.Optional;
 @Mapper
 public interface HcReservationMapper {
 
+    List<HcReservationVO> findBranchReservation(String branchCode);
+
     Integer saveReservation(HcReservationVO requestVO);
 
     Optional<HcReservationVO> findReservationById(String reservationId);

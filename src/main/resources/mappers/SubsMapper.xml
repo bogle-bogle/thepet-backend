@@ -9,7 +9,6 @@
              START_DATE,
              END_DATE,
              MEMBER_ID,
-             CURATION_ID,
              CURATION_YN
              )
         VALUES
@@ -17,7 +16,6 @@
              #{startDate},
              #{endDate},
              #{memberId},
-             #{curationId},
              #{curationYn}
              )
     </insert>
@@ -40,5 +38,31 @@
              #{curationYn}
              )
     </insert>
+
+    <select id="findCurationSubscriptionByMemberId" parameterType="SubscriptionVO">
+        SELECT ID,
+               START_DATE,
+               END_DATE,
+               MEMBER_ID,
+               CURATION_YN
+        FROM ADMIN.SUBSCRIPTION
+        WHERE MEMBER_ID = #{memberId}
+            AND CURATION_YN = #{curationYn}
+            AND END_DATE is null
+    </select>
+
+    <select id="findProductSubscriptionByMemberId" parameterType="SubscriptionVO">
+        SELECT ID,
+               START_DATE,
+               END_DATE,
+               MEMBER_ID,
+               PRODUCT_ID
+        FROM ADMIN.SUBSCRIPTION
+        WHERE MEMBER_ID = #{memberId}
+            AND PRODUCT_ID = #{productId}
+            AND END_DATE is null
+    </select>
+
+
 
 </mapper>
