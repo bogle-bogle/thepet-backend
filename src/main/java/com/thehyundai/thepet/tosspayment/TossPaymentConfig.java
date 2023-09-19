@@ -1,9 +1,11 @@
 package com.thehyundai.thepet.tosspayment;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Getter
 public class TossPaymentConfig {
 
     @Value("${payment.toss.test_client_api_key}")
@@ -18,5 +20,4 @@ public class TossPaymentConfig {
     @Value("${payment.toss.fail_url}")
     private String failUrl;
 
-    public static final String URL = "https://localhost:8080/api/v1/payments/";
 }
