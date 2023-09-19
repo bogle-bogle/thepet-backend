@@ -18,4 +18,5 @@ public interface HcReservationMapper {
 
     List<HcReservationVO> showAllMyReservations(String memberId);
 
+    Integer cancelReservation(String reservationId);
 }

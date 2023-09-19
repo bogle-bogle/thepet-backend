@@ -51,11 +51,18 @@
                r.RESERVATION_TIME,
                r.CREATED_AT,
                r.BRANCH_CODE,
+               r.CANCEL_YN,
                b.IMG_URL AS branchImgUrl
         FROM HEENDY_CAR_RESERVATION r
         JOIN BRANCH_HEENDY_CAR b
             ON r.BRANCH_CODE = b.BRANCH_CODE
         WHERE r.MEMBER_ID = #{memberId}
     </select>
+
+    <update id="cancelReservation" parameterType="String">
+        UPDATE HEENDY_CAR_RESERVATION
+        SET CANCEL_YN = 'N'
+        WHERE ID = #{reservationId}
+    </update>
 
 </mapper>
