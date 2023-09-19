@@ -9,28 +9,29 @@ import java.util.Optional;
 
 @Mapper
 public interface ProductMapper {
-
-    List<ProductVO> findProductsByCategoryAndKeyword(Map<String, String> params);
-
+    // 상품 등록
     Integer saveGeneralProduct(ProductVO product);
 
-    List<ProductVO> selectProducts(int page);
-
+    // 상품 조회
+//    List<ProductVO> selectProducts(int page);
     Optional<ProductVO> selectProductDetail(String id);
-
     Optional<ProductVO> findProductById(String id);
 
-    List<ProductVO> findProductsByPetInfoAndOrderLog(PetVO petVO);
-
-    List<ProductVO> findProductsByMbti(String mbtiType);
-
+    // 상품 검색
+    List<ProductVO> findProductsByCategoryAndKeyword(Map<String, String> params);
     List<ProductVO> filterProduct(FilterVO filterVO);
 
+    // 상품 페이지네이션
     Integer selectProductCount(FilterVO filterVO);
 
+    // 상품 추천 - 개별 반려동물 맞춤
+    List<ProductVO> findProductsByPetInfoAndOrderLog(PetVO petVO);
     List<ProductVO> findProductsByFavoriteProteinCode(String favoriteProtein);
-
     List<ProductVO> findProductsByAgeCode(String ageCmCode);
 
+    // 상품 추천 - MBTI 맞춤
+    List<ProductVO> findProductsByMbti(String mbtiType);
+    List<ProductVO> findToyProductsByMbti(String mbtiType);
+    List<ProductVO> findSuppliesByMbti(String mbtiType);
 
 }
