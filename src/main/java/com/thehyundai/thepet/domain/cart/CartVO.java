@@ -8,7 +8,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CartVO {
-
     private String id;
     private int cnt;
     private String memberId;

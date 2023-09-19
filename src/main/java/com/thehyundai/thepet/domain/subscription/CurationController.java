@@ -1,17 +1,18 @@
 package com.thehyundai.thepet.domain.subscription;
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/curation")
 public class CurationController {
@@ -24,4 +25,24 @@ public class CurationController {
         return new ResponseEntity<>(curationVO, HttpStatus.OK);
     }
 
+    @GetMapping("/monthly")
+    @Operation(summary = "이 달의 더펫박스 조회하기", description = "이번 달의 더펫박스 상세 정보를 불러옵니다.")    // API 정보 설정
+    public ResponseEntity<?> showCurationOfCurrMonth() {
+        CurationVO result = curationService.showCurationOfCurrMonth();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/annual")
+    @Operation(summary = "지난 1년간의 더펫박스 조회하기", description = "지난 1년간의 더펫박스 상세 정보를 불러옵니다.")
+    public ResponseEntity<?> showCurationOfLastOneYear() {
+        List<CurationVO> result = curationService.showCurationOfLastOneYear();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/{curationId}")
+    @Operation(summary = "더펫박스 상세 조회하기", description = "curationId를 이용하여 한 개의 더펫박스 상세 정보를 불러옵니다.")
+    public ResponseEntity<?> showCurationDetail(@PathVariable String curationId) {
+        CurationVO curation = curationService.showCurationDetail(curationId);
+        return new ResponseEntity<>(curation, HttpStatus.OK);
+    }
 }

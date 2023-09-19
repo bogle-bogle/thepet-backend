@@ -10,7 +10,6 @@ public class TossPaymentConfig {
 
     @Value("${payment.toss.test_client_api_key}")
     private String testClientApiKey;
-
     @Value("${payment.toss.test_secret_api_key}")
     private String testSecretKey;
 
@@ -20,4 +19,5 @@ public class TossPaymentConfig {
     @Value("${payment.toss.fail_url}")
     private String failUrl;
 
+    public static final String URL = "https://localhost:8080/api/v1/payments/";
 }

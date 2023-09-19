@@ -16,7 +16,6 @@ public class SubscriptionVO {
     private LocalDate startDate;
     private LocalDate endDate;
     private String memberId;
-    private String curationId;
     private String productId;
     private String curationYn;
 }

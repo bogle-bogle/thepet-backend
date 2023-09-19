@@ -1,6 +1,7 @@
 package com.thehyundai.thepet.domain.order;
 
 import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
 @Tag(name = "Order Controller", description = "주문 관련 컨트롤러")
@@ -74,6 +77,20 @@ public class OrderController {
     @Operation(summary = "나의 주문 내역 전체 조회하기", description = "지금까지의 나의 주문내역을 전체 조회합니다.")
     public ResponseEntity<?> showAllMyOrdersWithDetails(@RequestHeader("Authorization") String token) {
         List<OrderVO> result = orderService.showAllMyOrdersWithDetails(token);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/normal")
+    @Operation(summary = "나의 일반 주문 내역 조회하기", description = "나의 주문내역(일반)을 전체 조회합니다.")
+    public ResponseEntity<?> showMyNormalOrdersWithDetails(@RequestHeader("Authorization") String token) {
+        List<OrderVO> result = orderService.showMyNormalOrdersWithDetails(token);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/subscription")
+    @Operation(summary = "나의 구독 내역 조회하기", description = "지금까지의 나의 구독 내역을 전체 조회합니다.")
+    public ResponseEntity<?> showMySubscriptionWithDetails(@RequestHeader("Authorization") String token) {
+        Map<String, List<OrderVO>> result = orderService.showMySubscriptionWithDetails(token);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

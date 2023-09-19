@@ -1,24 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thehyundai.thepet.domain.subscription.SubsMapper">
 
-    <insert id="saveCurationSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT SUBSCRIPTION_SEQ.currval From DUAL
-        </selectKey>
-        INSERT INTO SUBSCRIPTION (START_DATE, END_DATE, MEMBER_ID, CURATION_ID, PRODUCT_ID, CURATION_YN)
-        VALUES (#{startDate}, #{endDate}, #{memberId}, #{curationId}, #{productId}, #{curationYn})
+    <insert id="saveCurationSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO" keyProperty="id" keyColumn="id">
+        INSERT INTO SUBSCRIPTION
+            (
+             START_DATE,
+             END_DATE,
+             MEMBER_ID,
+             CURATION_YN
+             )
+        VALUES
+            (
+             #{startDate},
+             #{endDate},
+             #{memberId},
+             #{curationYn}
+             )
     </insert>
 
-    <insert id="saveProductSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO">
-        <selectKey keyProperty="id" resultType="String" order="AFTER">
-            SELECT SUBSCRIPTION_SEQ.currval From DUAL
-        </selectKey>
-        INSERT INTO SUBSCRIPTION (START_DATE, END_DATE, MEMBER_ID, CURATION_ID, PRODUCT_ID, CURATION_YN)
-        VALUES (#{startDate}, #{endDate}, #{memberId}, #{curationId}, #{productId}, #{curationYn})
+    <insert id="saveProductSubscription" useGeneratedKeys="true" parameterType="SubscriptionVO" keyProperty="id" keyColumn="id">
+        INSERT INTO SUBSCRIPTION
+            (
+             START_DATE,
+             END_DATE,
+             MEMBER_ID,
+             PRODUCT_ID,
+             CURATION_YN
+             )
+        VALUES
+            (
+             #{startDate},
+             #{endDate},
+             #{memberId},
+             #{productId},
+             #{curationYn}
+             )
     </insert>
+
+    <select id="findCurationSubscriptionByMemberId" parameterType="SubscriptionVO">
+        SELECT ID,
+               START_DATE,
+               END_DATE,
+               MEMBER_ID,
+               CURATION_YN
+        FROM ADMIN.SUBSCRIPTION
+        WHERE MEMBER_ID = #{memberId}
+            AND CURATION_YN = #{curationYn}
+            AND END_DATE is null
+    </select>
+
+    <select id="findProductSubscriptionByMemberId" parameterType="SubscriptionVO">
+        SELECT ID,
+               START_DATE,
+               END_DATE,
+               MEMBER_ID,
+               PRODUCT_ID
+        FROM ADMIN.SUBSCRIPTION
+        WHERE MEMBER_ID = #{memberId}
+            AND PRODUCT_ID = #{productId}
+            AND END_DATE is null
+    </select>
+
+
 
 </mapper>

@@ -1,8 +1,6 @@
 package com.thehyundai.thepet.domain.mypet.pet;
 
 
-import com.thehyundai.thepet.global.cmcode.CmCodeVO;
-
 import java.util.List;
 
 public interface PetService {
@@ -12,8 +10,6 @@ public interface PetService {
     Integer updateFeed(PetVO petVO,String id);
 
     List<PetVO> myPet(String memberId);
-
-    List<CmCodeVO> getAllCode();
 
     List<PetVO> findPetsWithAllergies(String memberId);
 

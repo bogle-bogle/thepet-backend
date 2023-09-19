@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.cart;
 
+import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
+@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/cart")
 public class CartController {

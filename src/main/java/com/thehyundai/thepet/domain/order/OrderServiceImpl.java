@@ -2,17 +2,15 @@ package com.thehyundai.thepet.domain.order;
 
 import com.thehyundai.thepet.domain.cart.CartService;
 import com.thehyundai.thepet.domain.cart.CartVO;
+import com.thehyundai.thepet.domain.subscription.*;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
-import com.thehyundai.thepet.global.EntityValidator;
-import com.thehyundai.thepet.global.TableStatus;
+import com.thehyundai.thepet.global.util.EntityValidator;
+import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.domain.product.ProductService;
 import com.thehyundai.thepet.domain.product.ProductVO;
-import com.thehyundai.thepet.domain.subscription.CurationMapper;
-import com.thehyundai.thepet.domain.subscription.CurationVO;
-import com.thehyundai.thepet.domain.subscription.SubsService;
-import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
+import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -21,14 +19,16 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final OrderDetailMapper orderDetailMapper;
-    private final CurationMapper curationMapper;
 
     private final AuthTokensGenerator authTokensGenerator;
     private final EntityValidator entityValidator;
@@ -36,17 +36,10 @@ public class OrderServiceImpl implements OrderService {
     private final SubsService subsService;
     private final CartService cartService;
     private final ProductService productService;
-
-    // 추가
-    @Override
-    public OrderVO showOrderWithDetailsByTossOrderId(String tossOrderId) {
-        OrderVO result = orderMapper.getOrderWithOrderDetailsByTossOrderId(tossOrderId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.ORDER_NOT_FOUND));
-        return result;
-    }
-
+    private final CurationService curationService;
 
     @Override
+    @Transactional
     public OrderVO orderWholeCart(String token, String tossOrderId) {
         // 0. 유효성 검사 및 유저 검증
         String memberId = authTokensGenerator.extractMemberId(token);
@@ -81,19 +74,18 @@ public class OrderServiceImpl implements OrderService {
         entityValidator.getPresentMember(memberId);
         requestVO.setMemberId(memberId);
 
-        CurationVO curation = curationMapper.findCurationById(requestVO.getCurationId())
-                                            .orElseThrow(() -> new BusinessException(ErrorCode.CURATION_NOT_FOUND));
-
         // 1. ORDER 테이블에 저장
-        OrderVO order = buildCurationOrder(memberId, curation);
+        CurationVO thisMonthCuration = curationService.showCurationOfCurrMonth();
+        OrderVO order = buildCurationOrder(memberId, thisMonthCuration);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 2. ORDER_DETAIL 테이블에 저장
-        OrderDetailVO orderDetail = buildCurationOrderDetail(order.getId(), curation);
+        OrderDetailVO orderDetail = buildCurationOrderDetail(order.getId(), thisMonthCuration);
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
-        subsService.createSubscription(requestVO);
+        requestVO.setCurationYn(TableStatus.Y.getValue());
+        subsService.createCurationSubscription(requestVO);
 
         // 4. 주문 내역 반환
         order.setOrderDetails(List.of(orderDetail));
@@ -101,10 +93,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    @Transactional
     public OrderVO createRegularDeliveryOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
+        requestVO.setMemberId(memberId);
         ProductVO product = productService.getProductDetail(requestVO.getProductId());
 
         // 1. ORDER 테이블에 저장
@@ -116,7 +110,8 @@ public class OrderServiceImpl implements OrderService {
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
-        subsService.createSubscription(requestVO);
+        requestVO.setCurationYn(TableStatus.N.getValue());
+        subsService.createProductSubscription(requestVO);
 
         // 4. 주문 내역 반환
         order.setOrderDetails(List.of(orderDetail));
@@ -143,6 +138,25 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
+    @Override
+    public List<OrderVO> showMyNormalOrdersWithDetails(String token) {
+        String memberId = authTokensGenerator.extractMemberId(token);
+        entityValidator.getPresentMember(memberId);
+
+        List<OrderVO> result = orderMapper.showMyNormalOrdersWithDetails(memberId);
+        return result;    }
+
+    @Override
+    public Map<String, List<OrderVO>> showMySubscriptionWithDetails(String token) {
+        String memberId = authTokensGenerator.extractMemberId(token);
+        entityValidator.getPresentMember(memberId);
+
+        Map<String, List<OrderVO>> result = orderMapper.showMySubscriptionWithDetails(memberId)
+                                                       .stream()
+                                                       .collect(Collectors.groupingBy(order -> "Y".equals(order.getCurationYn()) ? "curationY" : "curationN"));
+        return result;
+    }
+
     private OrderVO buildCurationOrder(String memberId, CurationVO curation) {
         return OrderVO.builder()
                       .totalCnt(1)
@@ -150,6 +164,7 @@ public class OrderServiceImpl implements OrderService {
                       .createdAt(LocalDate.now())
                       .memberId(memberId)
                       .subscribeYn(TableStatus.Y.getValue())
+                      .curationYn(TableStatus.Y.getValue())
                       .build();
     }
 
@@ -159,7 +174,7 @@ public class OrderServiceImpl implements OrderService {
                             .cnt(1)
                             .curationId(curation.getId())
                             .curationName(curation.getName())
-                            .curationImgUrl(curation.getImgUrl())
+                            .curationImgUrl(curation.getThumbnailImgUrl())
                             .curationPrice(curation.getPrice())
                             .build();
     }

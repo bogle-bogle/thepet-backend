@@ -1,31 +1,41 @@
 package com.thehyundai.thepet.domain.heendycar;
 
-import com.thehyundai.thepet.global.TableStatus;
+import com.thehyundai.thepet.domain.member.MemberService;
+import com.thehyundai.thepet.domain.member.MemberVO;
+import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.cmcode.CmCodeValidator;
-import com.thehyundai.thepet.global.EntityValidator;
+import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
+import com.thehyundai.thepet.global.timetrace.TimeTraceService;
+import com.thehyundai.thepet.global.sms.HcSmsEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import static com.thehyundai.thepet.global.exception.ErrorCode.NO_PHONE_NUMBER;
+
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class HcServiceImpl implements HcService {
     private final HcBranchMapper branchMapper;
     private final HcReservationMapper reservationMapper;
     private final EntityValidator entityValidator;
     private final CmCodeValidator cmCodeValidator;
     private final AuthTokensGenerator  authTokensGenerator;
+    private final MemberService memberService;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Override
     public HcBranchVO showBranchInfo(String branchCode) {
@@ -41,23 +51,52 @@ public class HcServiceImpl implements HcService {
     }
 
     @Override
+    @Transactional
     public HcReservationVO createReservation(String token, HcReservationVO requestVO) {
-        log.info(requestVO);
         // 0. 유효성 검사 및 유저 검증
         validateRemainingCnt(requestVO);
-//        valiateAvailableTime(requestVO);      // 30분 전부터만 예약 가능하게 해둔 로직 -> 일단 고려하지 않기
+        String memberId = authTokensGenerator.extractMemberId(token);
+        entityValidator.getPresentMember(memberId);
+        if (requestVO.getPhoneNumber() == null) throw new BusinessException(NO_PHONE_NUMBER);
+
+        // 1. 회원 정보 업데이트
+        MemberVO memberVO = MemberVO.builder()
+                                    .id(memberId)
+                                    .phoneNumber(requestVO.getPhoneNumber())
+                                    .build();
+        memberService.updateMemberInfo(memberVO);
+
+        // 2. Reservation 생성
+        HcReservationVO reservation = buildReservation(memberId, requestVO);
+
+        // 3. RESERVATION 테이블에 INSERT
+        if (reservationMapper.saveReservation(reservation) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+
+        // 4. 30분 후에 픽업하지 않읋 시 자동 취소되는 스케줄러 생성
+        handleAutoCancellation(reservation.getId());
+
+        // 5. 문자 전송 이벤트 발생
+        if (reservation.getId() != null) {
+            HcSmsEvent hcSmsEvent = new HcSmsEvent(this, reservation);
+            eventPublisher.publishEvent(hcSmsEvent);
+        }
+        return reservation;
+    }
+
+    @Override
+    public List<HcReservationVO> showAllMyReservations(String token) {
+        // 0. 유효성 검사 및 유저 검증
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
 
-        // 1. Reservation 생성
-        HcReservationVO reservation = buildReservation(memberId, requestVO);
+        // 1. 나의 모든 예약 내역 가져오기
+        List<HcReservationVO> result = reservationMapper.showAllMyReservations(memberId);
+        return result;
+    }
 
-        // 2. RESERVATION 테이블에 INSERT
-        if (reservationMapper.saveReservation(reservation) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
-
-        // 3. 30분 후에 픽업하지 않읋 시 자동 취소되는 스케줄러 생성
-        handleAutoCancellation(reservation.getId());
-        return reservation;
+    @Override
+    public List<HcReservationVO> showBranchReservation(String branchCode) {
+        return reservationMapper.findBranchReservation(branchCode);
     }
 
 
@@ -69,7 +108,7 @@ public class HcServiceImpl implements HcService {
 
     private void cancelIfNotPickedUp(String reservationId) {
         HcReservationVO reservation = reservationMapper.findReservationById(reservationId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
+                                                       .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
         if (reservation.getPickupYn().equals(TableStatus.N.getValue())) {
             reservation.setCancelYn(TableStatus.Y.getValue());
             if (reservationMapper.updateReservation(reservation) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
@@ -90,7 +129,6 @@ public class HcServiceImpl implements HcService {
             throw new BusinessException(ErrorCode.NOT_AVAILABLE_RESERVATION_TIME);
         }
     }
-
     private HcReservationVO buildReservation(String memberId, HcReservationVO requestVO) {
         return HcReservationVO.builder()
                                      .branchCode(requestVO.getBranchCode())

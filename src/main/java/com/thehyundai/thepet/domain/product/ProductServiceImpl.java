@@ -2,6 +2,7 @@ package com.thehyundai.thepet.domain.product;
 
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
+import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -12,13 +13,13 @@ import java.util.Map;
 @Log4j2
 @Service
 @RequiredArgsConstructor
+@TimeTraceService
 public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     @Override
     public List<ProductVO> searchProducts(Map<String, String> params) {
         List<ProductVO> result = productMapper.findProductsByCategoryAndKeyword(params);
-        log.info("service : " + result);
         if(result.isEmpty()) {
             throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
         }
@@ -33,14 +34,9 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductListVO getAllProducts(FilterVO filterVO) {
-
         ProductListVO res = new ProductListVO();
-
         res.setProducts(productMapper.filterProduct(filterVO));
-        log.info(res);
         res.setCount(productMapper.selectProductCount(filterVO));
-        log.info(res);
-
         return res;
     }
 

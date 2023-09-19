@@ -4,6 +4,7 @@ package com.thehyundai.thepet.domain.order;
 import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
 
@@ -15,7 +16,9 @@ public interface OrderService {
 
     OrderVO showOrderWithDetails(String orderId);
 
-    OrderVO showOrderWithDetailsByTossOrderId(String tossOrderId);
-
     List<OrderVO> showAllMyOrdersWithDetails(String token);
+
+    List<OrderVO> showMyNormalOrdersWithDetails(String token);
+
+    Map<String, List<OrderVO>> showMySubscriptionWithDetails(String token);
 }
