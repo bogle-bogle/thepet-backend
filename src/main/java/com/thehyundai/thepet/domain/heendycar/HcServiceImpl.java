@@ -97,7 +97,7 @@ public class HcServiceImpl implements HcService {
     @Override
     public HcReservationVO cancelHeendycarReservation(String reservationId) {
         HcReservationVO reservation = reservationMapper.findReservationById(reservationId)
-                                                        .orElseThrow(() -> new BusinessException(RESERVATION_NOT_FOUND));
+                                                       .orElseThrow(() -> new BusinessException(RESERVATION_NOT_FOUND));
         if (reservationMapper.cancelReservation(reservationId) == 0) throw new BusinessException(DB_QUERY_EXECUTION_ERROR);
         reservation.setCancelYn("Y");
         return reservation;

@@ -57,11 +57,12 @@
         JOIN BRANCH_HEENDY_CAR b
             ON r.BRANCH_CODE = b.BRANCH_CODE
         WHERE r.MEMBER_ID = #{memberId}
+        ORDER BY r.RESERVATION_TIME desc
     </select>
 
     <update id="cancelReservation" parameterType="String">
         UPDATE HEENDY_CAR_RESERVATION
-        SET CANCEL_YN = 'N'
+        SET CANCEL_YN = 'Y'
         WHERE ID = #{reservationId}
     </update>
 
