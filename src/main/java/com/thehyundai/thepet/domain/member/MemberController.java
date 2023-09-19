@@ -28,4 +28,10 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/mypage")
+    public ResponseEntity<?> getMypageInfo(@RequestHeader("Authorization") String token) {
+        MypageVO result = memberService.getMypageInfo(token);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

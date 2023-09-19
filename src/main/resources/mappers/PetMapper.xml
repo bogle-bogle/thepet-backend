@@ -118,4 +118,10 @@
         WHERE ID = #{id}
     </update>
 
+    <select id="findPetCountByMemberId" parameterType="String">
+        SELECT COUNT(*)
+        FROM PET
+        WHERE MEMBER_ID = #{memberId}
+    </select>
+
 </mapper>
