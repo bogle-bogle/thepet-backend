@@ -11,4 +11,4 @@ COPY ./build/libs/thepet-0.0.1-SNAPSHOT.jar /app/thepet.jar
 EXPOSE 8080
 
 # Run the Spring Boot application
-CMD ["java", "-jar", "thepet.jar"]
+CMD ["java","-Djasypt.encryptor.password=${jasypt.encryptor.password}" ,"-jar", "thepet.jar"]
