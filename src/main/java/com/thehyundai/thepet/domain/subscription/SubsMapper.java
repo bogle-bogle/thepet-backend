@@ -14,4 +14,6 @@ public interface SubsMapper {
     Optional<SubscriptionVO> findCurationSubscriptionByMemberId(SubscriptionVO requestVO);
 
     Optional<SubscriptionVO> findProductSubscriptionByMemberId(SubscriptionVO requestVO);
+
+    Integer findSubsCntByMemberId(String memberId);
 }

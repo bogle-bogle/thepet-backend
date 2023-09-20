@@ -76,6 +76,26 @@ public class RecommendationServiceImpl implements RecommendationService {
         return recommendations;
     }
 
+    @Override
+    public RecommendationVO recommendToyProductsByMbti(String mbtiType) {
+        List<ProductVO> recommendations = productMapper.findToyProductsByMbti(mbtiType.toUpperCase())
+                                                       .stream()
+                                                       .distinct()
+                                                       .limit(4)
+                                                       .toList();
+        return new RecommendationVO(null, recommendations);
+    }
+
+    @Override
+    public RecommendationVO recommendSuppliesByMbti(String mbtiType) {
+        List<ProductVO> recommendations = productMapper.findSuppliesByMbti(mbtiType.toUpperCase())
+                                                       .stream()
+                                                       .distinct()
+                                                       .limit(4)
+                                                       .toList();
+        return new RecommendationVO(null, recommendations);
+    }
+
     private Integer calculatePetAge(LocalDate birthDate) {
         if (birthDate != null) {
             return Period.between(birthDate, LocalDate.now()).getYears();

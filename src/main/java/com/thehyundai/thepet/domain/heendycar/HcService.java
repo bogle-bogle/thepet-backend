@@ -13,4 +13,6 @@ public interface HcService {
     List<HcReservationVO> showBranchReservation(String branchCode);
   
     List<HcReservationVO> showAllMyReservations(String token);
+
+    HcReservationVO cancelHeendycarReservation(String reservationId);
 }

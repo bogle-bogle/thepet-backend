@@ -63,6 +63,10 @@
             AND END_DATE is null
     </select>
 
-
+    <select id="findSubsCntByMemberId" parameterType="String">
+        SELECT COUNT(*)
+        FROM SUBSCRIPTION
+        WHERE MEMBER_ID = #{memberId}
+    </select>
 
 </mapper>

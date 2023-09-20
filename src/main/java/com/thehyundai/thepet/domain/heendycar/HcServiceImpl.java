@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.thehyundai.thepet.global.exception.ErrorCode.NO_PHONE_NUMBER;
+import static com.thehyundai.thepet.global.exception.ErrorCode.*;
 
 @Log4j2
 @Service
@@ -112,6 +112,15 @@ public class HcServiceImpl implements HcService {
         // 1. 나의 모든 예약 내역 가져오기
         List<HcReservationVO> result = reservationMapper.showAllMyReservations(memberId);
         return result;
+    }
+
+    @Override
+    public HcReservationVO cancelHeendycarReservation(String reservationId) {
+        HcReservationVO reservation = reservationMapper.findReservationById(reservationId)
+                                                       .orElseThrow(() -> new BusinessException(RESERVATION_NOT_FOUND));
+        if (reservationMapper.cancelReservation(reservationId) == 0) throw new BusinessException(DB_QUERY_EXECUTION_ERROR);
+        reservation.setCancelYn("Y");
+        return reservation;
     }
 
     @Override

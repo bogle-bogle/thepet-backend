@@ -1,5 +1,7 @@
 package com.thehyundai.thepet.domain.member;
 
+import com.thehyundai.thepet.domain.mypet.pet.PetMapper;
+import com.thehyundai.thepet.domain.subscription.SubsMapper;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
@@ -19,6 +21,8 @@ import java.util.Optional;
 public class MemberServiceImpl implements MemberService{
 
     private final MemberMapper memberMapper;
+    private final PetMapper petMapper;
+    private final SubsMapper subsMapper;
     private final AuthTokensGenerator authTokensGenerator;
 
     @Override
@@ -60,6 +64,15 @@ public class MemberServiceImpl implements MemberService{
     public MemberVO updateMemberInfo(MemberVO memberVO) {
         if (memberMapper.updateMemberInfo(memberVO) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
         return memberVO;
+    }
+
+    @Override
+    public MypageVO getMypageInfo(String token) {
+        String memberId = authTokensGenerator.extractMemberId(token);
+        Integer petCnt = petMapper.findPetCountByMemberId(memberId);
+        Integer subCnt = subsMapper.findSubsCntByMemberId(memberId);
+
+        return new MypageVO(petCnt, subCnt);
     }
 }
 

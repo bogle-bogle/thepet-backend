@@ -42,6 +42,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductVO getProductDetail(String id) {
-        return productMapper.selectProductDetail(id);
+        ProductVO result = productMapper.selectProductDetail(id)
+                                        .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND));
+        return result;
     }
 }
