@@ -133,7 +133,7 @@ public class HcServiceImpl implements HcService {
 
     private void handleAutoCancellation(String reservationId) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.schedule(() -> cancelIfNotPickedUp(reservationId), 30, TimeUnit.SECONDS);           // 30초 -> 30분으로 변경 예정
+        executor.schedule(() -> cancelIfNotPickedUp(reservationId), 3, TimeUnit.MINUTES);           // 3분 -> 30분으로 변경 예정
         executor.shutdown();
     }
 
@@ -144,6 +144,13 @@ public class HcServiceImpl implements HcService {
             reservation.setCancelYn(TableStatus.Y.getValue());
             if (reservationMapper.updateReservation(reservation) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
             log.info("픽업하지 않고 30분이 지나 자동 취소됨");
+
+            // 문자 전송 이벤트 발생
+            if (reservation.getId() != null) {
+                HcSmsEvent hcSmsEvent = new HcSmsEvent(this, reservation);
+                eventPublisher.publishEvent(hcSmsEvent);
+
+            }
         } else {
             log.info("이미 픽업됨");
         }
