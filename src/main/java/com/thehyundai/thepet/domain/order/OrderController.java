@@ -36,21 +36,11 @@ public class OrderController {
     @Operation(summary = "장바구니에서 선택된 상품들 주문하기", description = "장바구니에 담긴 모든 상품을 한번에 주문합니다.")
     public ResponseEntity<?> orderSelectedCart(@RequestHeader("Authorization") String token,
                                                @RequestHeader("TossOrderId") String tossOrderId,
-                                               @RequestBody List<CartVO> selectedItem) {
+                                               @RequestBody List<CartVO> selectedItems) {
 
-        // CartListVO의 carts 리스트를 순회
-        for (CartVO cart : selectedItem) {
-            log.info(cart.toString());
-        }
-
-
-
-
-        return null;
-
-//        OrderVO result = orderService.orderSelectedCart(token, tossOrderId);
-//        log.info(result);
-//        return new ResponseEntity<>(result, HttpStatus.OK);
+        OrderVO result = orderService.orderSelectedCart(token, tossOrderId, selectedItems);
+        log.info("컨트롤러컨트롤러컨트롤러컨트롤러컨트롤러컨트롤러" +  result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
