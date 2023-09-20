@@ -55,4 +55,11 @@ public class HcController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @PutMapping("/{reservationId}")
+    @Operation(summary = "흰디카 예약 취소하기", description = "나의 흰디카 예약 내역을 취소합니다.")
+    public ResponseEntity<?> cancelHeendycarReservation(@RequestHeader("Authorization") String token, @PathVariable String reservationId) {
+        HcReservationVO result = hcService.cancelHeendycarReservation(reservationId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }

@@ -39,9 +39,11 @@ public enum ErrorCode {
     NO_PHONE_NUMBER("휴대폰 번호가 입력되지 않았습니다.", 406),
     CURATION_SUBSCRIPTION_ALREADY_EXISTS("이미 더펫박스를 구독한 회원입니다.", 406),
     PRODUCT_SUBSCRIPTION_ALREADY_EXISTS("이미 해당 상품을 구독한 회원입니다.", 406),
+    INVALID_PHONE_NUMBER("유효하지 않은 휴대폰번호입니다.", 406),
 
     // 500 INTERNAL SERVER ERROR
     DB_QUERY_EXECUTION_ERROR("쿼리가 정상적으로 완료되지 않았습니다.", 500),
+    SMS_ERROR("SMS 전송에 실패하였습니다.", 500),
 
     /* Spring Basic Exceptions */
     INTERNAL_SERVER_ERROR("서버 오류가 발생했습니다.", 500);

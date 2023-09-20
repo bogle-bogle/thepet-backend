@@ -20,4 +20,5 @@ public interface PetMapper {
 
 	Integer updateMbtiById(PetVO petVO);
 
+    Integer findPetCountByMemberId(String memberId);
 }

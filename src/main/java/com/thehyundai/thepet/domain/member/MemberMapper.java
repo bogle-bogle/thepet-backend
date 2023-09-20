@@ -1,6 +1,8 @@
 package com.thehyundai.thepet.domain.member;
 
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -12,5 +14,11 @@ public interface MemberMapper {
 
     Integer register(MemberVO member);
 
+    List<BackOfficeMemberVO> selectAllMember();
+    List<BackOfficeMemberVO> selectHeendyMember();
+    List<BackOfficeMemberVO> selectSubscribeMember();
+    List<BackOfficeMemberVO> selectDeliveryMember();
+
     Integer updateMemberInfo(MemberVO memberVO);
+
 }

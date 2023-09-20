@@ -72,6 +72,13 @@
         ORDER BY o.CREATED_AT DESC
     </select>
 
+    <select id="getOrderWithOrderDetailsByTossOrderId" resultMap="OrderWithDetails">
+        SELECT o.*, od.*, od.DETAIL_ID AS DETAIL_ID
+        FROM "ORDER" o
+        LEFT JOIN "ORDER_DETAIL" od ON o.id = od.order_id
+        WHERE o.id = #{tossOrderId}
+    </select>
+
     <select id="showAllMyOrdersWithDetails" resultMap="OrderWithDetails">
         SELECT o.ID,
                o.TOTAL_CNT,
