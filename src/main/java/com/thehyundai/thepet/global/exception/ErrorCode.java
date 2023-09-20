@@ -39,6 +39,7 @@ public enum ErrorCode {
     NO_PHONE_NUMBER("휴대폰 번호가 입력되지 않았습니다.", 406),
     CURATION_SUBSCRIPTION_ALREADY_EXISTS("이미 더펫박스를 구독한 회원입니다.", 406),
     PRODUCT_SUBSCRIPTION_ALREADY_EXISTS("이미 해당 상품을 구독한 회원입니다.", 406),
+    RESERVATION_ALREADY_EXISTS("이미 오늘의 예약이 존재합니다.", 406),
     INVALID_PHONE_NUMBER("유효하지 않은 휴대폰번호입니다.", 406),
 
     // 500 INTERNAL SERVER ERROR

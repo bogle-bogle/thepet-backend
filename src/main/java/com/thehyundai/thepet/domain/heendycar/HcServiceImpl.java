@@ -79,6 +79,8 @@ public class HcServiceImpl implements HcService {
                 .reason(null)
                 .memberId(memberId)
                 .build());
+        validatePresentReservation(memberId);
+
         // 1. 회원 정보 업데이트
         MemberVO memberVO = MemberVO.builder()
                                     .id(memberId)
@@ -141,9 +143,9 @@ public class HcServiceImpl implements HcService {
         if (reservation.getPickupYn().equals(TableStatus.N.getValue())) {
             reservation.setCancelYn(TableStatus.Y.getValue());
             if (reservationMapper.updateReservation(reservation) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
-            log.info("취소 완료!");
+            log.info("픽업하지 않고 30분이 지나 자동 취소됨");
         } else {
-            log.info("이미 픽업됨!");
+            log.info("이미 픽업됨");
         }
     }
 
@@ -169,4 +171,12 @@ public class HcServiceImpl implements HcService {
                                      .returnYn(TableStatus.N.getValue())
                                      .build();
     }
+
+    private void validatePresentReservation(String memberId) {
+        reservationMapper.findPresentReservation(memberId)
+                         .ifPresent(reservation -> {
+                             throw new BusinessException(RESERVATION_ALREADY_EXISTS);
+                         });
+    }
+
 }
