@@ -28,4 +28,24 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/entire")
+    public ResponseEntity<List<BackOfficeMemberVO>> getMembers() {
+        return new ResponseEntity<>(memberService.getAllMember(), HttpStatus.OK);
+    }
+
+    @GetMapping("/heendy")
+    public ResponseEntity<List<BackOfficeMemberVO>> getHeendyMembers() {
+        return new ResponseEntity<>(memberService.getAllHeendyMember(), HttpStatus.OK);
+    }
+
+    @GetMapping("/subscribe")
+    public ResponseEntity<List<BackOfficeMemberVO>> getSubscribeMembers() {
+        return new ResponseEntity<>(memberService.getAllSubscribeMember(), HttpStatus.OK);
+    }
+
+    @GetMapping("/delivery")
+    public ResponseEntity<List<BackOfficeMemberVO>> getDeliveryMembers() {
+        return new ResponseEntity<>(memberService.getAllDeliveryMember(), HttpStatus.OK);
+    }
+
 }
