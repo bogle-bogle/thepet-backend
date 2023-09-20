@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.order;
 
+import com.thehyundai.thepet.domain.cart.CartMapper;
 import com.thehyundai.thepet.domain.cart.CartService;
 import com.thehyundai.thepet.domain.cart.CartVO;
 import com.thehyundai.thepet.domain.subscription.*;
@@ -28,6 +29,7 @@ import java.util.stream.Collectors;
 @TimeTraceService
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
+    private final CartMapper cartMapper;
     private final OrderDetailMapper orderDetailMapper;
 
     private final AuthTokensGenerator authTokensGenerator;
@@ -56,9 +58,13 @@ public class OrderServiceImpl implements OrderService {
             if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
             orderDetails.add(orderDetail);
         }
-        
 
-        // 4. 반환값 생성
+        // 4. CART 테이블에서 주문된 상품들은 삭제
+        for (CartVO cart : selectedItems) {
+            if (cartMapper.deleteCart(cart.getId()) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+        }
+
+        // 5. 반환값 생성
         order.setOrderDetails(orderDetails);
         return order;
     }
