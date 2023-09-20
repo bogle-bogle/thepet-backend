@@ -66,6 +66,9 @@ dependencies {
 
 	implementation group: 'net.minidev', name: 'json-smart', version: '2.4.8'
 
+	//jasypt
+	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.5'
+
 }
 
 tasks.named('test') {
