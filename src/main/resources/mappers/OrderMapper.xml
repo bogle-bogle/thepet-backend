@@ -18,7 +18,7 @@
             (
              #{totalCnt},
              #{totalPrice},
-             sysdate,
+             #{createdAt},
              #{memberId},
              #{subscribeYn},
              #{curationYn},
