@@ -3,6 +3,8 @@ package com.thehyundai.thepet.domain.heendycar;
 import com.thehyundai.thepet.domain.member.MemberService;
 import com.thehyundai.thepet.domain.member.MemberVO;
 import com.thehyundai.thepet.global.cmcode.TableStatus;
+import com.thehyundai.thepet.global.event.EventLogMapper;
+import com.thehyundai.thepet.global.event.EventLogVO;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.cmcode.CmCodeValidator;
@@ -36,6 +38,8 @@ public class HcServiceImpl implements HcService {
     private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
 
+    private final EventLogMapper eventLogMapper;
+
     @Override
     public HcBranchVO showBranchInfo(String branchCode) {
         HcBranchVO result = branchMapper.findBranchInfoByBranchCode(branchCode)
@@ -55,8 +59,24 @@ public class HcServiceImpl implements HcService {
         validateRemainingCnt(requestVO);
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
-        if (requestVO.getPhoneNumber() == null) throw new BusinessException(NO_PHONE_NUMBER);
-
+        if (requestVO.getPhoneNumber().isEmpty()) {
+            eventLogMapper.insertEventLog(EventLogVO.builder()
+                    .eventPage("EL004")
+                    .event("HCR")
+                    .eventSuccess("N")
+                    .reason(NO_PHONE_NUMBER.name())
+                    .memberId(memberId)
+                    .build());
+            throw new BusinessException(NO_PHONE_NUMBER);
+        }
+        
+        eventLogMapper.insertEventLog(EventLogVO.builder()
+                .eventPage("EL004")
+                .event("HCR")
+                .eventSuccess("Y")
+                .reason(null)
+                .memberId(memberId)
+                .build());
         // 1. 회원 정보 업데이트
         MemberVO memberVO = MemberVO.builder()
                                     .id(memberId)

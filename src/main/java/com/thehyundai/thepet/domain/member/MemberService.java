@@ -9,9 +9,12 @@ public interface MemberService {
 
     Optional<MemberVO> showMember(String id);
 
-    List<MemberVO> getAllMember();
+    List<BackOfficeMemberVO> getAllMember();
 
-    List<MemberVO> getAllHeendyMember();
+    List<BackOfficeMemberVO> getAllHeendyMember();
+
+    List<BackOfficeMemberVO> getAllSubscribeMember();
+    List<BackOfficeMemberVO> getAllDeliveryMember();
 
     MemberVO updateMemberInfo(MemberVO memberVO);
 }

@@ -14,8 +14,10 @@ public interface MemberMapper {
 
     Integer register(MemberVO member);
 
-    List<MemberVO> selectAllMember();
-    List<MemberVO> selectHeendyMember();
+    List<BackOfficeMemberVO> selectAllMember();
+    List<BackOfficeMemberVO> selectHeendyMember();
+    List<BackOfficeMemberVO> selectSubscribeMember();
+    List<BackOfficeMemberVO> selectDeliveryMember();
 
     Integer updateMemberInfo(MemberVO memberVO);
 

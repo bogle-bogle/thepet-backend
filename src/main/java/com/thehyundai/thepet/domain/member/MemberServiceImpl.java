@@ -39,14 +39,21 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public List<MemberVO> getAllMember() {
+    public List<BackOfficeMemberVO> getAllMember() {
         return memberMapper.selectAllMember();
     }
 
     @Override
-    public List<MemberVO> getAllHeendyMember() {
+    public List<BackOfficeMemberVO> getAllHeendyMember() {
         return memberMapper.selectHeendyMember();
     }
+
+    @Override
+    public List<BackOfficeMemberVO> getAllSubscribeMember() { return memberMapper.selectSubscribeMember(); }
+
+    @Override
+    public List<BackOfficeMemberVO> getAllDeliveryMember() { return memberMapper.selectDeliveryMember(); }
+
     @Override
     public MemberVO updateMemberInfo(MemberVO memberVO) {
         if (memberMapper.updateMemberInfo(memberVO) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
