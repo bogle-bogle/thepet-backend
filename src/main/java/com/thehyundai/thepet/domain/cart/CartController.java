@@ -16,19 +16,28 @@ import java.util.List;
 public class CartController {
     private final CartService cartService;
 
+
     @PostMapping
     public ResponseEntity<CartVO> insertCart(@RequestBody CartVO cartVO) {
         cartService.insertCart(cartVO);
+//        CartLogDTO cartLogDTO = CartLogDTO.builder()
+//                .action("add_to_cart")
+//                .memberId(cartVO.getMemberId())
+//                .productId(cartVO.getProductId())
+//                .createdAt(cartVO.getCreatedAt())
+//                .cartId(cartVO.getId())
+//                .build();
+
         return ResponseEntity.ok(cartVO);
     }
 
-    @PutMapping
+    @PatchMapping
     public ResponseEntity<CartVO> updateCart(@RequestBody CartVO cartVO) {
         cartService.updateCart(cartVO);
         return ResponseEntity.ok(cartVO);
     }
 
-    @DeleteMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<String> deleteCart(@PathVariable String id) {
         cartService.deleteCart(id);
         return ResponseEntity.ok(id);
