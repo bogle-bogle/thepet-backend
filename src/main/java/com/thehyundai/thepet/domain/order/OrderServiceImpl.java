@@ -40,6 +40,30 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
+    public OrderVO orderSelectedCart(String token, String tossOrderId, List<CartVO> selectedItems) {
+        // 0. 유효성 검사 및 유저 검증
+        String memberId = authTokensGenerator.extractMemberId(token);
+        entityValidator.getPresentMember(memberId);
+
+        // 1. ORDER 테이블에 저장
+        OrderVO order = buildSelectedCartOrder(memberId, selectedItems, tossOrderId);
+        if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+
+        // 3. ORDER_DETAIL 테이블에 저장
+        List<OrderDetailVO> orderDetails = new ArrayList<>();
+        for (CartVO cart : selectedItems) {
+            OrderDetailVO orderDetail = buildCartOrderDetail(order.getId(), cart);
+            if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+            orderDetails.add(orderDetail);
+        }
+
+        // 4. 반환값 생성
+        order.setOrderDetails(orderDetails);
+        return order;
+    }
+
+    @Override
+    @Transactional
     public OrderVO orderWholeCart(String token, String tossOrderId) {
         // 0. 유효성 검사 및 유저 검증
         String memberId = authTokensGenerator.extractMemberId(token);
@@ -65,6 +89,8 @@ public class OrderServiceImpl implements OrderService {
         return order;
 
     }
+
+
 
     @Override
     @Transactional
@@ -179,6 +205,16 @@ public class OrderServiceImpl implements OrderService {
                             .build();
     }
 
+    private OrderVO buildSelectedCartOrder(String memberId, List<CartVO> selectedCart, String tossOrderId) {
+        return OrderVO.builder()
+                .totalCnt(selectedCart.size())
+                .totalPrice(calculateTotalPrice(selectedCart))
+                .createdAt(LocalDate.now())
+                .memberId(memberId)
+                .subscribeYn(TableStatus.N.getValue())
+                .tossOrderId(tossOrderId)
+                .build();
+    }
     private OrderVO buildWholeCartOrder(String memberId, List<CartVO> wholeCart, String tossOrderId) {
         return OrderVO.builder()
                 .totalCnt(wholeCart.size())

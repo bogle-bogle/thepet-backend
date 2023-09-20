@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.order;
 
+import com.thehyundai.thepet.domain.cart.CartVO;
 import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,17 +30,28 @@ public class OrderController {
 //        OrderVO result = orderService.showOrderWithDetailsByTossOrderId(tossOrderId);
 //        return new ResponseEntity<>(result, HttpStatus.OK);
 //    }
-//
-//    // 장바구니 선택 결제로 인해 추가 - service에서 처리가 다름
-//    @PostMapping
-//    @Operation(summary = "주문하기", description = "장바구니에서 선택된 상품을 한번에 주문합니다.")
-//    public ResponseEntity<?> orderCart(@RequestHeader("Authorization") String token,
-//                                       @RequestHeader("TossOrderId") String tossOrderId) {
-//
-//        OrderVO result = orderService.orderWholeCart(token, tossOrderId);
+
+
+    @PostMapping("/selected-cart")
+    @Operation(summary = "장바구니에서 선택된 상품들 주문하기", description = "장바구니에 담긴 모든 상품을 한번에 주문합니다.")
+    public ResponseEntity<?> orderSelectedCart(@RequestHeader("Authorization") String token,
+                                               @RequestHeader("TossOrderId") String tossOrderId,
+                                               @RequestBody List<CartVO> selectedItem) {
+
+        // CartListVO의 carts 리스트를 순회
+        for (CartVO cart : selectedItem) {
+            log.info(cart.toString());
+        }
+
+
+
+
+        return null;
+
+//        OrderVO result = orderService.orderSelectedCart(token, tossOrderId);
 //        log.info(result);
 //        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
+    }
 
 
     @PostMapping("/cart")
