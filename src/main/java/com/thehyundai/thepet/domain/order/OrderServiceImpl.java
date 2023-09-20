@@ -56,6 +56,7 @@ public class OrderServiceImpl implements OrderService {
             if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
             orderDetails.add(orderDetail);
         }
+        
 
         // 4. 반환값 생성
         order.setOrderDetails(orderDetails);
@@ -150,8 +151,6 @@ public class OrderServiceImpl implements OrderService {
                                     .orElseThrow(() -> new BusinessException(ErrorCode.ORDER_NOT_FOUND));
         return result;
     }
-
-
 
     @Override
     public List<OrderVO> showAllMyOrdersWithDetails(String token) {

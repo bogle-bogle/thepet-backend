@@ -66,4 +66,15 @@
         WHERE ID = #{reservationId}
     </update>
 
+    <select id="findPresentReservation" parameterType="String" resultType="HcReservationVO">
+        SELECT ID,
+               BRANCH_CODE,
+               MEMBER_ID,
+               RESERVATION_TIME
+        FROM HEENDY_CAR_RESERVATION
+        WHERE MEMBER_ID = #{memberId}
+          AND TRUNC(RESERVATION_TIME) = TRUNC(SYSDATE)
+          AND CANCEL_YN = 'N'
+    </select>
+
 </mapper>
