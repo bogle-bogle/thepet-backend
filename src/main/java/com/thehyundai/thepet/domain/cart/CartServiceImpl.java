@@ -10,7 +10,7 @@ import java.util.List;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-@TimeTraceService
+//@TimeTraceService
 public class CartServiceImpl implements CartService {
     private final CartMapper cartMapper;
 

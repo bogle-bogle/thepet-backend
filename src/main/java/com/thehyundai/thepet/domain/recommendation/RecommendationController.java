@@ -14,7 +14,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
-@TimeTraceController
+//@TimeTraceController
 @RequiredArgsConstructor
 @Tag(name = "Recommendation Controller", description = "상품 추천 관련 컨트롤러")
 @RequestMapping("/api/recommendation")

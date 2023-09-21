@@ -15,7 +15,7 @@ import java.sql.Timestamp;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-@TimeTraceService
+//@TimeTraceService
 public class CustomCardServiceImpl implements CustomCardService {
     private final CustomCardMapper customCardMapper;
     private final AwsS3Service awsS3Service;

@@ -20,7 +20,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Service
-@TimeTraceService
+//@TimeTraceService
 public class RecommendationServiceImpl implements RecommendationService {
     private final ProductMapper productMapper;
     private final EntityValidator entityValidator;

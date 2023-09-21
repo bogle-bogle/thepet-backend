@@ -15,7 +15,7 @@ import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 
 @Log4j2
 @RestController
-@TimeTraceController
+//@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/member")
 public class MemberController {

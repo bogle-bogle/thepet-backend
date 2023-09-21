@@ -10,7 +10,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
-@TimeTraceController
+//@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/cart")
 public class CartController {
