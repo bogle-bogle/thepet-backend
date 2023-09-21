@@ -3,7 +3,6 @@ package com.thehyundai.thepet.domain.heendycar;
 import com.thehyundai.thepet.domain.member.MemberService;
 import com.thehyundai.thepet.domain.member.MemberVO;
 import com.thehyundai.thepet.global.cmcode.CmCodeValidator;
-import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.global.event.EventLogMapper;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
@@ -24,6 +23,8 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static com.thehyundai.thepet.global.exception.ErrorCode.*;
+import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_N;
+import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_Y;
 
 @Log4j2
 @Service
@@ -120,7 +121,7 @@ public class HcServiceImpl implements HcService {
         HcReservationVO reservation = reservationMapper.findReservationById(reservationId)
                                                        .orElseThrow(() -> new BusinessException(RESERVATION_NOT_FOUND));
         if (reservationMapper.cancelReservation(reservationId) == 0) throw new BusinessException(DB_QUERY_EXECUTION_ERROR);
-        reservation.setCancelYn(TableStatus.Y.getValue());
+        reservation.setCancelYn(TABLE_STATUS_Y);
         return reservation;
     }
 
@@ -139,8 +140,8 @@ public class HcServiceImpl implements HcService {
     private void cancelIfNotPickedUp(String reservationId) {
         HcReservationVO reservation = reservationMapper.findReservationById(reservationId)
                                                        .orElseThrow(() -> new BusinessException(ErrorCode.RESERVATION_NOT_FOUND));
-        if (reservation.getPickupYn().equals(TableStatus.N.getValue())) {
-            reservation.setCancelYn(TableStatus.Y.getValue());
+        if (reservation.getPickupYn().equals(TABLE_STATUS_N)) {
+            reservation.setCancelYn(TABLE_STATUS_Y);
             if (reservationMapper.updateReservation(reservation) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
             log.info("픽업하지 않고 30분이 지나 자동 취소됨");
 
@@ -172,9 +173,9 @@ public class HcServiceImpl implements HcService {
                                      .memberId(memberId)
                                      .reservationTime(requestVO.getReservationTime())
                                      .createdAt(LocalDateTime.now())
-                                     .pickupYn(TableStatus.N.getValue())
-                                     .cancelYn(TableStatus.N.getValue())
-                                     .returnYn(TableStatus.N.getValue())
+                                     .pickupYn(TABLE_STATUS_N)
+                                     .cancelYn(TABLE_STATUS_N)
+                                     .returnYn(TABLE_STATUS_N)
                                      .build();
     }
 

@@ -5,7 +5,6 @@ import com.thehyundai.thepet.domain.heendycar.HcReservationVO;
 import com.thehyundai.thepet.domain.heendycar.HcService;
 import com.thehyundai.thepet.domain.member.MemberService;
 import com.thehyundai.thepet.domain.member.MemberVO;
-import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +14,8 @@ import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
 import java.util.StringJoiner;
+
+import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_N;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -38,7 +39,7 @@ public class HcSmsEventListener implements ApplicationListener<HcSmsEvent> {
         HcBranchVO branch = hcService.showBranchInfo(reservation.getBranchCode());
 
         MessageDTO messageDTO;
-        if (reservation.getCancelYn().equals(TableStatus.N.getValue())) {
+        if (reservation.getCancelYn().equals(TABLE_STATUS_N)) {
             messageDTO = createMessageDTO(memberInfo, branch, reservation);
         } else {
             messageDTO = createCancelMessageDTO(memberInfo, branch, reservation);
