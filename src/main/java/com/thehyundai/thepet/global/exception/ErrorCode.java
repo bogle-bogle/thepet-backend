@@ -17,6 +17,7 @@ public enum ErrorCode {
 
     // 401 Unauthorized
     EXPIRED_TOKEN("만료된 토큰입니다. 재로그인이 필요합니다.", 401),
+    LOGIN_REQUIRED("로그인이 필요합니다.", 401),
 
     // 403 FORBIDDEN
 
