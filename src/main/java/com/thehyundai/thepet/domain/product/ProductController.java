@@ -42,18 +42,14 @@ public class ProductController {
 
     @PostMapping("/list/{page}")
     public ResponseEntity<ProductListVO> getProducts(@PathVariable int page, @RequestBody FilterVO filterVO) {
-        log.info(filterVO);
         filterVO.setPage((page - 1) * 20 + 1);
         ProductListVO result = productService.getAllProducts(filterVO);
-
-        return ResponseEntity.ok(result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
     @GetMapping("/{id}")
     public ResponseEntity<ProductVO> getProductDetail(@PathVariable String id) {
-        return ResponseEntity.ok(productService.getProductDetail(id));
+        ProductVO result = productService.getProductDetail(id);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-
-
 
 }

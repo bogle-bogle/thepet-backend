@@ -1,13 +1,9 @@
 package com.thehyundai.thepet.domain.subscription;
 
-import java.util.List;
-
 public interface SubsService {
-     SubscriptionVO createSubscription(SubscriptionVO requestVO);
 
-     CurationVO showCurationOfCurrMonth();
+     SubscriptionVO createCurationSubscription(SubscriptionVO requestVO);
 
-     List<CurationVO> showCurationOfLastOneYear();
+     SubscriptionVO createProductSubscription(SubscriptionVO requestVO);
 
-     CurationVO showCurationDetail(String curationId);
 }

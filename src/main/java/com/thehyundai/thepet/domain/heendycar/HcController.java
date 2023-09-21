@@ -41,10 +41,24 @@ public class HcController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/branch/{branchCode}/reservation")
+    @Operation(summary = "지점별 흰디카 예약현황 조회하기", description = "지점을 선택하면, 해당 지점 흰디카 정보를 불러옵니다.")
+    public ResponseEntity<?> showBranchReservation(@PathVariable String branchCode) {
+        List<HcReservationVO> result = hcService.showBranchReservation(branchCode);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @GetMapping("/myreservation")
     @Operation(summary = "나의 예약 내역 조회하기", description = "마이페이지에서 나의 흰디카 예약 내역을 모두 불러옵니다.")
     public ResponseEntity<?> showAllMyReservations(@RequestHeader("Authorization") String token) {
         List<HcReservationVO> result = hcService.showAllMyReservations(token);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PutMapping("/{reservationId}")
+    @Operation(summary = "흰디카 예약 취소하기", description = "나의 흰디카 예약 내역을 취소합니다.")
+    public ResponseEntity<?> cancelHeendycarReservation(@RequestHeader("Authorization") String token, @PathVariable String reservationId) {
+        HcReservationVO result = hcService.cancelHeendycarReservation(reservationId);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

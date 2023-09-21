@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-import static com.thehyundai.thepet.global.exception.ErrorCode.NO_PHONE_NUMBER;
+import static com.thehyundai.thepet.global.exception.ErrorCode.*;
 
 @Log4j2
 @Service
@@ -54,6 +55,7 @@ public class HcServiceImpl implements HcService {
     }
 
     @Override
+    @Transactional
     public HcReservationVO createReservation(String token, HcReservationVO requestVO) {
         // 0. 유효성 검사 및 유저 검증
         validateRemainingCnt(requestVO);
@@ -98,6 +100,20 @@ public class HcServiceImpl implements HcService {
         return result;
     }
 
+    @Override
+    public HcReservationVO cancelHeendycarReservation(String reservationId) {
+        HcReservationVO reservation = reservationMapper.findReservationById(reservationId)
+                                                       .orElseThrow(() -> new BusinessException(RESERVATION_NOT_FOUND));
+        if (reservationMapper.cancelReservation(reservationId) == 0) throw new BusinessException(DB_QUERY_EXECUTION_ERROR);
+        reservation.setCancelYn("Y");
+        return reservation;
+    }
+
+    @Override
+    public List<HcReservationVO> showBranchReservation(String branchCode) {
+        return reservationMapper.findBranchReservation(branchCode);
+    }
+
 
     private void handleAutoCancellation(String reservationId) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
@@ -111,9 +127,9 @@ public class HcServiceImpl implements HcService {
         if (reservation.getPickupYn().equals(TableStatus.N.getValue())) {
             reservation.setCancelYn(TableStatus.Y.getValue());
             if (reservationMapper.updateReservation(reservation) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
-            log.info("취소 완료!");
+            log.info("픽업하지 않고 30분이 지나 자동 취소됨");
         } else {
-            log.info("이미 픽업됨!");
+            log.info("이미 픽업됨");
         }
     }
 
@@ -139,4 +155,12 @@ public class HcServiceImpl implements HcService {
                                      .returnYn(TableStatus.N.getValue())
                                      .build();
     }
+
+    private void validatePresentReservation(String memberId) {
+        reservationMapper.findPresentReservation(memberId)
+                         .ifPresent(reservation -> {
+                             throw new BusinessException(RESERVATION_ALREADY_EXISTS);
+                         });
+    }
+
 }

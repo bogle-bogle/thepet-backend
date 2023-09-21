@@ -171,6 +171,57 @@
             ORDERED_CNT DESC
     </select>
 
+    <select id="findToyProductsByMbti" parameterType="String" resultType="ProductVO">
+        SELECT
+            p.ID,
+            p.NAME,
+            p.PRICE,
+            p.MAIN_IMG_URL,
+            COUNT(*) AS ORDERED_CNT
+        FROM
+            MEMBER m
+                JOIN
+            PET pt ON m.ID = pt.MEMBER_ID
+                JOIN
+            "ORDER" o ON m.ID = o.MEMBER_ID
+                JOIN
+            ORDER_DETAIL od ON o.ID = od.ORDER_ID
+                JOIN
+            PRODUCT p ON od.PRODUCT_ID = p.ID
+        WHERE
+            pt.MBTI = #{mbtiType}
+            AND p.MAIN_CATEGORY_CODE = 'TO'
+        GROUP BY
+            p.ID, p.NAME, p.PRICE, p.MAIN_IMG_URL
+        ORDER BY
+            ORDERED_CNT DESC
+    </select>
+
+    <select id="findSuppliesByMbti" parameterType="String" resultType="ProductVO">
+        SELECT
+            p.ID,
+            p.NAME,
+            p.PRICE,
+            p.MAIN_IMG_URL,
+            COUNT(*) AS ORDERED_CNT
+        FROM
+            MEMBER m
+                JOIN
+            PET pt ON m.ID = pt.MEMBER_ID
+                JOIN
+            "ORDER" o ON m.ID = o.MEMBER_ID
+                JOIN
+            ORDER_DETAIL od ON o.ID = od.ORDER_ID
+                JOIN
+            PRODUCT p ON od.PRODUCT_ID = p.ID
+        WHERE
+            pt.MBTI = #{mbtiType}
+            AND p.MAIN_CATEGORY_CODE = 'SP'
+        GROUP BY
+            p.ID, p.NAME, p.PRICE, p.MAIN_IMG_URL
+        ORDER BY
+            ORDERED_CNT DESC
+    </select>
 
     <select id="filterProduct" parameterType="FilterVO" resultType="ProductVO">
         SELECT ID,

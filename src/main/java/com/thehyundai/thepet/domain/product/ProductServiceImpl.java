@@ -20,7 +20,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductVO> searchProducts(Map<String, String> params) {
         List<ProductVO> result = productMapper.findProductsByCategoryAndKeyword(params);
-        log.info("service : " + result);
         if(result.isEmpty()) {
             throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
         }
@@ -35,19 +34,16 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductListVO getAllProducts(FilterVO filterVO) {
-
         ProductListVO res = new ProductListVO();
-
         res.setProducts(productMapper.filterProduct(filterVO));
-        log.info(res);
         res.setCount(productMapper.selectProductCount(filterVO));
-        log.info(res);
-
         return res;
     }
 
     @Override
     public ProductVO getProductDetail(String id) {
-        return productMapper.selectProductDetail(id);
+        ProductVO result = productMapper.selectProductDetail(id)
+                                        .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND));
+        return result;
     }
 }

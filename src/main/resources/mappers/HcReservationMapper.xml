@@ -39,16 +39,42 @@
         WHERE ID = #{id}
     </update>
 
+    <select id="findBranchReservation" parameterType="String" resultType="HcReservationVO">
+        SELECT member_id, reservation_time, created_at,pickup_yn, cancel_yn,return_yn
+        FROM HEENDY_CAR_RESERVATION 
+        WHERE branch_code = #{branchCode}
+    </select>
+
+
     <select id="showAllMyReservations" parameterType="String">
         SELECT r.ID,
                r.RESERVATION_TIME,
                r.CREATED_AT,
                r.BRANCH_CODE,
+               r.CANCEL_YN,
                b.IMG_URL AS branchImgUrl
         FROM HEENDY_CAR_RESERVATION r
         JOIN BRANCH_HEENDY_CAR b
             ON r.BRANCH_CODE = b.BRANCH_CODE
         WHERE r.MEMBER_ID = #{memberId}
+        ORDER BY r.RESERVATION_TIME desc
+    </select>
+
+    <update id="cancelReservation" parameterType="String">
+        UPDATE HEENDY_CAR_RESERVATION
+        SET CANCEL_YN = 'Y'
+        WHERE ID = #{reservationId}
+    </update>
+
+    <select id="findPresentReservation" parameterType="String" resultType="HcReservationVO">
+        SELECT ID,
+               BRANCH_CODE,
+               MEMBER_ID,
+               RESERVATION_TIME
+        FROM HEENDY_CAR_RESERVATION
+        WHERE MEMBER_ID = #{memberId}
+          AND TRUNC(RESERVATION_TIME) = TRUNC(SYSDATE)
+          AND CANCEL_YN = 'N'
     </select>
 
 </mapper>

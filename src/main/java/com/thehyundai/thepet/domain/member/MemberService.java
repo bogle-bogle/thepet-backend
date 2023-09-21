@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MemberService {
+
     MemberVO loginOrRegister(MemberVO member);
 
     Optional<MemberVO> showMember(String id);
@@ -17,4 +18,7 @@ public interface MemberService {
     List<BackOfficeMemberVO> getAllDeliveryMember();
 
     MemberVO updateMemberInfo(MemberVO memberVO);
+
+    MypageVO getMypageInfo(String token);
+
 }

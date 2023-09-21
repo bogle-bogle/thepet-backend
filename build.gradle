@@ -63,6 +63,12 @@ dependencies {
 
 	// AWS
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	implementation group: 'net.minidev', name: 'json-smart', version: '2.4.8'
+
+	//jasypt
+	implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.5'
+
 }
 
 tasks.named('test') {

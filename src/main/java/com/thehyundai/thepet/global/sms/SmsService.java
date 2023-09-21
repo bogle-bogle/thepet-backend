@@ -68,7 +68,7 @@ public class SmsService {
 
     public SmsResponseDTO sendSms(MessageDTO messageDto) throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
 
-        log.info("sms 서비스임" + messageDto);
+        log.info("sms 서비스에서 받음 : " + messageDto);
         Long time = System.currentTimeMillis();
 
         HttpHeaders headers = new HttpHeaders();
