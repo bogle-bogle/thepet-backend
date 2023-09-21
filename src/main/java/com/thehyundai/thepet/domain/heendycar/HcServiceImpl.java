@@ -2,16 +2,15 @@ package com.thehyundai.thepet.domain.heendycar;
 
 import com.thehyundai.thepet.domain.member.MemberService;
 import com.thehyundai.thepet.domain.member.MemberVO;
+import com.thehyundai.thepet.global.cmcode.CmCodeValidator;
 import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.global.event.EventLogMapper;
-import com.thehyundai.thepet.global.event.EventLogVO;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
-import com.thehyundai.thepet.global.cmcode.CmCodeValidator;
-import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import com.thehyundai.thepet.global.sms.HcSmsEvent;
+import com.thehyundai.thepet.global.timetrace.TimeTraceService;
+import com.thehyundai.thepet.global.util.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationEventPublisher;
@@ -62,23 +61,23 @@ public class HcServiceImpl implements HcService {
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
         if (requestVO.getPhoneNumber().isEmpty()) {
-            eventLogMapper.insertEventLog(EventLogVO.builder()
-                    .eventPage("EL004")
-                    .event("HCR")
-                    .eventSuccess("N")
-                    .reason(NO_PHONE_NUMBER.name())
-                    .memberId(memberId)
-                    .build());
+//            eventLogMapper.insertEventLog(EventLogVO.builder()
+//                    .eventPage("EL004")
+//                    .event("HCR")
+//                    .eventSuccess("N")
+//                    .reason(NO_PHONE_NUMBER.name())
+//                    .memberId(memberId)
+//                    .build());
             throw new BusinessException(NO_PHONE_NUMBER);
         }
         
-        eventLogMapper.insertEventLog(EventLogVO.builder()
-                .eventPage("EL004")
-                .event("HCR")
-                .eventSuccess("Y")
-                .reason(null)
-                .memberId(memberId)
-                .build());
+//        eventLogMapper.insertEventLog(EventLogVO.builder()
+//                .eventPage("EL004")
+//                .event("HCR")
+//                .eventSuccess("Y")
+//                .reason(null)
+//                .memberId(memberId)
+//                .build());
         validatePresentReservation(memberId);
 
         // 1. 회원 정보 업데이트
@@ -121,7 +120,7 @@ public class HcServiceImpl implements HcService {
         HcReservationVO reservation = reservationMapper.findReservationById(reservationId)
                                                        .orElseThrow(() -> new BusinessException(RESERVATION_NOT_FOUND));
         if (reservationMapper.cancelReservation(reservationId) == 0) throw new BusinessException(DB_QUERY_EXECUTION_ERROR);
-        reservation.setCancelYn("Y");
+        reservation.setCancelYn(TableStatus.Y.getValue());
         return reservation;
     }
 
