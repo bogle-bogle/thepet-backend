@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.global.event;
+package com.thehyundai.thepet.domain.event;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,9 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class EventLogVO {
-    private String memberId;
-    private String eventPage;
-    private String event;
-    private String eventSuccess;
-    private String reason;
+    private String page;
+    private String element;
+    private String itemId;
+    private String isClicked;
 }
