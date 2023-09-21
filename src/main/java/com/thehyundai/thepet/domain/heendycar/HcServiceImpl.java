@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -123,6 +124,23 @@ public class HcServiceImpl implements HcService {
         if (reservationMapper.cancelReservation(reservationId) == 0) throw new BusinessException(DB_QUERY_EXECUTION_ERROR);
         reservation.setCancelYn("Y");
         return reservation;
+    }
+
+    @Override
+    public Integer adminHeendycarManage(String productId, String type,String newValue) {
+        HcReservationVO reservationVO = new HcReservationVO();
+        reservationVO.setId(productId);
+        if ("pickupYn".equals(type)) {
+            reservationVO.setPickupYn(newValue);
+            return reservationMapper.changePickUp(reservationVO);
+        } else if ("cancelYn".equals(type)) {
+            reservationVO.setCancelYn(newValue);
+            return reservationMapper.changeCancel(reservationVO);
+        } else if ("returnYn".equals(type)) {
+            reservationVO.setReturnYn(newValue);
+            return reservationMapper.changeReturn(reservationVO);
+        }
+        return null;
     }
 
     @Override

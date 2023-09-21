@@ -21,4 +21,5 @@ public class HcReservationVO {
     private String returnYn;
     private String branchImgUrl;
     private String phoneNumber;
+    private String name;
 }

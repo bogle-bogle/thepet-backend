@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @RestController
@@ -59,6 +60,14 @@ public class HcController {
     @Operation(summary = "흰디카 예약 취소하기", description = "나의 흰디카 예약 내역을 취소합니다.")
     public ResponseEntity<?> cancelHeendycarReservation(@RequestHeader("Authorization") String token, @PathVariable String reservationId) {
         HcReservationVO result = hcService.cancelHeendycarReservation(reservationId);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PutMapping("/updateStatus/{productId}/{type}/{newValue}")
+    @Operation(summary = "관리자 흰디카 관리", description = "관리자의 흰디카 관리(반납, 예약, 픽업)")
+    public ResponseEntity<?> adminHeendycarManage(@PathVariable String productId,@PathVariable String type,@PathVariable String newValue) {
+
+        Integer result = hcService.adminHeendycarManage(productId,type,newValue);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
