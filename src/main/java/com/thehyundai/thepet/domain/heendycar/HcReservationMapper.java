@@ -22,4 +22,11 @@ public interface HcReservationMapper {
 
     Optional<HcReservationVO> findPresentReservation(String memberId);
 
+    
+    //관리자 버튼
+    Integer changePickUp(HcReservationVO reservationVO);
+
+    Integer changeCancel(HcReservationVO reservationVO);
+
+    Integer changeReturn(HcReservationVO reservationVO);
 }
