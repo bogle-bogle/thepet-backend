@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
+
 @Log4j2
 @RestController
 @TimeTraceController
@@ -29,7 +31,7 @@ public class PetController {
 
     @GetMapping
     @Operation(summary = "나의 반려동물 목록 조회하기", description = "나의 반려동물 정보를 모두 조회합니다.")
-    public ResponseEntity<List<PetVO>> myPet(@RequestHeader("Authorization") String token){
+    public ResponseEntity<List<PetVO>> myPet(@RequestHeader(HEADER_TOKEN_PARAM) String token){
         String memberId = authTokensGenerator.extractMemberId(token);
         return ResponseEntity.ok(petService.myPet(memberId));
     }

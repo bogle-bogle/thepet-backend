@@ -13,9 +13,11 @@ public enum ErrorCode {
     TYPE_MISMATCH("입력된 enum값이 유효하지 않습니다.", 400),
     METHOD_NOT_ALLOWED("유효하지 않은 HTTP method입니다.", 400),
     MISSING_REQUEST_HEADER("HTTP 요청 헤더에 인증 값이 존재하지 않습니다.", 400),
+    INVALID_IMAGE_FILE_TYPE("유효하지 않은 확장자입니다. 이미지 파일만 업로드 가능합니다.", 400),
 
     // 401 Unauthorized
     EXPIRED_TOKEN("만료된 토큰입니다. 재로그인이 필요합니다.", 401),
+    LOGIN_REQUIRED("로그인이 필요합니다.", 401),
 
     // 403 FORBIDDEN
 
@@ -45,6 +47,7 @@ public enum ErrorCode {
     // 500 INTERNAL SERVER ERROR
     DB_QUERY_EXECUTION_ERROR("쿼리가 정상적으로 완료되지 않았습니다.", 500),
     SMS_ERROR("SMS 전송에 실패하였습니다.", 500),
+    AWS_S3_UPLOAD_ERROR("AWS S3 이미지 업로드에 실패하였습니다.", 500),
 
     /* Spring Basic Exceptions */
     INTERNAL_SERVER_ERROR("서버 오류가 발생했습니다.", 500);

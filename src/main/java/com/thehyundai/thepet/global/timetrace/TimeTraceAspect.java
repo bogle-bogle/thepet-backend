@@ -8,13 +8,13 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.HandlerMethod;
 
 import java.lang.reflect.Method;
+
+import static com.thehyundai.thepet.global.util.Constant.JWT_PREFIX;
 
 @Log4j2
 @Component
@@ -116,7 +116,7 @@ public class TimeTraceAspect {
         StringBuilder parameters = new StringBuilder();
 
         for (Object it : joinPoint.getArgs()) {
-            if (it instanceof String && ((String) it).startsWith("Bearer")) {
+            if (it instanceof String && ((String) it).startsWith(JWT_PREFIX)) {
                 // 'Bearer'로 시작하는 문자열이면 null 반환
                 return null;
             }

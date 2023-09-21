@@ -7,7 +7,9 @@ import io.swagger.v3.oas.models.security.SecurityRequirement;
 import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
+import static com.thehyundai.thepet.global.util.Constant.JWT_PREFIX;
 
 // 공식문서 : https://springdoc.org/#Introduction
 // Swagger UI 페이지 : http://localhost:8080/swagger-ui/index.html
@@ -16,15 +18,14 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class SwaggerConfig {
     @Bean
     public OpenAPI openAPI() {
-        String jwtSchemeName = "Authorization";
-        SecurityRequirement securityRequirement = new SecurityRequirement().addList(jwtSchemeName);
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList(HEADER_TOKEN_PARAM);
 
         Components components = new Components()
-                                    .addSecuritySchemes(jwtSchemeName, new SecurityScheme()
-                                    .name(jwtSchemeName)
+                                    .addSecuritySchemes(HEADER_TOKEN_PARAM, new SecurityScheme()
+                                    .name(HEADER_TOKEN_PARAM)
                                     .type(SecurityScheme.Type.HTTP)
                                     .in(SecurityScheme.In.HEADER)
-                                    .scheme("Bearer"));
+                                    .scheme(JWT_PREFIX));
 
         return new OpenAPI()
                     .components(components)
