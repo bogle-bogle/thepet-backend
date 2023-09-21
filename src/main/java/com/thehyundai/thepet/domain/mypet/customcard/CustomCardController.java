@@ -15,7 +15,7 @@ import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 
 @Log4j2
 @RestController
-@TimeTraceController
+//@TimeTraceController
 @RequestMapping("/api/custom-card")
 @RequiredArgsConstructor
 @Tag(name = "Custom Card Controller", description = "현대백화점 카드 커스텀 관련 컨트롤러")

@@ -17,7 +17,7 @@ import java.util.Optional;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-@TimeTraceService
+//@TimeTraceService
 public class MemberServiceImpl implements MemberService{
 
     private final MemberMapper memberMapper;

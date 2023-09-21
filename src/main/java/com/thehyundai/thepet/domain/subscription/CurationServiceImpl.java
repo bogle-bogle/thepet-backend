@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-@TimeTraceService
+//@TimeTraceService
 public class CurationServiceImpl implements CurationService {
     private final ProductService productService;
     private final CurationMapper curationMapper;
