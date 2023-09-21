@@ -106,8 +106,6 @@ public class HcSmsEventListener implements ApplicationListener<HcSmsEvent> {
         return new StringJoiner("\n")
                 .add(memberInfo.getName() + " 고객님,")
                 .add("")
-                .add("예약 지점 : " + branch.getName())
-                .add("예약 시간 : " + formattedReservationTime)
                 .add("예약이 30분 이내 픽업되지 않아, 다른 고객님들의 편의를 위해 자동으로 취소되었습니다.")
                 .add("")
                 .add("웹사이트 혹은 더펫 App에서 다시 한 번 예약해주세요.")
