@@ -1,6 +1,7 @@
 package com.thehyundai.thepet.domain.heendycar;
 
 import java.util.List;
+import java.util.Map;
 
 public interface HcService {
 
@@ -15,4 +16,6 @@ public interface HcService {
     List<HcReservationVO> showAllMyReservations(String token);
 
     HcReservationVO cancelHeendycarReservation(String reservationId);
+
+    Integer adminHeendycarManage(String productId, String type,String newValue);
 }

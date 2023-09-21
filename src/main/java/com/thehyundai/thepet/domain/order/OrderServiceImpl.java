@@ -3,15 +3,17 @@ package com.thehyundai.thepet.domain.order;
 import com.thehyundai.thepet.domain.cart.CartMapper;
 import com.thehyundai.thepet.domain.cart.CartService;
 import com.thehyundai.thepet.domain.cart.CartVO;
-import com.thehyundai.thepet.domain.subscription.*;
-import com.thehyundai.thepet.global.exception.BusinessException;
-import com.thehyundai.thepet.global.exception.ErrorCode;
-import com.thehyundai.thepet.global.util.EntityValidator;
-import com.thehyundai.thepet.global.cmcode.TableStatus;
 import com.thehyundai.thepet.domain.product.ProductService;
 import com.thehyundai.thepet.domain.product.ProductVO;
+import com.thehyundai.thepet.domain.subscription.CurationService;
+import com.thehyundai.thepet.domain.subscription.CurationVO;
+import com.thehyundai.thepet.domain.subscription.SubsService;
+import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
+import com.thehyundai.thepet.global.exception.BusinessException;
+import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
 import com.thehyundai.thepet.global.timetrace.TimeTraceService;
+import com.thehyundai.thepet.global.util.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -23,10 +25,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_N;
+import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_Y;
+
 @Log4j2
 @Service
 @RequiredArgsConstructor
-@TimeTraceService
+//@TimeTraceService
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final CartMapper cartMapper;
@@ -117,7 +122,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
-        requestVO.setCurationYn(TableStatus.Y.getValue());
+        requestVO.setCurationYn(TABLE_STATUS_Y);
         subsService.createCurationSubscription(requestVO);
 
         // 4. 주문 내역 반환
@@ -143,7 +148,7 @@ public class OrderServiceImpl implements OrderService {
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 3. SUBSCRIPTION 테이블에 구독 정보 저장
-        requestVO.setCurationYn(TableStatus.N.getValue());
+        requestVO.setCurationYn(TABLE_STATUS_N);
         subsService.createProductSubscription(requestVO);
 
         // 4. 주문 내역 반환
@@ -194,8 +199,8 @@ public class OrderServiceImpl implements OrderService {
                       .totalPrice(curation.getPrice())
                       .createdAt(LocalDate.now())
                       .memberId(memberId)
-                      .subscribeYn(TableStatus.Y.getValue())
-                      .curationYn(TableStatus.Y.getValue())
+                      .subscribeYn(TABLE_STATUS_Y)
+                      .curationYn(TABLE_STATUS_Y)
                       .build();
     }
 
@@ -216,7 +221,7 @@ public class OrderServiceImpl implements OrderService {
                 .totalPrice(calculateTotalPrice(selectedCart))
                 .createdAt(LocalDate.now())
                 .memberId(memberId)
-                .subscribeYn(TableStatus.N.getValue())
+                .subscribeYn(TABLE_STATUS_N)
                 .tossOrderId(tossOrderId)
                 .build();
     }
@@ -226,7 +231,7 @@ public class OrderServiceImpl implements OrderService {
                 .totalPrice(calculateTotalPrice(wholeCart))
                 .createdAt(LocalDate.now())
                 .memberId(memberId)
-                .subscribeYn(TableStatus.N.getValue())
+                .subscribeYn(TABLE_STATUS_N)
                 .tossOrderId(tossOrderId)
                 .build();
     }
@@ -249,7 +254,7 @@ public class OrderServiceImpl implements OrderService {
                       .totalPrice(product.getPrice())
                       .createdAt(LocalDate.now())
                       .memberId(memberId)
-                      .subscribeYn(TableStatus.Y.getValue())
+                      .subscribeYn(TABLE_STATUS_Y)
                       .build();
     }
 

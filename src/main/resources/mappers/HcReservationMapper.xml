@@ -40,9 +40,11 @@
     </update>
 
     <select id="findBranchReservation" parameterType="String" resultType="HcReservationVO">
-        SELECT member_id, reservation_time, created_at,pickup_yn, cancel_yn,return_yn
-        FROM HEENDY_CAR_RESERVATION 
-        WHERE branch_code = #{branchCode}
+        SELECT r.id,r.member_id, m.name, m.phone_number, r.reservation_time, r.pickup_yn, r.cancel_yn, r.return_yn
+        FROM HEENDY_CAR_RESERVATION r
+        JOIN MEMBER m ON r.member_id = m.id
+        WHERE r.branch_code = #{branchCode}
+
     </select>
 
 
@@ -77,4 +79,22 @@
           AND CANCEL_YN = 'N'
     </select>
 
+
+    <update id="changePickUp" parameterType="HcReservationVO">
+        UPDATE HEENDY_CAR_RESERVATION
+        SET PICKUP_YN = #{pickupYn}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="changeCancel" parameterType="HcReservationVO">
+        UPDATE HEENDY_CAR_RESERVATION
+        SET CANCEL_YN = #{cancelYn}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="changeReturn" parameterType="HcReservationVO">
+        UPDATE HEENDY_CAR_RESERVATION
+        SET RETURN_YN = #{returnYn}
+        WHERE ID = #{id}
+    </update>
 </mapper>

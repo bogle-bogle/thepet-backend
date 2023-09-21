@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
+
 @Log4j2
 @RestController
-@TimeTraceController
+//@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/member")
 public class MemberController {
@@ -29,7 +31,7 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
-    public ResponseEntity<?> getMypageInfo(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<?> getMypageInfo(@RequestHeader(HEADER_TOKEN_PARAM) String token) {
         MypageVO result = memberService.getMypageInfo(token);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

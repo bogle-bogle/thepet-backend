@@ -13,7 +13,7 @@ import static com.thehyundai.thepet.global.exception.ErrorCode.PRODUCT_SUBSCRIPT
 @Log4j2
 @Service
 @RequiredArgsConstructor
-@TimeTraceService
+//@TimeTraceService
 public class SubsServiceImpl implements SubsService {
     private final SubsMapper subsMapper;
 
