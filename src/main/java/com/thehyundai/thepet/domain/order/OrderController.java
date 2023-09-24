@@ -95,7 +95,7 @@ public class OrderController {
     @GetMapping("/subscription")
     @Operation(summary = "나의 구독 내역 조회하기", description = "지금까지의 나의 구독 내역을 전체 조회합니다.")
     public ResponseEntity<?> showMySubscriptionWithDetails(@RequestHeader(HEADER_TOKEN_PARAM) String token) {
-        Map<String, List<OrderVO>> result = orderService.showMySubscriptionWithDetails(token);
+        MySubsOrderVO result = orderService.showMySubscriptionWithDetails(token);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
