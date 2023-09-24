@@ -9,6 +9,6 @@ public interface BackofficeMapper {
 
     void callMonthlySalesVolumeProcedure();
 
-    List<BackOfficeVO> getTop10ProductsOfPreviousMonth();
+    List<BackOfficeVO> getTopProductsOfPreviousMonth();
 
 }

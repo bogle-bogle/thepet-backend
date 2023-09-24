@@ -7,6 +7,6 @@ public interface BackofficeService {
 
     void callMonthlySalesVolumeProcedure();
 
-    List<BackOfficeVO> getTop10Products();
+    List<BackOfficeVO> getTopProducts();
 
 }

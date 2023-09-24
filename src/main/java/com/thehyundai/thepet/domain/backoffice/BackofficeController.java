@@ -23,7 +23,7 @@ public class BackofficeController {
     @GetMapping("/top10")
     @Operation(summary = "지난 달 매출 Top10인 상품들")
     public ResponseEntity<List<BackOfficeVO>> getTop10Products() {
-        List<BackOfficeVO> Top10List = backofficeService.getTop10Products();
+        List<BackOfficeVO> Top10List = backofficeService.getTopProducts();
         return ResponseEntity.ok(Top10List);
     }
 

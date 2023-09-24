@@ -6,7 +6,7 @@
         { CALL MONTHLY_SALES_VOLUME_PROCEDURE() }
     </select>
 
-    <select id="getTop10ProductsOfPreviousMonth" resultType="BackOfficeVO">
+    <select id="getTopProductsOfPreviousMonth" resultType="BackOfficeVO">
         SELECT
             mpr.ranking,
             mpr.PRODUCT_ID,
@@ -14,7 +14,7 @@
             p.main_img_url,
             p.main_category_code,
             mpr.SALES_VOLUME,
-            mpr.SALES_VOLUME * p.price AS SALES_AMOUNT
+            mpr.SALES_AMOUNT
         FROM MONTHLY_PRODUCT_RANKING mpr
                  JOIN PRODUCT p ON mpr.PRODUCT_ID = p.id
         WHERE mpr.MONTHLY =
@@ -25,7 +25,6 @@
                       EXTRACT(YEAR FROM SYSDATE) || '/' || (EXTRACT(MONTH FROM SYSDATE)-1)
                   END
         order by mpr.ranking
-            FETCH FIRST 10 rows only
     </select>
 
 </mapper>
