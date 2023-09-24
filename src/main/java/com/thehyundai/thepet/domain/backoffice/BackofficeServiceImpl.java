@@ -20,6 +20,6 @@ public class BackofficeServiceImpl implements BackofficeService {
 
     @Override
     public List<BackOfficeVO> getTop10Products() {
-        return backofficeMapper.getTop10Products();
+        return backofficeMapper.getTop10ProductsOfPreviousMonth();
     }
 }

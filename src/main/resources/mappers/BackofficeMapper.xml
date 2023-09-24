@@ -25,7 +25,7 @@
                       EXTRACT(YEAR FROM SYSDATE) || '/' || (EXTRACT(MONTH FROM SYSDATE)-1)
                   END
         order by mpr.ranking
-            FETCH FIRST 10 rows only;
+            FETCH FIRST 10 rows only
     </select>
 
 </mapper>
