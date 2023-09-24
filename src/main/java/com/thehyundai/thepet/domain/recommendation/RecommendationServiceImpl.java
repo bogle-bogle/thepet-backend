@@ -6,7 +6,6 @@ import com.thehyundai.thepet.domain.product.ProductVO;
 import com.thehyundai.thepet.global.cmcode.CmCode;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
-import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,7 +19,7 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Service
-//@TimeTraceService
+//@ServiceTimeTrace
 public class RecommendationServiceImpl implements RecommendationService {
     private final ProductMapper productMapper;
     private final EntityValidator entityValidator;
