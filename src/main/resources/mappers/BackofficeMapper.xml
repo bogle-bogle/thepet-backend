@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thehyundai.thepet.domain.backoffice.BackofficeMapper">
+
+    <select id="callMonthlySalesVolumeProcedure" statementType="CALLABLE">
+        { CALL MONTHLY_SALES_VOLUME_PROCEDURE() }
+    </select>
+
+    <select id="getTop10ProductsOfPreviousMonth" resultType="BackOfficeVO">
+        SELECT
+            mpr.ranking,
+            mpr.PRODUCT_ID,
+            p.NAME,
+            p.main_img_url,
+            p.main_category_code,
+            mpr.SALES_VOLUME,
+            mpr.SALES_VOLUME * p.price AS SALES_AMOUNT
+        FROM MONTHLY_PRODUCT_RANKING mpr
+                 JOIN PRODUCT p ON mpr.PRODUCT_ID = p.id
+        WHERE mpr.MONTHLY =
+              CASE
+                  WHEN EXTRACT(MONTH FROM SYSDATE) = 1 THEN
+                      (EXTRACT(YEAR FROM SYSDATE) - 1) || '/12'
+                  ELSE
+                      EXTRACT(YEAR FROM SYSDATE) || '/' || (EXTRACT(MONTH FROM SYSDATE)-1)
+                  END
+        order by mpr.ranking
+            FETCH FIRST 10 rows only;
+    </select>
+
+</mapper>
