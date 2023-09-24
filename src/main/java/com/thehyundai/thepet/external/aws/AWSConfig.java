@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.global.aws;
+package com.thehyundai.thepet.external.aws;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;

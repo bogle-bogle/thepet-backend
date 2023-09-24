@@ -1,6 +1,5 @@
-package com.thehyundai.thepet.global.aws;
+package com.thehyundai.thepet.external.aws;
 
-import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

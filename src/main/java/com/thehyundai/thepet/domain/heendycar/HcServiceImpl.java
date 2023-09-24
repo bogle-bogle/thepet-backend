@@ -7,8 +7,7 @@ import com.thehyundai.thepet.global.event.EventLogMapper;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.sms.HcSmsEvent;
-import com.thehyundai.thepet.global.timetrace.TimeTraceService;
+import com.thehyundai.thepet.external.sms.HcSmsEvent;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;

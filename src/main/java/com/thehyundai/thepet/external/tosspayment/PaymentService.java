@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.tosspayment;
+package com.thehyundai.thepet.external.tosspayment;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
