@@ -12,7 +12,7 @@ public class BackOfficeVO {
 
     Integer ranking;
     String productId;
-    String productName;
+    String name;
     String mainImgUrl;
     String mainCategoryCode;
     Integer salesVolume;
