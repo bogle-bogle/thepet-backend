@@ -13,8 +13,9 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 import java.util.StringJoiner;
+
+import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_N;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -32,16 +33,22 @@ public class HcSmsEventListener implements ApplicationListener<HcSmsEvent> {
     public void onApplicationEvent(HcSmsEvent event) {
         HcReservationVO reservation = event.getReservation();
 
-        Optional<MemberVO> memberInfoOpt = memberService.showMember(reservation.getMemberId());
-        MemberVO memberInfo = memberInfoOpt.get();
+        MemberVO memberInfo = memberService.showMember(reservation.getMemberId())
+                                           .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
 
         HcBranchVO branch = hcService.showBranchInfo(reservation.getBranchCode());
-        MessageDTO messageDTO = createMessageDTO(memberInfo, branch, reservation);
+
+        MessageDTO messageDTO;
+        if (reservation.getCancelYn().equals(TABLE_STATUS_N)) {
+            messageDTO = createMessageDTO(memberInfo, branch, reservation);
+        } else {
+            messageDTO = createCancelMessageDTO(memberInfo, branch, reservation);
+        }
 
         try {
             smsService.sendSms(messageDTO);
         } catch (Exception e) {
-            log.error("SMS 전송 실패 : ", e);
+            log.error("SMS 전송 실패 : " + e.getMessage());
             throw new BusinessException(ErrorCode.SMS_ERROR);
         }
     }
@@ -53,7 +60,7 @@ public class HcSmsEventListener implements ApplicationListener<HcSmsEvent> {
 
         // 1. SMS 제목 및 내용 생성
         String smsTitle = String.format(SUBJECT_FORMAT, branch.getName());
-        String smsContent = generateSmsContent(memberInfo, branch, reservation);
+        String smsContent = generateSuccessSmsContent(memberInfo, branch, reservation);
 
         // 2. SMS 생성
         return MessageDTO.builder()
@@ -63,7 +70,24 @@ public class HcSmsEventListener implements ApplicationListener<HcSmsEvent> {
                          .build();
     }
 
-    private String generateSmsContent(MemberVO memberInfo, HcBranchVO branch, HcReservationVO reservation) {
+    private MessageDTO createCancelMessageDTO(MemberVO memberInfo, HcBranchVO branch, HcReservationVO reservation) {
+        // 0. 휴대폰번호 유효성 검증
+        validatePhoneNumber(memberInfo.getPhoneNumber());
+
+        // 1. SMS 제목 및 내용 생성
+        String smsTitle = String.format(SUBJECT_FORMAT, branch.getName());
+        String smsContent = generateCancelSmsContent(memberInfo, branch, reservation);
+
+        // 2. SMS 생성
+        return MessageDTO.builder()
+                .to(memberInfo.getPhoneNumber())
+                .subject(smsTitle)
+                .content(smsContent)
+                .build();
+    }
+
+
+    private String generateSuccessSmsContent(MemberVO memberInfo, HcBranchVO branch, HcReservationVO reservation) {
         String formattedReservationTime = reservation.getReservationTime().format(RESERVATION_FORMATTER);
 
         return new StringJoiner("\n")
@@ -74,6 +98,18 @@ public class HcSmsEventListener implements ApplicationListener<HcSmsEvent> {
                 .add("")
                 .add("흰디카를 30분 이내로 픽업하지 않으실 경우, 예약이 자동으로 취소될 수 있으니 유의해주세요.")
                 .add("반려동물과 편안한 시간을 " + branch.getName() + "에서 즐겨보세요!")
+                .toString();
+    }
+
+    private String generateCancelSmsContent(MemberVO memberInfo, HcBranchVO branch, HcReservationVO reservation) {
+        String formattedReservationTime = reservation.getReservationTime().format(RESERVATION_FORMATTER);
+
+        return new StringJoiner("\n")
+                .add(memberInfo.getName() + " 고객님,")
+                .add("")
+                .add("예약이 30분 이내 픽업되지 않아, 다른 고객님들의 편의를 위해 자동으로 취소되었습니다.")
+                .add("")
+                .add("웹사이트 혹은 더펫 App에서 다시 한 번 예약해주세요.")
                 .toString();
     }
 

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
-@TimeTraceController
+//@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/cart")
 public class CartController {
@@ -31,13 +31,13 @@ public class CartController {
         return ResponseEntity.ok(cartVO);
     }
 
-    @PatchMapping
+    @PutMapping
     public ResponseEntity<CartVO> updateCart(@RequestBody CartVO cartVO) {
         cartService.updateCart(cartVO);
         return ResponseEntity.ok(cartVO);
     }
 
-    @PatchMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> deleteCart(@PathVariable String id) {
         cartService.deleteCart(id);
         return ResponseEntity.ok(id);

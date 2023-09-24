@@ -13,7 +13,7 @@ import java.util.List;
 
 @Log4j2
 @RestController
-@TimeTraceController
+//@TimeTraceController
 @RequestMapping("/api/review")
 @RequiredArgsConstructor
 public class ReviewController {

@@ -15,7 +15,7 @@ import java.util.Map;
 
 @Log4j2
 @RestController
-@TimeTraceController
+//@TimeTraceController
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/product")
 public class ProductController {
