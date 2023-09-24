@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.tosspayment;
+package com.thehyundai.thepet.external.tosspayment;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

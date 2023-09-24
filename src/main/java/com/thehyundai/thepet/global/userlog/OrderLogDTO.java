@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.userlog;
+package com.thehyundai.thepet.global.userlog;
 
 import lombok.*;
 

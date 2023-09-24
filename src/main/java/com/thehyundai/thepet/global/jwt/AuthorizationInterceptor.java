@@ -1,6 +1,7 @@
 package com.thehyundai.thepet.global.jwt;
 
 import com.thehyundai.thepet.global.exception.BusinessException;
+import com.thehyundai.thepet.global.exception.ErrorCode;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -30,8 +31,13 @@ public class AuthorizationInterceptor implements HandlerInterceptor  {
                 return false;
             }
         } catch (BusinessException e) {
-            request.getRequestDispatcher("/api/jwt-error/expired").forward(request, response);
-            return false;
+            if (e.getErrorCode() == ErrorCode.EXPIRED_TOKEN) {
+                request.getRequestDispatcher("/api/jwt-error/expired").forward(request, response);
+                return false;
+            }
+           else {
+               throw e;
+            }
         }
         return true;
     }
