@@ -12,7 +12,6 @@ import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

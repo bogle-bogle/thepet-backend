@@ -37,7 +37,6 @@ public class PetController {
     public ResponseEntity<?> updateFeed(@RequestParam("petId") String petId,
                                         @RequestParam(value = "feedMainImgFile", required = false) MultipartFile feedMainImgFile,
                                         @RequestParam(value = "feedDescImgFile", required = false) MultipartFile feedDescImgFile) {
-        log.info("----------------------------------------------------------------------------------------------");
         OcrNlpResultVO result = petService.updateFeed(new PetSuggestionRequestVO(petId, feedMainImgFile, feedDescImgFile));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
