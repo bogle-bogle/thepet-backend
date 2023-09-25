@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.global.sms;
+package com.thehyundai.thepet.external.sms;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
