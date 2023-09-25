@@ -39,3 +39,4 @@ out/
 src/main/resources/Wallet
 
 src/main/resources/logback-spring.xml
+logs
