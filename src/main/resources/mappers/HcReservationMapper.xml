@@ -5,19 +5,30 @@
 
     <insert id="saveReservation" parameterType="HcReservationVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO HEENDY_CAR_RESERVATION
-            (
-             BRANCH_CODE,
-             MEMBER_ID,
-             RESERVATION_TIME,
-             CREATED_AT
-             )
-        VALUES
-            (
-             #{branchCode},
-             #{memberId},
-             #{reservationTime},
-             #{createdAt}
-             )
+        (
+            BRANCH_CODE,
+            MEMBER_ID,
+            RESERVATION_TIME,
+            CREATED_AT,
+            SERIAL_NUMBER
+        )
+        SELECT
+            #{branchCode},
+            #{memberId},
+            #{reservationTime},
+            #{createdAt},
+            h.serial_number
+        FROM
+            HEENDY_CAR h
+        WHERE
+            h.BRANCH_CODE = #{branchCode}           -- 특정 branch_code에 해당하는 Heendy_car를 선택
+          AND NOT EXISTS (
+            SELECT 1
+            FROM HEENDY_CAR_RESERVATION r
+            WHERE r.serial_number = h.serial_number
+              AND (r.return_yn = 'N' OR r.cancel_yn = 'N') -- return_yn이 'N'이거나 cancel_yn이 'N'인 것을 제외
+        )
+          AND ROWNUM = 1;
     </insert>
 
     <select id="findReservationById" resultType="HcReservationVO">
@@ -40,7 +51,7 @@
     </update>
 
     <select id="findBranchReservation" parameterType="String" resultType="HcReservationVO">
-        SELECT r.id,r.member_id, m.name, m.phone_number, r.reservation_time, r.pickup_yn, r.cancel_yn, r.return_yn
+        SELECT r.id,r.member_id,r.serial_number, m.name, m.phone_number, r.reservation_time, r.pickup_yn, r.cancel_yn, r.return_yn
         FROM HEENDY_CAR_RESERVATION r
         JOIN MEMBER m ON r.member_id = m.id
         WHERE r.branch_code = #{branchCode}
