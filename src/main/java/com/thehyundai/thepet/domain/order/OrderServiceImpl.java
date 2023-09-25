@@ -101,8 +101,6 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-
-
     @Override
     @Transactional
     public OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO) {
@@ -182,13 +180,14 @@ public class OrderServiceImpl implements OrderService {
         return result;    }
 
     @Override
-    public Map<String, List<OrderVO>> showMySubscriptionWithDetails(String token) {
+    public MySubsOrderVO showMySubscriptionWithDetails(String token) {
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
 
-        Map<String, List<OrderVO>> result = orderMapper.showMySubscriptionWithDetails(memberId)
+        Map<String, List<OrderVO>> subsMap = orderMapper.showMySubscriptionWithDetails(memberId)
                                                        .stream()
-                                                       .collect(Collectors.groupingBy(order -> "Y".equals(order.getCurationYn()) ? "curationY" : "curationN"));
+                                                       .collect(Collectors.groupingBy(orderVO -> orderVO.getCurationYn()));
+        MySubsOrderVO result = new MySubsOrderVO(subsMap);
         return result;
     }
 
