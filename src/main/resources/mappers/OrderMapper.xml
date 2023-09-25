@@ -123,7 +123,7 @@
         ORDER BY o.CREATED_AT DESC
     </select>
 
-    <select id="showMySubscriptionWithDetails" resultMap="OrderWithDetails">
+    <select id="showMySubscriptionWithDetails" parameterType="String" resultMap="OrderWithDetails">
         SELECT o.ID,
                o.TOTAL_CNT,
                o.TOTAL_PRICE,

@@ -28,7 +28,7 @@ import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_Y;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@TimeTraceService
+//@ServiceTimeTrace
 public class HcServiceImpl implements HcService {
     private final HcBranchMapper branchMapper;
     private final HcReservationMapper reservationMapper;

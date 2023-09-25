@@ -10,7 +10,8 @@
                IMG_URL,
                STAR_RATING,
                MEMBER_NICKNAME,
-               MEMBER_ID
+               MEMBER_ID,
+               PRODUCT_ID
         FROM REVIEW
         WHERE PRODUCT_ID = #{product_id}
     </select>

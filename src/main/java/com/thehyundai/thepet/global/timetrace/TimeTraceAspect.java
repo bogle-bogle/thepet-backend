@@ -1,5 +1,8 @@
 package com.thehyundai.thepet.global.timetrace;
 
+import com.thehyundai.thepet.global.kafka.ControllerLogProducer;
+import com.thehyundai.thepet.global.kafka.ServiceLogProducer;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -7,7 +10,6 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
@@ -19,26 +21,22 @@ import static com.thehyundai.thepet.global.util.Constant.JWT_PREFIX;
 @Log4j2
 @Component
 @Aspect
+@RequiredArgsConstructor
 public class TimeTraceAspect {
+    private final ControllerInfoAspect controllerInfoAspect;
+    private final ServiceLogProducer serviceLogProducer;
+    private final ControllerLogProducer controllerLogProducer;
 
-    @Autowired
-    private AopMapper aopMapper;
-
-    @Autowired
-    private ControllerInfoAspect controllerInfoAspect;
-
-    @Pointcut("@within(com.thehyundai.thepet.global.timetrace.TimeTraceService)")
+    @Pointcut("@within(com.thehyundai.thepet.global.timetrace.ServiceTimeTrace)")
     private void timeTraceServicePointcut() {
     }
 
-    @Pointcut("@within(com.thehyundai.thepet.global.timetrace.TimeTraceController)")
+    @Pointcut("@within(com.thehyundai.thepet.global.timetrace.ControllerTimeTrace)")
     private void timeTraceControllerPointcut(){
     }
 
-
-
     @Around("timeTraceServicePointcut() && @within(timeTrace)")
-    public Object traceTime(ProceedingJoinPoint joinPoint, TimeTraceService timeTrace) throws Throwable {
+    public Object traceTime(ProceedingJoinPoint joinPoint, ServiceTimeTrace timeTrace) throws Throwable {
         StopWatch stopWatch = new StopWatch();
 
         try {
@@ -57,14 +55,14 @@ public class TimeTraceAspect {
             timeTraceServiceInfo.setExecutionTime(executionTimeFormatted);
             timeTraceServiceInfo.setRequestName(requestName);
 
-            aopMapper.saveAOPServiceTable(timeTraceServiceInfo);
-            // timeTraceInfo 객체를 원하는 대로 로깅하거나 데이터베이스에 저장
+            serviceLogProducer.sendMessage(timeTraceServiceInfo);
+
             log.info("URL: {}, Method: {}, Execution Time: {}ms", requestName, methodName, executionTimeFormatted);
         }
     }
 
     @Around("timeTraceControllerPointcut() && @within(timeTrace)")
-    public Object traceTime(ProceedingJoinPoint joinPoint, TimeTraceController timeTrace) throws Throwable {
+    public Object traceTime(ProceedingJoinPoint joinPoint, ControllerTimeTrace timeTrace) throws Throwable {
         StopWatch stopWatch = new StopWatch();
 
         try {
@@ -87,8 +85,7 @@ public class TimeTraceAspect {
             timeTraceControllerInfo.setRequestMapping(requestMapping);
             timeTraceControllerInfo.setExecutionTime(executionTimeFormatted);
 
-            aopMapper.saveAOPControllerTable(timeTraceControllerInfo);
-            // timeTraceInfo 객체를 원하는 대로 로깅하거나 데이터베이스에 저장
+            controllerLogProducer.sendMessage(timeTraceControllerInfo);
             log.info("URL: {}, Method: {}, Execution Time: {}ms", requestMapping, methodName, executionTimeFormatted);
         }
     }

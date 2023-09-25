@@ -2,7 +2,6 @@ package com.thehyundai.thepet.domain.mypet.pet;
 
 import com.thehyundai.thepet.external.ocrnlp.OcrNlpResultVO;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +17,7 @@ import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 
 @Log4j2
 @RestController
-//@TimeTraceController
+//@ControllerTimeTrace
 @RequestMapping("/api/pet")
 @RequiredArgsConstructor
 @Tag(name = "Pet Controller", description = "반려동물 관련 컨트롤러")
@@ -38,7 +37,6 @@ public class PetController {
     public ResponseEntity<?> updateFeed(@RequestParam("petId") String petId,
                                         @RequestParam(value = "feedMainImgFile", required = false) MultipartFile feedMainImgFile,
                                         @RequestParam(value = "feedDescImgFile", required = false) MultipartFile feedDescImgFile) {
-        log.info("----------------------------------------------------------------------------------------------");
         OcrNlpResultVO result = petService.updateFeed(new PetSuggestionRequestVO(petId, feedMainImgFile, feedDescImgFile));
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

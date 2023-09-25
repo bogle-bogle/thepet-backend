@@ -12,7 +12,6 @@ import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -31,7 +30,7 @@ import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_Y;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@TimeTraceService
+//@ServiceTimeTrace
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final CartMapper cartMapper;
@@ -101,8 +100,6 @@ public class OrderServiceImpl implements OrderService {
         return order;
 
     }
-
-
 
     @Override
     @Transactional
@@ -183,13 +180,14 @@ public class OrderServiceImpl implements OrderService {
         return result;    }
 
     @Override
-    public Map<String, List<OrderVO>> showMySubscriptionWithDetails(String token) {
+    public MySubsOrderVO showMySubscriptionWithDetails(String token) {
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
 
-        Map<String, List<OrderVO>> result = orderMapper.showMySubscriptionWithDetails(memberId)
+        Map<String, List<OrderVO>> subsMap = orderMapper.showMySubscriptionWithDetails(memberId)
                                                        .stream()
-                                                       .collect(Collectors.groupingBy(order -> "Y".equals(order.getCurationYn()) ? "curationY" : "curationN"));
+                                                       .collect(Collectors.groupingBy(orderVO -> orderVO.getCurationYn()));
+        MySubsOrderVO result = new MySubsOrderVO(subsMap);
         return result;
     }
 
