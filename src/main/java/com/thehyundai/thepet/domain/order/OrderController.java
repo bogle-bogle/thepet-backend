@@ -29,10 +29,8 @@ public class OrderController {
     public ResponseEntity<?> orderSelectedCart(@RequestHeader("Authorization") String token,
                                                @RequestHeader("TossOrderId") String tossOrderId,
                                                @RequestBody List<CartVO> selectedItems) {
-        log.info("결제" + token);
-        log.info("결제" + tossOrderId);
+
         OrderVO result = orderService.orderSelectedCart(token, tossOrderId, selectedItems);
-        log.info("결제" + result.getId());
         return new ResponseEntity<>(result.getId(), HttpStatus.OK);
     }
 
