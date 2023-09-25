@@ -1,14 +1,18 @@
 package com.thehyundai.thepet.domain.mypet.pet;
 
+import com.thehyundai.thepet.external.aws.AwsS3Service;
+import com.thehyundai.thepet.external.ocrnlp.ImgRequestVO;
+import com.thehyundai.thepet.external.ocrnlp.OcrNlpResultVO;
+import com.thehyundai.thepet.external.ocrnlp.OcrNlpService;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.util.ProteinCmCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,9 +21,11 @@ import java.util.Optional;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@TimeTraceService
+//@ServiceTimeTrace
 public class PetServiceImpl implements PetService {
     private final PetMapper petMapper;
+    private final AwsS3Service awsS3Service;
+    private final OcrNlpService ocrNlpService;
     private final AuthTokensGenerator authTokensGenerator;
     private final EntityValidator entityValidator;
 
@@ -33,10 +39,30 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public Integer updateFeed(PetVO petVO,String id) {
-        petVO.setId(id);
-        findFavoriteProteinCode(petVO).ifPresent(petVO::setFavoriteProteinCode);
-        return petMapper.updateFeed(petVO);
+    public OcrNlpResultVO updateFeed(PetSuggestionRequestVO requestVO) {
+        String petId = requestVO.getPetId();
+        String feedMainImgUrl = null;
+        if (requestVO.getFeedMainImgFile() != null) {
+            feedMainImgUrl = awsS3Service.uploadToFeedBucket(requestVO.getFeedMainImgFile());
+        }
+        String feedDescrImgUrl = awsS3Service.uploadToFeedBucket(requestVO.getFeedDescImgFile());
+
+        ImgRequestVO imgRequestVO = new ImgRequestVO(feedDescrImgUrl);
+        OcrNlpResultVO ocrNlpResult = ocrNlpService.analyzeImageAndFetchProductList(imgRequestVO).block();
+        Optional<String> favoriteProteinCode = null;
+        if (ocrNlpResult != null) {
+            favoriteProteinCode = findFavoriteProteinCode(ocrNlpResult.getIngredients());
+        }
+
+        PetVO petVO = PetVO.builder()
+                           .id(petId)
+                           .feedMainImgUrl(feedMainImgUrl)
+                           .feedDescImgUrl(feedDescrImgUrl)
+                           .favoriteFoodIngredients(ocrNlpResult.getIngredients())
+                           .favoriteProteinCode(favoriteProteinCode.orElse(null))
+                           .build();
+        petMapper.updateFeed(petVO);
+        return ocrNlpResult;
     }
 
     @Override
@@ -59,9 +85,30 @@ public class PetServiceImpl implements PetService {
         return petVO;
     }
 
-    private Optional<String> findFavoriteProteinCode(PetVO petVO) {
-        List<String> ingredients = List.of(petVO.getFavoriteFoodIngredients().split(","));
+    @Override
+    public OcrNlpResultVO getSuggestions(String petId) {
+        PetVO pet = petMapper.findPetWithAllergiesById(petId)
+                             .orElseThrow(() -> new BusinessException(ErrorCode.PET_NOT_FOUND));
 
+        ImgRequestVO imgRequestVO = new ImgRequestVO(pet.getFeedDescImgUrl());
+        OcrNlpResultVO ocrNlpResult = ocrNlpService.analyzeImageAndFetchProductList(imgRequestVO).block();
+        Optional<String> favoriteProteinCode = null;
+        if (ocrNlpResult != null) {
+            favoriteProteinCode = findFavoriteProteinCode(ocrNlpResult.getIngredients());
+        }
+
+        PetVO petVO = PetVO.builder()
+                .id(petId)
+                .feedMainImgUrl(pet.getFeedMainImgUrl())
+                .feedDescImgUrl(pet.getFeedDescImgUrl())
+                .favoriteProteinCode(favoriteProteinCode.orElse(null))
+                .build();
+        petMapper.updateFeed(petVO);
+        return ocrNlpResult;
+    }
+
+    private Optional<String> findFavoriteProteinCode(String rawIngredients) {
+        List<String> ingredients = List.of(rawIngredients.split(","));
         return ingredients.stream()
                           .map(this::getProteinCodeValue)
                           .filter(Optional::isPresent)

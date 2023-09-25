@@ -1,6 +1,5 @@
 package com.thehyundai.thepet.domain.heendycar;
 
-import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -10,13 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 
 @Log4j2
 @RestController
-//@TimeTraceController
+//@ControllerTimeTrace
 @RequiredArgsConstructor
 @Tag(name = "HeendyCar Controller", description = "흰디카 관련 컨트롤러")
 @RequestMapping("/api/hc")

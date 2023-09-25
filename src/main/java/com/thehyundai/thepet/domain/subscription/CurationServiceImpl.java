@@ -4,7 +4,6 @@ import com.thehyundai.thepet.domain.product.ProductService;
 import com.thehyundai.thepet.domain.product.ProductVO;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
-import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import java.util.stream.Stream;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@TimeTraceService
+//@ServiceTimeTrace
 public class CurationServiceImpl implements CurationService {
     private final ProductService productService;
     private final CurationMapper curationMapper;

@@ -1,10 +1,9 @@
 package com.thehyundai.thepet.domain.mypet.customcard;
 
-import com.thehyundai.thepet.global.aws.AwsS3Service;
+import com.thehyundai.thepet.external.aws.AwsS3Service;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.timetrace.TimeTraceService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ import java.sql.Timestamp;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@TimeTraceService
+//@ServiceTimeTrace
 public class CustomCardServiceImpl implements CustomCardService {
     private final CustomCardMapper customCardMapper;
     private final AwsS3Service awsS3Service;

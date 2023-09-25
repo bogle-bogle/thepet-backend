@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.net.BindException;
 
 @Log4j2
@@ -36,6 +39,24 @@ public class GlobalExceptionHandler {
         final ErrorCode errorCode = ErrorCode.MISSING_REQUEST_HEADER;
         return new ResponseEntity<>(new ErrorResponse(errorCode), HttpStatus.valueOf(errorCode.getStatus()));
     }
+
+    @ExceptionHandler(WebClientResponseException.class)
+    public ResponseEntity<ErrorResponse> handleWebClientResponseException(WebClientResponseException e) {
+        log.error("[WebClient RESPONSE EXCEPTION HANDLING] ", e);
+
+        String responseBody = e.getResponseBodyAsString();
+
+        // 개발 환경에서만 스택 트레이스를 로깅하거나 반환하는 것을 고려하세요.
+        StringWriter sw = new StringWriter();
+        PrintWriter pw = new PrintWriter(sw);
+        e.printStackTrace(pw);
+        String stackTrace = sw.toString();
+
+        String errorMessage = String.format("Error: %s, Response Body: %s", e.getMessage(), responseBody);
+
+        return new ResponseEntity<>(new ErrorResponse(errorMessage, stackTrace), e.getStatusCode());
+    }
+
 
     // ---------------------------------------------------------------------------------------------------------------
 

@@ -11,14 +11,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 import static com.thehyundai.thepet.global.util.Constant.HEADER_TOSS_ORDER_ID_PARAM;
 
 @Log4j2
 @RestController
-//@TimeTraceController
+//@ControllerTimeTrace
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
 @Tag(name = "Order Controller", description = "주문 관련 컨트롤러")
@@ -86,7 +85,7 @@ public class OrderController {
     @GetMapping("/subscription")
     @Operation(summary = "나의 구독 내역 조회하기", description = "지금까지의 나의 구독 내역을 전체 조회합니다.")
     public ResponseEntity<?> showMySubscriptionWithDetails(@RequestHeader(HEADER_TOKEN_PARAM) String token) {
-        Map<String, List<OrderVO>> result = orderService.showMySubscriptionWithDetails(token);
+        MySubsOrderVO result = orderService.showMySubscriptionWithDetails(token);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

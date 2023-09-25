@@ -3,12 +3,10 @@ package com.thehyundai.thepet.domain.heendycar;
 import com.thehyundai.thepet.domain.member.MemberService;
 import com.thehyundai.thepet.domain.member.MemberVO;
 import com.thehyundai.thepet.global.cmcode.CmCodeValidator;
-import com.thehyundai.thepet.global.event.EventLogMapper;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.sms.HcSmsEvent;
-import com.thehyundai.thepet.global.timetrace.TimeTraceService;
+import com.thehyundai.thepet.external.sms.HcSmsEvent;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -18,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +27,7 @@ import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_Y;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@TimeTraceService
+//@ServiceTimeTrace
 public class HcServiceImpl implements HcService {
     private final HcBranchMapper branchMapper;
     private final HcReservationMapper reservationMapper;
@@ -40,7 +37,6 @@ public class HcServiceImpl implements HcService {
     private final MemberService memberService;
     private final ApplicationEventPublisher eventPublisher;
 
-    private final EventLogMapper eventLogMapper;
 
     @Override
     public HcBranchVO showBranchInfo(String branchCode) {
@@ -63,23 +59,9 @@ public class HcServiceImpl implements HcService {
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
         if (requestVO.getPhoneNumber().isEmpty()) {
-//            eventLogMapper.insertEventLog(EventLogVO.builder()
-//                    .eventPage("EL004")
-//                    .event("HCR")
-//                    .eventSuccess("N")
-//                    .reason(NO_PHONE_NUMBER.name())
-//                    .memberId(memberId)
-//                    .build());
             throw new BusinessException(NO_PHONE_NUMBER);
         }
-        
-//        eventLogMapper.insertEventLog(EventLogVO.builder()
-//                .eventPage("EL004")
-//                .event("HCR")
-//                .eventSuccess("Y")
-//                .reason(null)
-//                .memberId(memberId)
-//                .build());
+
         validatePresentReservation(memberId);
 
         // 1. 회원 정보 업데이트

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.thehyundai.thepet.global.event.EventLogMapper">
+<mapper namespace="com.thehyundai.thepet.domain.backoffice.event.EventLogMapper">
     <insert id="insertEventLog" parameterType="EventLogVO">
-        INSERT INTO MEMBER_EVENT_LOG (event_page, event, event_success, reason, member_id)
-            VALUES (#{eventPage}, #{event}, #{eventSuccess}, #{reason}, #{memberId})
+        INSERT INTO EVENT_LOG (page, element, item_id, is_clicked)
+            VALUES (#{page}, #{element}, #{itemId}, #{isClicked})
     </insert>
 </mapper>
