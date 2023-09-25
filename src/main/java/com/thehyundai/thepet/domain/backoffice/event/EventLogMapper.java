@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.domain.event;
+package com.thehyundai.thepet.domain.backoffice.event;
 
 import org.apache.ibatis.annotations.Mapper;
 

@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.domain.event;
+package com.thehyundai.thepet.domain.backoffice.event;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
