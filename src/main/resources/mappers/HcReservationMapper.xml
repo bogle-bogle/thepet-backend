@@ -13,15 +13,15 @@
             SERIAL_NUMBER
         )
         SELECT
-            '101',
-            'M000004',
-            TO_DATE('2023-09-24 16:00:00', 'YYYY-MM-DD HH24:MI:SS'),
-            TO_DATE('2023-09-24 07:22:14', 'YYYY-MM-DD HH24:MI:SS'),
+            #{branchCode},
+            #{memberId},
+            #{reservationTime},
+            #{createdAt},
             h.serial_number
         FROM
             HEENDY_CAR h
         WHERE
-            h.BRANCH_CODE = '101'           -- 특정 branch_code에 해당하는 Heendy_car를 선택
+            h.BRANCH_CODE = #{branchCode}           -- 특정 branch_code에 해당하는 Heendy_car를 선택
           AND NOT EXISTS (
             SELECT 1
             FROM HEENDY_CAR_RESERVATION r
