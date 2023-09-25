@@ -1,6 +1,5 @@
 package com.thehyundai.thepet.domain.mypet.customcard;
 
-import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +14,7 @@ import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 
 @Log4j2
 @RestController
-//@TimeTraceController
+//@ControllerTimeTrace
 @RequestMapping("/api/custom-card")
 @RequiredArgsConstructor
 @Tag(name = "Custom Card Controller", description = "현대백화점 카드 커스텀 관련 컨트롤러")

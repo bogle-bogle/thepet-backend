@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Log4j2
 @RestController
-//@TimeTraceController
+//@ControllerTimeTrace
 @Tag(name = "S3 Upload Controller", description = "S3 이미지 업로드 컨트롤러")
 @RequestMapping("/api/upload")
 @RequiredArgsConstructor

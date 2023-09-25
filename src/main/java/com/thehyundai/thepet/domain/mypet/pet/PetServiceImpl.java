@@ -21,7 +21,7 @@ import java.util.Optional;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@TimeTraceService
+//@ServiceTimeTrace
 public class PetServiceImpl implements PetService {
     private final PetMapper petMapper;
     private final AwsS3Service awsS3Service;
