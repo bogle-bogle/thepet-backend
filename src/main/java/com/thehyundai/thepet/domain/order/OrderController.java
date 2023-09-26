@@ -2,7 +2,6 @@ package com.thehyundai.thepet.domain.order;
 
 import com.thehyundai.thepet.domain.cart.CartVO;
 import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
-import com.thehyundai.thepet.global.timetrace.TimeTraceController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -12,38 +11,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 import static com.thehyundai.thepet.global.util.Constant.HEADER_TOSS_ORDER_ID_PARAM;
 
 @Log4j2
 @RestController
-//@TimeTraceController
+//@ControllerTimeTrace
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
 @Tag(name = "Order Controller", description = "주문 관련 컨트롤러")
 public class OrderController {
     private final OrderService orderService;
 
-//    // 장바구니 선택 결제로 인해 추가
-//    @GetMapping("/{tossOrderId}")
-//    @Operation(summary = "토스 주문번호로 조회하기", description = "토스 주문번호를 통해 해당 주문 내역을 조회합니다.")
-//    public ResponseEntity<?> showOrderDetailByToss(@PathVariable String tossOrderId) {
-//        OrderVO result = orderService.showOrderWithDetailsByTossOrderId(tossOrderId);
-//        return new ResponseEntity<>(result, HttpStatus.OK);
-//    }
-
-
     @PostMapping("/selected-cart")
     @Operation(summary = "장바구니에서 선택된 상품들 주문하기", description = "장바구니에 담긴 모든 상품을 한번에 주문합니다.")
-    public ResponseEntity<?> orderSelectedCart(@RequestHeader(HEADER_TOKEN_PARAM) String token,
-                                               @RequestHeader(HEADER_TOSS_ORDER_ID_PARAM) String tossOrderId,
+    public ResponseEntity<?> orderSelectedCart(@RequestHeader("Authorization") String token,
+                                               @RequestHeader("TossOrderId") String tossOrderId,
                                                @RequestBody List<CartVO> selectedItems) {
 
         OrderVO result = orderService.orderSelectedCart(token, tossOrderId, selectedItems);
-        log.info("컨트롤러컨트롤러컨트롤러컨트롤러컨트롤러컨트롤러" +  result);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result.getId(), HttpStatus.OK);
     }
 
 

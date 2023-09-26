@@ -12,6 +12,7 @@ import java.sql.Timestamp;
 public class CustomCardVO {
     private String id;
     private String memberId;
-    private String imgUrl;
+    private String frontImgUrl;
+    private String backImgUrl;
     private Timestamp createdAt;
 }

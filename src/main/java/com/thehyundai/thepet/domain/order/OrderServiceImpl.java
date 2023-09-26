@@ -9,6 +9,7 @@ import com.thehyundai.thepet.domain.subscription.CurationService;
 import com.thehyundai.thepet.domain.subscription.CurationVO;
 import com.thehyundai.thepet.domain.subscription.SubsService;
 import com.thehyundai.thepet.domain.subscription.SubscriptionVO;
+import org.springframework.context.ApplicationEventPublisher;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.thehyundai.thepet.external.sms.PaymentSmsEvent;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -30,7 +33,7 @@ import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_Y;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@TimeTraceService
+//@ServiceTimeTrace
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final CartMapper cartMapper;
@@ -38,11 +41,15 @@ public class OrderServiceImpl implements OrderService {
 
     private final AuthTokensGenerator authTokensGenerator;
     private final EntityValidator entityValidator;
+    private final ApplicationEventPublisher eventPublisher;
 
     private final SubsService subsService;
     private final CartService cartService;
     private final ProductService productService;
     private final CurationService curationService;
+
+
+
 
     @Override
     @Transactional
@@ -55,7 +62,7 @@ public class OrderServiceImpl implements OrderService {
         OrderVO order = buildSelectedCartOrder(memberId, selectedItems, tossOrderId);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
-        // 3. ORDER_DETAIL 테이블에 저장
+        // 2. ORDER_DETAIL 테이블에 저장
         List<OrderDetailVO> orderDetails = new ArrayList<>();
         for (CartVO cart : selectedItems) {
             OrderDetailVO orderDetail = buildCartOrderDetail(order.getId(), cart);
@@ -63,9 +70,15 @@ public class OrderServiceImpl implements OrderService {
             orderDetails.add(orderDetail);
         }
 
-        // 4. CART 테이블에서 주문된 상품들은 삭제
+        // 3. CART 테이블에서 주문된 상품들은 삭제
         for (CartVO cart : selectedItems) {
             if (cartMapper.deleteCart(cart.getId()) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+        }
+
+        // 4. 문자 전송 이벤트 발생
+        if (order.getId() != null) {
+            PaymentSmsEvent paymentSmsEvent = new PaymentSmsEvent(this, order);
+            eventPublisher.publishEvent(paymentSmsEvent);
         }
 
         // 5. 반환값 생성
