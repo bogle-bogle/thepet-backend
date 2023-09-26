@@ -58,6 +58,7 @@ public class HcServiceImpl implements HcService {
         validateRemainingCnt(requestVO);
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
+
         if (requestVO.getPhoneNumber().isEmpty()) {
             throw new BusinessException(NO_PHONE_NUMBER);
         }
@@ -74,6 +75,8 @@ public class HcServiceImpl implements HcService {
         // 2. Reservation 생성
         HcReservationVO reservation = buildReservation(memberId, requestVO);
 
+        String serialNumber = reservationMapper.getSerialNumber(reservation.getBranchCode());
+        reservation.setSerialNumber(serialNumber);
         // 3. RESERVATION 테이블에 INSERT
         if (reservationMapper.saveReservation(reservation) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
