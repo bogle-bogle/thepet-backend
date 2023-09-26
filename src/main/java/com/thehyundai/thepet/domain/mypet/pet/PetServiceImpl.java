@@ -12,11 +12,12 @@ import com.thehyundai.thepet.global.util.ProteinCmCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+
+import static com.thehyundai.thepet.global.exception.ErrorCode.INVALID_IMAGE_TO_OCR;
 
 @Log4j2
 @Service
@@ -40,29 +41,34 @@ public class PetServiceImpl implements PetService {
 
     @Override
     public OcrNlpResultVO updateFeed(PetSuggestionRequestVO requestVO) {
+
         String petId = requestVO.getPetId();
-        String feedMainImgUrl = null;
-        if (requestVO.getFeedMainImgFile() != null) {
-            feedMainImgUrl = awsS3Service.uploadToFeedBucket(requestVO.getFeedMainImgFile());
-        }
-        String feedDescrImgUrl = awsS3Service.uploadToFeedBucket(requestVO.getFeedDescImgFile());
+        PetVO pet = petMapper.findPetById(petId)
+                             .orElseThrow(() -> new BusinessException(ErrorCode.PET_NOT_FOUND));
+        String feedMainImgUrl = (requestVO.getFeedMainImgFile() != null) ? (awsS3Service.uploadToFeedBucket(requestVO.getFeedMainImgFile())) : pet.getFeedMainImgUrl();
+        String feedDescrImgUrl = (requestVO.getFeedDescImgFile() != null) ? (awsS3Service.uploadToFeedBucket(requestVO.getFeedDescImgFile())) : pet.getFeedDescImgUrl();
 
         ImgRequestVO imgRequestVO = new ImgRequestVO(feedDescrImgUrl);
         OcrNlpResultVO ocrNlpResult = ocrNlpService.analyzeImageAndFetchProductList(imgRequestVO).block();
-        Optional<String> favoriteProteinCode = null;
-        if (ocrNlpResult != null) {
-            favoriteProteinCode = findFavoriteProteinCode(ocrNlpResult.getIngredients());
-        }
+        String ingredients = getIngredientsOrThrow(ocrNlpResult);
 
+        Optional<String> favoriteProteinCode = findFavoriteProteinCode(ingredients);
         PetVO petVO = PetVO.builder()
                            .id(petId)
                            .feedMainImgUrl(feedMainImgUrl)
                            .feedDescImgUrl(feedDescrImgUrl)
-                           .favoriteFoodIngredients(ocrNlpResult.getIngredients())
+                           .favoriteFoodIngredients(ingredients)
                            .favoriteProteinCode(favoriteProteinCode.orElse(null))
                            .build();
         petMapper.updateFeed(petVO);
         return ocrNlpResult;
+    }
+
+    private String getIngredientsOrThrow(OcrNlpResultVO ocrNlpResult) {
+        if (ocrNlpResult == null) {
+            throw new BusinessException(INVALID_IMAGE_TO_OCR);
+        }
+        return ocrNlpResult.getIngredients();
     }
 
     @Override
@@ -104,6 +110,7 @@ public class PetServiceImpl implements PetService {
                 .favoriteProteinCode(favoriteProteinCode.orElse(null))
                 .build();
         petMapper.updateFeed(petVO);
+
         return ocrNlpResult;
     }
 
