@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.mypet.pet;
 
+import com.thehyundai.thepet.domain.mypet.club.ClubRequestVO;
 import com.thehyundai.thepet.external.aws.AwsS3Service;
 import com.thehyundai.thepet.external.ocrnlp.ImgRequestVO;
 import com.thehyundai.thepet.external.ocrnlp.OcrNlpResultVO;
@@ -13,10 +14,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static com.thehyundai.thepet.global.exception.ErrorCode.DB_QUERY_EXECUTION_ERROR;
 import static com.thehyundai.thepet.global.exception.ErrorCode.INVALID_IMAGE_TO_OCR;
 
 @Log4j2
@@ -31,12 +34,27 @@ public class PetServiceImpl implements PetService {
     private final EntityValidator entityValidator;
 
     @Override
-    public String registerClub(String token, PetVO petVO) {
+    public PetVO registerClub(String token, ClubRequestVO requestVO) {
+        // 0. 유효성 검사 및 회원 조회
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
-        petVO.setMemberId(memberId);
-        petMapper.registerClub(petVO);
-        return petVO.getId();
+
+        // 1. S3에 업로드
+        String imgUrl = awsS3Service.uploadToPetProfileBucket(requestVO.getPetImgFile());
+
+        // 2. DB 저장 후 리턴
+        PetVO petVO = PetVO.builder()
+                           .memberId(memberId)
+                           .petImgUrl(imgUrl)
+                           .name(requestVO.getName())
+                           .birth(LocalDate.parse(requestVO.getBirth()))
+                           .allergyCode(requestVO.getAllergyCode())
+                           .breedCode(requestVO.getBreedCode())
+                           .animalTypeCode(requestVO.getAnimalTypeCode())
+                           .sizeCode(requestVO.getSizeCode())
+                           .build();
+        if (petMapper.registerClub(petVO) == 0) throw new BusinessException(DB_QUERY_EXECUTION_ERROR);
+        return petVO;
     }
 
     @Override

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.mypet.pet.PetMapper">
 
-    <insert id="registerClub" parameterType="PetVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    <insert id="registerClub" parameterType="PetVO">
     CALL InsertPetWithAllergies
         (
         #{petImgUrl},
