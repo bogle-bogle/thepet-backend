@@ -14,6 +14,7 @@ public enum ErrorCode {
     METHOD_NOT_ALLOWED("유효하지 않은 HTTP method입니다.", 400),
     MISSING_REQUEST_HEADER("HTTP 요청 헤더에 인증 값이 존재하지 않습니다.", 400),
     INVALID_IMAGE_FILE_TYPE("유효하지 않은 확장자입니다. 이미지 파일만 업로드 가능합니다.", 400),
+    INVALID_IMAGE_TO_OCR("OCR 결과 유효하지 않은 이미지입니다. 한글 혹은 영어 성분을 추출할 수 있는 이미지를 첨부해주세요.", 400),
 
     // 401 Unauthorized
     EXPIRED_TOKEN("만료된 토큰입니다. 재로그인이 필요합니다.", 401),

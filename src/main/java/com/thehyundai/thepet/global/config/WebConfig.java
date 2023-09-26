@@ -37,6 +37,7 @@ public class WebConfig implements WebMvcConfigurer {
                                      "/api/curation/**",
                                      "/api/backoffice/**",
                                      "/api/review/**",
+                                     "/api/hc/branch",
                                      "/docs", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**");
     }
 }
