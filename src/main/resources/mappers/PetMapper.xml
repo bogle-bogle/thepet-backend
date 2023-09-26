@@ -124,4 +124,14 @@
         WHERE MEMBER_ID = #{memberId}
     </select>
 
+    <select id="findPetById" parameterType="String" resultType="PetVO">
+        SELECT ID,
+               FAVORITE_FOOD_INGREDIENTS,
+               FEED_MAIN_IMG_URL,
+               FEED_DESC_IMG_URL,
+               FAVORITE_PROTEIN_CODE
+        FROM PET
+        WHERE ID = #{id}
+    </select>
+
 </mapper>
