@@ -2,7 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.thehyundai.thepet.domain.heendycar.HcReservationMapper">
+    <select id="getSerialNumber" parameterType="String" resultType="String">
+        SELECT hc.serial_number
+        FROM Heendy_car hc
+        WHERE hc.branch_code = #{branchCode}
+          AND NOT EXISTS (
+            SELECT 1
+            FROM Heendy_car_reservation hcr
+            WHERE hc.serial_number = hcr.serial_number
+              AND (hcr.return_yn = 'N' AND hcr.cancel_yn = 'N')
+        )
+          AND ROWNUM = 1
 
+    </select>
     <insert id="saveReservation" parameterType="HcReservationVO" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
         INSERT INTO HEENDY_CAR_RESERVATION
         (
@@ -12,24 +24,15 @@
             CREATED_AT,
             SERIAL_NUMBER
         )
-        SELECT
+        VALUES(
             #{branchCode},
             #{memberId},
             #{reservationTime},
             #{createdAt},
-            h.serial_number
-        FROM
-            HEENDY_CAR h
-        WHERE
-            h.BRANCH_CODE = #{branchCode}           -- 특정 branch_code에 해당하는 Heendy_car를 선택
-          AND NOT EXISTS (
-            SELECT 1
-            FROM HEENDY_CAR_RESERVATION r
-            WHERE r.serial_number = h.serial_number
-              AND (r.return_yn = 'N' OR r.cancel_yn = 'N') -- return_yn이 'N'이거나 cancel_yn이 'N'인 것을 제외
+            #{serialNumber}
         )
-          AND ROWNUM = 1;
     </insert>
+
 
     <select id="findReservationById" resultType="HcReservationVO">
         SELECT ID,
