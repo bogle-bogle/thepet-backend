@@ -15,7 +15,6 @@ import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 
 @Log4j2
 @RestController
-@ControllerTimeTrace
 @RequiredArgsConstructor
 @RequestMapping(value = "/api/member")
 public class MemberController {
@@ -23,6 +22,7 @@ public class MemberController {
     private final PetService petService;
 
     @PostMapping("/login")
+    @ControllerTimeTrace
     public ResponseEntity<?> loginOrRegister(@RequestBody MemberVO requestVO) {
         MemberVO member = memberService.loginOrRegister(requestVO);
         List<PetVO> pets = petService.findPetsWithAllergies(member.getId());
@@ -31,6 +31,7 @@ public class MemberController {
     }
 
     @GetMapping("/mypage")
+    @ControllerTimeTrace
     public ResponseEntity<?> getMypageInfo(@RequestHeader(HEADER_TOKEN_PARAM) String token) {
         MypageVO result = memberService.getMypageInfo(token);
         return new ResponseEntity<>(result, HttpStatus.OK);

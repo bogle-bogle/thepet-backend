@@ -17,7 +17,6 @@ import java.util.Optional;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-@ServiceTimeTrace
 public class MemberServiceImpl implements MemberService{
 
     private final MemberMapper memberMapper;
@@ -27,6 +26,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
+    @ServiceTimeTrace
     public MemberVO loginOrRegister(MemberVO requestVO) {
         MemberVO member = memberMapper.findMemberBySocialId(requestVO.getSocialId())
                                       .orElseGet(() -> register(requestVO));
