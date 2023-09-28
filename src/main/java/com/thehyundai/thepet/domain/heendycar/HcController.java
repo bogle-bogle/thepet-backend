@@ -14,7 +14,6 @@ import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 
 @Log4j2
 @RestController
-//@ControllerTimeTrace
 @RequiredArgsConstructor
 @Tag(name = "HeendyCar Controller", description = "흰디카 관련 컨트롤러")
 @RequestMapping("/api/hc")

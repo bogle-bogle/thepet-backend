@@ -17,7 +17,6 @@ import static com.thehyundai.thepet.global.util.Constant.HEADER_TOSS_ORDER_ID_PA
 
 @Log4j2
 @RestController
-//@ControllerTimeTrace
 @RequestMapping("/api/order")
 @RequiredArgsConstructor
 @Tag(name = "Order Controller", description = "주문 관련 컨트롤러")

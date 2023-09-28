@@ -12,7 +12,6 @@ import static com.thehyundai.thepet.global.util.Constant.HEADER_TOKEN_PARAM;
 
 @Log4j2
 @RestController
-//@ControllerTimeTrace
 @RequestMapping("/api/club")
 @RequiredArgsConstructor
 public class ClubController {

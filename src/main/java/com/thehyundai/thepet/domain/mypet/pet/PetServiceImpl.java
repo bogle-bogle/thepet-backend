@@ -8,6 +8,7 @@ import com.thehyundai.thepet.external.ocrnlp.OcrNlpService;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
+import com.thehyundai.thepet.global.timetrace.ServiceTimeTrace;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import com.thehyundai.thepet.global.util.ProteinCmCode;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +26,6 @@ import static com.thehyundai.thepet.global.exception.ErrorCode.INVALID_IMAGE_TO_
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@ServiceTimeTrace
 public class PetServiceImpl implements PetService {
     private final PetMapper petMapper;
     private final AwsS3Service awsS3Service;
@@ -58,6 +58,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @ServiceTimeTrace
     public OcrNlpResultVO updateFeed(PetSuggestionRequestVO requestVO) {
 
         String petId = requestVO.getPetId();
@@ -110,6 +111,7 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
+    @ServiceTimeTrace
     public OcrNlpResultVO getSuggestions(String petId) {
         PetVO pet = petMapper.findPetWithAllergiesById(petId)
                              .orElseThrow(() -> new BusinessException(ErrorCode.PET_NOT_FOUND));
@@ -122,11 +124,11 @@ public class PetServiceImpl implements PetService {
         }
 
         PetVO petVO = PetVO.builder()
-                .id(petId)
-                .feedMainImgUrl(pet.getFeedMainImgUrl())
-                .feedDescImgUrl(pet.getFeedDescImgUrl())
-                .favoriteProteinCode(favoriteProteinCode.orElse(null))
-                .build();
+                           .id(petId)
+                           .feedMainImgUrl(pet.getFeedMainImgUrl())
+                           .feedDescImgUrl(pet.getFeedDescImgUrl())
+                           .favoriteProteinCode(favoriteProteinCode.orElse(null))
+                           .build();
         petMapper.updateFeed(petVO);
 
         return ocrNlpResult;
