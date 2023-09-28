@@ -27,16 +27,16 @@ public class TimeTraceAspect {
     private final ServiceLogProducer serviceLogProducer;
     private final ControllerLogProducer controllerLogProducer;
 
-    @Pointcut("@within(com.thehyundai.thepet.global.timetrace.ServiceTimeTrace)")
+    @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.ServiceTimeTrace)")
     private void timeTraceServicePointcut() {
     }
 
-    @Pointcut("@within(com.thehyundai.thepet.global.timetrace.ControllerTimeTrace)")
+    @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.ControllerTimeTrace)")
     private void timeTraceControllerPointcut(){
     }
 
-    @Around("timeTraceServicePointcut() && @within(timeTrace)")
-    public Object traceTime(ProceedingJoinPoint joinPoint, ServiceTimeTrace timeTrace) throws Throwable {
+    @Around("timeTraceServicePointcut()")
+    public Object serviceTraceTime(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
 
         try {
@@ -61,10 +61,10 @@ public class TimeTraceAspect {
         }
     }
 
-    @Around("timeTraceControllerPointcut() && @within(timeTrace)")
-    public Object traceTime(ProceedingJoinPoint joinPoint, ControllerTimeTrace timeTrace) throws Throwable {
+    @Around("timeTraceControllerPointcut()")
+    public Object controllerTraceTime(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
-
+        log.info("adfasdfsdf");
         try {
             stopWatch.start();
             return joinPoint.proceed(); // 실제 타겟 호출

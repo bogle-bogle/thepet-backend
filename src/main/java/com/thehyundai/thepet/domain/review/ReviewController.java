@@ -12,7 +12,6 @@ import java.util.List;
 
 @Log4j2
 @RestController
-//@ControllerTimeTrace
 @RequestMapping("/api/review")
 @RequiredArgsConstructor
 public class ReviewController {
