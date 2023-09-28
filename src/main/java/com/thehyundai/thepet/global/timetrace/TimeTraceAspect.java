@@ -14,7 +14,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 
 import static com.thehyundai.thepet.global.util.Constant.JWT_PREFIX;
 
@@ -26,6 +29,7 @@ public class TimeTraceAspect {
     private final ControllerInfoAspect controllerInfoAspect;
     private final ServiceLogProducer serviceLogProducer;
     private final ControllerLogProducer controllerLogProducer;
+    private final List<Class<? extends Annotation>> mappingAnnotations = Arrays.asList(GetMapping.class, PostMapping.class, DeleteMapping.class, PutMapping.class);
 
     @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.ServiceTimeTrace)")
     private void timeTraceServicePointcut() {
@@ -41,23 +45,12 @@ public class TimeTraceAspect {
 
         try {
             stopWatch.start();
-            return joinPoint.proceed(); // 실제 타겟 호출
+            return joinPoint.proceed();
         } finally {
             stopWatch.stop();
-            double executionTimeMillis = stopWatch.getTotalTimeMillis();
-            double executionTimeSeconds = executionTimeMillis / 1000.0; // 밀리초를 초로 변환
-            String executionTimeFormatted = String.format("%.2f", executionTimeSeconds); // 소수점 두 자리까지 표시
-            String methodName = getMethodName(joinPoint);
-            String requestName =getClassName(joinPoint);
-
-            AopServiceVO timeTraceServiceInfo = new AopServiceVO();
-            timeTraceServiceInfo.setMethodName(methodName);
-            timeTraceServiceInfo.setExecutionTime(executionTimeFormatted);
-            timeTraceServiceInfo.setRequestName(requestName);
-
-            serviceLogProducer.sendMessage(timeTraceServiceInfo);
-
-            log.info("URL: {}, Method: {}, Execution Time: {}ms", requestName, methodName, executionTimeFormatted);
+            long executionTimeMillis = stopWatch.getTotalTimeMillis();
+            AopServiceVO serviceLog = logServiceExecutionTime(joinPoint, executionTimeMillis);
+            serviceLogProducer.sendMessage(serviceLog);
         }
     }
 
@@ -67,54 +60,58 @@ public class TimeTraceAspect {
         log.info("adfasdfsdf");
         try {
             stopWatch.start();
-            return joinPoint.proceed(); // 실제 타겟 호출
+            return joinPoint.proceed();
         } finally {
             stopWatch.stop();
-            double executionTimeMillis = stopWatch.getTotalTimeMillis();
-            double executionTimeSeconds = executionTimeMillis / 1000.0; // 밀리초를 초로 변환
-            String executionTimeFormatted = String.format("%.2f", executionTimeSeconds); // 소수점 두 자리까지 표시
-            String methodName = getMethodName(joinPoint);
-
-
-            String requestMapping =getRequestMapping(joinPoint);
-            String parameterName = getParameter(joinPoint);
-
-            AopControllerVO timeTraceControllerInfo = new AopControllerVO();
-            timeTraceControllerInfo.setParameterName(parameterName);
-            timeTraceControllerInfo.setMethodName(methodName);
-            timeTraceControllerInfo.setRequestMapping(requestMapping);
-            timeTraceControllerInfo.setExecutionTime(executionTimeFormatted);
-
-            controllerLogProducer.sendMessage(timeTraceControllerInfo);
-            log.info("URL: {}, Method: {}, Execution Time: {}ms", requestMapping, methodName, executionTimeFormatted);
+            long executionTimeMillis = stopWatch.getTotalTimeMillis();
+            AopControllerVO controllerLog = logControllerExecutionTime(joinPoint, executionTimeMillis);
+            controllerLogProducer.sendMessage(controllerLog);
         }
     }
 
-    // 메소드명 가져오기
-    public String getMethodName(JoinPoint joinPoint) {
+    private AopServiceVO logServiceExecutionTime(ProceedingJoinPoint joinPoint, long executionTimeMillis) {
+        String methodName = getMethodName(joinPoint);
+        String requestName = getClassName(joinPoint);
+
+        return AopServiceVO.builder()
+                .methodName(methodName)
+                .executionTime(String.valueOf(executionTimeMillis))
+                .requestName(requestName)
+                .build();
+    }
+
+    private AopControllerVO logControllerExecutionTime(ProceedingJoinPoint joinPoint, long executionTimeMillis) {
+        String methodName = getMethodName(joinPoint);
+        String requestMapping = getRequestMapping(joinPoint);
+        String parameterName = getParameter(joinPoint);
+
+        return AopControllerVO.builder()
+                .parameterName(parameterName)
+                .methodName(methodName)
+                .requestMapping(requestMapping)
+                .executionTime(String.valueOf(executionTimeMillis))
+                .build();
+    }
+
+    public String getMethodName(JoinPoint joinPoint) {    // 메소드명 가져오기
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         return method.getName();
     }
 
-    // 클래스명 가져오기
-    public String getClassName(JoinPoint joinPoint) {
+    public String getClassName(JoinPoint joinPoint) {    // 클래스명 가져오기
         Class<?> activeClass = joinPoint.getTarget().getClass();
         String fullClassName = activeClass.getName();
-
-        // 클래스 이름을 '.'으로 분리하고 마지막 요소 가져오기
-        String[] classNameParts = fullClassName.split("\\.");
+        String[] classNameParts = fullClassName.split("\\.");        // 클래스 이름을 '.'으로 분리하고 마지막 요소 가져오기
         return classNameParts[classNameParts.length - 1];
     }
 
-    // 매개변수 가져오기
-    public String getParameter(JoinPoint joinPoint) {
+    public String getParameter(JoinPoint joinPoint) {    // 매개변수 가져오기
 
         StringBuilder parameters = new StringBuilder();
 
         for (Object it : joinPoint.getArgs()) {
-            if (it instanceof String && ((String) it).startsWith(JWT_PREFIX)) {
-                // 'Bearer'로 시작하는 문자열이면 null 반환
+            if (it instanceof String && ((String) it).startsWith(JWT_PREFIX)) {                // 'Bearer'로 시작하는 문자열이면 null 반환
                 return null;
             }
             parameters.append(" ");
@@ -125,43 +122,23 @@ public class TimeTraceAspect {
     }
 
 
-    // 매핑된 URL 가져오기
-    public String getRequestMapping(JoinPoint joinPoint) {
+    public String getRequestMapping(JoinPoint joinPoint) {      // 매핑된 URL 가져오기
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-
-
         String baseUrl = controllerInfoAspect.getBaseUrl();
-        GetMapping getMappingAnnotation = method.getAnnotation(GetMapping.class);
-        if (getMappingAnnotation != null && getMappingAnnotation.value().length > 0) {
-            return baseUrl + getMappingAnnotation.value()[0];
-        }
 
-        // PostMapping 처리
-        PostMapping postMappingAnnotation = method.getAnnotation(PostMapping.class);
-        if (postMappingAnnotation != null && postMappingAnnotation.value().length > 0) {
-            return baseUrl + postMappingAnnotation.value()[0];
+        for (Class<? extends Annotation> mappingAnnotation : mappingAnnotations) {
+            Annotation annotation = method.getAnnotation(mappingAnnotation);
+            if (annotation != null) {
+                try {
+                    String[] values = (String[]) annotation.getClass().getMethod("value").invoke(annotation);
+                    if (values.length > 0) {
+                        return baseUrl + values[0];
+                    }
+                } catch (Exception e) {
+                }
+            }
         }
-
-        // DeleteMapping 처리
-        DeleteMapping deleteMappingAnnotation = method.getAnnotation(DeleteMapping.class);
-        if (deleteMappingAnnotation != null && deleteMappingAnnotation.value().length > 0) {
-            return baseUrl + deleteMappingAnnotation.value()[0];
-        }
-
-        // PatchMapping 처리
-        PatchMapping patchMappingAnnotation = method.getAnnotation(PatchMapping.class);
-        if (patchMappingAnnotation != null && patchMappingAnnotation.value().length > 0) {
-            return baseUrl + patchMappingAnnotation.value()[0];
-        }
-
-        // PutMapping 처리
-        PutMapping putMappingAnnotation = method.getAnnotation(PutMapping.class);
-        if (putMappingAnnotation != null && putMappingAnnotation.value().length > 0) {
-            return baseUrl + putMappingAnnotation.value()[0];
-        }
-
-        // 기본 URL 반환
         return baseUrl;
     }
 }

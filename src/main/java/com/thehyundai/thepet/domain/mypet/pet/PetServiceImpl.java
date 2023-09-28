@@ -124,11 +124,11 @@ public class PetServiceImpl implements PetService {
         }
 
         PetVO petVO = PetVO.builder()
-                .id(petId)
-                .feedMainImgUrl(pet.getFeedMainImgUrl())
-                .feedDescImgUrl(pet.getFeedDescImgUrl())
-                .favoriteProteinCode(favoriteProteinCode.orElse(null))
-                .build();
+                           .id(petId)
+                           .feedMainImgUrl(pet.getFeedMainImgUrl())
+                           .feedDescImgUrl(pet.getFeedDescImgUrl())
+                           .favoriteProteinCode(favoriteProteinCode.orElse(null))
+                           .build();
         petMapper.updateFeed(petVO);
 
         return ocrNlpResult;

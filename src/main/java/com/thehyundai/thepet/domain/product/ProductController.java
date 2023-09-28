@@ -43,9 +43,10 @@ public class ProductController {
     @ControllerTimeTrace
     public ResponseEntity<ProductListVO> getProducts(@PathVariable int page, @RequestBody FilterVO filterVO) {
         filterVO.setPage((page - 1) * 20 + 1);
-        ProductListVO result = productService.getAllProducts(filterVO);
+        ProductListVO result = productService.getAllFilteredProducts(filterVO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductVO> getProductDetail(@PathVariable String id) {
         ProductVO result = productService.getProductDetail(id);

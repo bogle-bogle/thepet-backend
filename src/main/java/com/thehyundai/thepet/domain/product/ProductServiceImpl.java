@@ -31,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListVO getAllProducts(FilterVO filterVO) {
+    public ProductListVO getAllFilteredProducts(FilterVO filterVO) {
         ProductListVO res = new ProductListVO();
         res.setProducts(productMapper.filterProduct(filterVO));
         res.setCount(productMapper.selectProductCount(filterVO));
