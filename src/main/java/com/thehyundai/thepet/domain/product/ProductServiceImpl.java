@@ -12,7 +12,6 @@ import java.util.Map;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@ServiceTimeTrace
 public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 

@@ -31,7 +31,6 @@ public class TimeTraceAspect {
     private final ControllerLogProducer controllerLogProducer;
     private final List<Class<? extends Annotation>> mappingAnnotations = Arrays.asList(GetMapping.class, PostMapping.class, DeleteMapping.class, PutMapping.class);
 
-
     @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.ServiceTimeTrace)")
     private void timeTraceServicePointcut() {
     }
