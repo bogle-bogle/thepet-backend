@@ -111,9 +111,9 @@ public class HcServiceImpl implements HcService {
     }
 
     @Override
-    public Integer adminHeendycarManage(String productId, String type,String newValue) {
+    public Integer adminHeendycarManage(String reservationId, String type,String newValue) {
         HcReservationVO reservationVO = new HcReservationVO();
-        reservationVO.setId(productId);
+        reservationVO.setId(reservationId);
         if ("pickupYn".equals(type)) {
             reservationVO.setPickupYn(newValue);
             return reservationMapper.changePickUp(reservationVO);
