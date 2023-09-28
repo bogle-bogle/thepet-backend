@@ -42,7 +42,7 @@ public class ProductController {
     @PostMapping("/list/{page}")
     public ResponseEntity<ProductListVO> getProducts(@PathVariable int page, @RequestBody FilterVO filterVO) {
         filterVO.setPage((page - 1) * 20 + 1);
-        ProductListVO result = productService.getAllFilterProducts(filterVO);
+        ProductListVO result = productService.getAllFilteredProducts(filterVO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
