@@ -67,4 +67,6 @@
         WHERE MEMBER_ID = #{memberId}
     </select>
 
+
+
 </mapper>
