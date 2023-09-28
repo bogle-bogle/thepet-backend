@@ -6,6 +6,7 @@ import com.thehyundai.thepet.domain.product.ProductVO;
 import com.thehyundai.thepet.global.cmcode.CmCode;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
+import com.thehyundai.thepet.global.timetrace.ServiceTimeTrace;
 import com.thehyundai.thepet.global.util.EntityValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,12 +20,12 @@ import java.util.List;
 @Log4j2
 @RequiredArgsConstructor
 @Service
-//@ServiceTimeTrace
 public class RecommendationServiceImpl implements RecommendationService {
     private final ProductMapper productMapper;
     private final EntityValidator entityValidator;
 
     @Override
+    @ServiceTimeTrace
     @Cacheable(value= "recommendProductSimply", key="#petId", cacheManager = "contentCacheManager")
     public RecommendationVO recommendProductsSimply(String petId) {
         // 0. 반려동물 정보 가져오기
@@ -49,6 +50,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
+    @ServiceTimeTrace
     @Cacheable(value= "recommendProductDetail", key="#petId", cacheManager = "contentCacheManager")
     public RecommendationVO recommendProductsInDetail(String petId) {
         // 0. 반려동물 정보 가져오기
@@ -66,6 +68,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
+    @ServiceTimeTrace
     public List<ProductVO> recommendProductsByMbti(String mbtiType) {
         List<ProductVO> recommendations = productMapper.findProductsByMbti(mbtiType.toUpperCase())
                                                        .stream()
@@ -76,6 +79,7 @@ public class RecommendationServiceImpl implements RecommendationService {
     }
 
     @Override
+    @ServiceTimeTrace
     public RecommendationVO recommendToyProductsByMbti(String mbtiType) {
         List<ProductVO> recommendations = productMapper.findToyProductsByMbti(mbtiType.toUpperCase())
                                                        .stream()

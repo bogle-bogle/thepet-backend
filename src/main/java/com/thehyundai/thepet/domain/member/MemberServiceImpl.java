@@ -26,7 +26,6 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    @ServiceTimeTrace
     public MemberVO loginOrRegister(MemberVO requestVO) {
         MemberVO member = memberMapper.findMemberBySocialId(requestVO.getSocialId())
                                       .orElseGet(() -> register(requestVO));
