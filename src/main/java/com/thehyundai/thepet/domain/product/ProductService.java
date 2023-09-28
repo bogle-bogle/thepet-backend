@@ -10,7 +10,7 @@ public interface ProductService {
 
     ProductVO createGeneralProduct(ProductVO productVO);
 
-    ProductListVO getAllProducts(FilterVO filterVO);
+    ProductListVO getAllFilteredProducts(FilterVO filterVO);
 
     ProductVO getProductDetail(String id);
 

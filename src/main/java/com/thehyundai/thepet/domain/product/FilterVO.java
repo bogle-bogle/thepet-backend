@@ -10,11 +10,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FilterVO {
-
-//    private List<String> productSubFilter;
-//    private List<String> animalFilter;
-//    private List<String> proteinFilter;
-
     private String mainFilter;
     private List<String> subFilter;
     private List<String> proteinFilter;

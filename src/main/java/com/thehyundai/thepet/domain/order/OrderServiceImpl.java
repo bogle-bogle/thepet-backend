@@ -33,7 +33,6 @@ import static com.thehyundai.thepet.global.util.Constant.TABLE_STATUS_Y;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@ServiceTimeTrace
 public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
     private final CartMapper cartMapper;

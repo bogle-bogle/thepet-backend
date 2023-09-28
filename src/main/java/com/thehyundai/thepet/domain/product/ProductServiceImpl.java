@@ -12,7 +12,6 @@ import java.util.Map;
 @Log4j2
 @Service
 @RequiredArgsConstructor
-//@ServiceTimeTrace
 public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
@@ -32,7 +31,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductListVO getAllProducts(FilterVO filterVO) {
+    public ProductListVO getAllFilteredProducts(FilterVO filterVO) {
         ProductListVO res = new ProductListVO();
         res.setProducts(productMapper.filterProduct(filterVO));
         res.setCount(productMapper.selectProductCount(filterVO));
