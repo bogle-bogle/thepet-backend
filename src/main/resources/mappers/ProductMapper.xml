@@ -227,6 +227,7 @@
         SELECT ID,
                NAME,
                PRICE,
+               INGREDIENTS,
                MAIN_IMG_URL
         FROM PRODUCT
         <where>
