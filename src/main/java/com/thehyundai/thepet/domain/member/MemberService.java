@@ -14,6 +14,8 @@ public interface MemberService {
 
     MemberVO updateMemberInfo(MemberVO memberVO);
 
+    MemberVO updateMemberBillingKey(MemberVO memberVO);
+
     MypageVO getMypageInfo(String token);
 
 }

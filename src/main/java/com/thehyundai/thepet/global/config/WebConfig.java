@@ -39,6 +39,8 @@ public class WebConfig implements WebMvcConfigurer {
                                      "/api/backoffice/**",
                                      "/api/review/**",
                                      "/api/hc/branch",
+                                     "/api/event",
+                                     "/api/pet",
                                      "/api/hc/branch/{branchCode}/reservation",
                                      "/api/hc/updateStatus/{productId}/{type}/{newValue}",
                                      "/api/event/**",

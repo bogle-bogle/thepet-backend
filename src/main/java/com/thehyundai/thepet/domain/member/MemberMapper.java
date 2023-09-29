@@ -19,4 +19,6 @@ public interface MemberMapper {
 
     Integer updateMemberInfo(MemberVO memberVO);
 
+    Integer updateMemberBillingKey(MemberVO memberVO);
+
 }

@@ -15,5 +15,8 @@ public class TossPaymentConfig {
 
     @Value("${payment.toss.success_url}")
     private String successUrl;
+
+    @Value("${payment.toss.billingkey_url}")
+    private String billingKeyUrl;
     
 }

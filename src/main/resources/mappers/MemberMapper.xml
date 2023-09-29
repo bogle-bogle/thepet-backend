@@ -13,7 +13,10 @@
                CLUB_HEENDY_YN,
                SOCIAL_ID,
                PHONE_NUMBER,
-               BILLINGKEY
+               BILLINGKEY,
+               CARD_COMPANY,
+               CARD_NUMBER,
+               CARD_TYPE
         FROM MEMBER
         WHERE ID = #{id}
     </select>
@@ -57,6 +60,15 @@
     <update id="updateMemberInfo" parameterType="MemberVO">
         UPDATE MEMBER
         SET PHONE_NUMBER = #{phoneNumber}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateMemberBillingKey" parameterType="MemberVO">
+        UPDATE MEMBER
+        SET BILLINGKEY = #{billingKey},
+            CARD_COMPANY = #{cardCompany},
+            CARD_NUMBER = #{cardNumber},
+            CARD_TYPE = #{cardType}
         WHERE ID = #{id}
     </update>
 

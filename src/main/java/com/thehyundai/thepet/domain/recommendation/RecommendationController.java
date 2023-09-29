@@ -1,6 +1,7 @@
 package com.thehyundai.thepet.domain.recommendation;
 
 import com.thehyundai.thepet.domain.product.ProductVO;
+import com.thehyundai.thepet.global.timetrace.ControllerTimeTrace;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import java.util.List;
 
 @Log4j2
 @RestController
-//@ControllerTimeTrace
 @RequiredArgsConstructor
 @Tag(name = "Recommendation Controller", description = "상품 추천 관련 컨트롤러")
 @RequestMapping("/api/recommendation")
@@ -35,6 +35,7 @@ public class RecommendationController {
     }
 
     @GetMapping("/mbti-to/{mbtiType}")
+    @ControllerTimeTrace
     @Operation(summary = "MBTI 맞춤 장난감 추천", description = "해당 MBTI의 반려동물들에게 추천하는 장난감들을 보여줍니다.")
     public ResponseEntity<?> recommendToyProductsByMbti(@PathVariable String mbtiType) {
         RecommendationVO result = recommendationService.recommendToyProductsByMbti(mbtiType);
