@@ -129,7 +129,26 @@ public class HcServiceImpl implements HcService {
 
     @Override
     public List<HcReservationVO> showBranchReservation(String branchCode) {
-        return reservationMapper.findBranchReservation(branchCode);
+        List<HcReservationVO> reservations = reservationMapper.findBranchReservation(branchCode);
+
+        for (HcReservationVO reservation : reservations) {
+            // 이름을 마스킹 (첫 글자와 나머지를 *로 대체)
+            String name = reservation.getName();
+            if (name.length() > 1) {
+                char firstChar = name.charAt(0);
+                String maskedName = firstChar + "*".repeat(name.length() - 1);
+                reservation.setName(maskedName);
+            }
+
+            // 전화번호를 마스킹 (가운데 4자리를 *로 대체, 형식 변경)
+            String phoneNumber = reservation.getPhoneNumber();
+            if (phoneNumber.length() >= 8) {
+                String maskedPhoneNumber = phoneNumber.substring(0, 3) + "-****-" + phoneNumber.substring(phoneNumber.length() - 4);
+                reservation.setPhoneNumber(maskedPhoneNumber);
+            }
+        }
+
+        return reservations;
     }
 
 
