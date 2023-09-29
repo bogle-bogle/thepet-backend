@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.member;
 
+import com.thehyundai.thepet.domain.backoffice.member.BackOfficeMemberVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,11 +15,10 @@ public interface MemberMapper {
 
     Integer register(MemberVO member);
 
-    List<BackOfficeMemberVO> selectAllMember();
-    List<BackOfficeMemberVO> selectHeendyMember();
-    List<BackOfficeMemberVO> selectSubscribeMember();
-    List<BackOfficeMemberVO> selectDeliveryMember();
+
 
     Integer updateMemberInfo(MemberVO memberVO);
+
+    Integer updateMemberBillingKey(MemberVO memberVO);
 
 }

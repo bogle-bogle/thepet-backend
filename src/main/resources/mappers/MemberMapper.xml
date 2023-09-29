@@ -13,7 +13,10 @@
                CLUB_HEENDY_YN,
                SOCIAL_ID,
                PHONE_NUMBER,
-               BILLINGKEY
+               BILLINGKEY,
+               CARD_COMPANY,
+               CARD_NUMBER,
+               CARD_TYPE
         FROM MEMBER
         WHERE ID = #{id}
     </select>
@@ -52,36 +55,20 @@
              )
     </insert>
 
-    <select id="selectAllMember" resultType="BackOfficeMemberVO">
-        SELECT id, name, email, img_url, address, nickname, club_heendy_yn, social_id, phone_number, billingkey
-        FROM member
-    </select>
 
-    <select id="selectHeendyMember" resultType="BackOfficeMemberVO">
-        SELECT id, name, email, img_url, address, nickname, club_heendy_yn, social_id, phone_number, billingkey
-        FROM member
-        WHERE club_heendy_yn = 'Y'
-    </select>
-
-    <select id="selectSubscribeMember" resultType="BackOfficeMemberVO">
-        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, s.start_date, s.end_date
-        FROM member m
-        LEFT JOIN subscription s
-        on m.id = s.member_id
-        WHERE s.curation_yn = 'Y'
-    </select>
-
-    <select id="selectDeliveryMember" resultType="BackOfficeMemberVO">
-        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, s.start_date, s.end_date, s.product_id
-        FROM member m
-        LEFT JOIN subscription s
-        on m.id = s.member_id
-        WHERE s.curation_yn = 'N'
-    </select>
 
     <update id="updateMemberInfo" parameterType="MemberVO">
         UPDATE MEMBER
         SET PHONE_NUMBER = #{phoneNumber}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="updateMemberBillingKey" parameterType="MemberVO">
+        UPDATE MEMBER
+        SET BILLINGKEY = #{billingKey},
+            CARD_COMPANY = #{cardCompany},
+            CARD_NUMBER = #{cardNumber},
+            CARD_TYPE = #{cardType}
         WHERE ID = #{id}
     </update>
 

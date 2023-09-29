@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.domain.member;
+package com.thehyundai.thepet.domain.backoffice.member;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
