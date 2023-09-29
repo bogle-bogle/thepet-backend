@@ -21,7 +21,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://heendy-front.s3-website.ap-northeast-2.amazonaws.com",
                                 "http://localhost:3000",
                                 "http://localhost:8000",
-                                "https://thepet.thehyundai.site")
+                                "https://thepet.thehyundai.site",
+                                "https://admin.thehyundai.site")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
     }
 
@@ -42,6 +43,7 @@ public class WebConfig implements WebMvcConfigurer {
                                      "/api/pet",
                                      "/api/hc/branch/{branchCode}/reservation",
                                      "/api/hc/updateStatus/{productId}/{type}/{newValue}",
+                                     "/api/event/**",
                                      "/docs", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**");
     }
 }
