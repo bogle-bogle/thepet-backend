@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.member;
 
+import com.thehyundai.thepet.domain.backoffice.member.BackOfficeMemberVO;
 import com.thehyundai.thepet.domain.mypet.pet.PetMapper;
 import com.thehyundai.thepet.domain.subscription.SubsMapper;
 import com.thehyundai.thepet.global.exception.BusinessException;
@@ -42,21 +43,6 @@ public class MemberServiceImpl implements MemberService{
         return member;
     }
 
-    @Override
-    public List<BackOfficeMemberVO> getAllMember() {
-        return memberMapper.selectAllMember();
-    }
-
-    @Override
-    public List<BackOfficeMemberVO> getAllHeendyMember() {
-        return memberMapper.selectHeendyMember();
-    }
-
-    @Override
-    public List<BackOfficeMemberVO> getAllSubscribeMember() { return memberMapper.selectSubscribeMember(); }
-
-    @Override
-    public List<BackOfficeMemberVO> getAllDeliveryMember() { return memberMapper.selectDeliveryMember(); }
 
     @Override
     public MemberVO updateMemberInfo(MemberVO memberVO) {
