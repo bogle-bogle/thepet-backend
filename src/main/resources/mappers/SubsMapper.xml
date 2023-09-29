@@ -59,7 +59,9 @@
                PRODUCT_ID
         FROM SUBSCRIPTION
         WHERE MEMBER_ID = #{memberId}
-          AND CURATION_YN = #{curationYn}
+          AND CURATION_YN = 'N'
+          AND PRODUCT_ID = #{productId}
+          AND END_DATE IS NULL
     </select>
 
     <select id="findSubsCntByMemberId" parameterType="String">
