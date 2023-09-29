@@ -3,6 +3,8 @@ package com.thehyundai.thepet.domain.order;
 import com.thehyundai.thepet.domain.cart.CartMapper;
 import com.thehyundai.thepet.domain.cart.CartService;
 import com.thehyundai.thepet.domain.cart.CartVO;
+import com.thehyundai.thepet.domain.member.MemberService;
+import com.thehyundai.thepet.domain.member.MemberVO;
 import com.thehyundai.thepet.domain.product.ProductService;
 import com.thehyundai.thepet.domain.product.ProductVO;
 import com.thehyundai.thepet.domain.subscription.CurationService;
@@ -46,6 +48,7 @@ public class OrderServiceImpl implements OrderService {
     private final CartService cartService;
     private final ProductService productService;
     private final CurationService curationService;
+    private final MemberService memberService;
 
 
 
@@ -118,23 +121,27 @@ public class OrderServiceImpl implements OrderService {
     public OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         String memberId = authTokensGenerator.extractMemberId(token);
-        entityValidator.getPresentMember(memberId);
-        requestVO.setMemberId(memberId);
+        MemberVO member = entityValidator.getPresentMember(memberId);
 
-        // 1. ORDER 테이블에 저장
+        // 1. MEMBER 테이블에 Billingkey 저장
+        member.setBillingkey(requestVO.getBillingkey());
+        memberService.updateMemberInfo(member);
+
+        // 2. ORDER 테이블에 저장
         CurationVO thisMonthCuration = curationService.showCurationOfCurrMonth();
         OrderVO order = buildCurationOrder(memberId, thisMonthCuration);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
-        // 2. ORDER_DETAIL 테이블에 저장
+        // 3. ORDER_DETAIL 테이블에 저장
         OrderDetailVO orderDetail = buildCurationOrderDetail(order.getId(), thisMonthCuration);
         if (orderDetailMapper.saveOrderDetail(orderDetail) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
-        // 3. SUBSCRIPTION 테이블에 구독 정보 저장
+        // 4. SUBSCRIPTION 테이블에 구독 정보 저장
+        requestVO.setMemberId(memberId);
         requestVO.setCurationYn(TABLE_STATUS_Y);
         subsService.createCurationSubscription(requestVO);
 
-        // 4. 주문 내역 반환
+        // 5. 주문 내역 반환
         order.setOrderDetails(List.of(orderDetail));
         return order;
     }

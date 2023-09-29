@@ -59,7 +59,7 @@
 
     <update id="updateMemberInfo" parameterType="MemberVO">
         UPDATE MEMBER
-        SET PHONE_NUMBER = #{phoneNumber}
+        SET PHONE_NUMBER = #{phoneNumber}, BILLINGKEY = #{billingkey}
         WHERE ID = #{id}
     </update>
 

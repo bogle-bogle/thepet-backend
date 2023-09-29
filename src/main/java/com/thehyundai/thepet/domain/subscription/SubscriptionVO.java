@@ -18,4 +18,5 @@ public class SubscriptionVO {
     private String memberId;
     private String productId;
     private String curationYn;
+    private String billingkey;
 }
