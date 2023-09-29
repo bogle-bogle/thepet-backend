@@ -5,7 +5,6 @@ import com.thehyundai.thepet.domain.subscription.SubsMapper;
 import com.thehyundai.thepet.global.exception.BusinessException;
 import com.thehyundai.thepet.global.exception.ErrorCode;
 import com.thehyundai.thepet.global.jwt.AuthTokensGenerator;
-import com.thehyundai.thepet.global.timetrace.ServiceTimeTrace;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -62,6 +61,12 @@ public class MemberServiceImpl implements MemberService{
     @Override
     public MemberVO updateMemberInfo(MemberVO memberVO) {
         if (memberMapper.updateMemberInfo(memberVO) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
+        return memberVO;
+    }
+
+    @Override
+    public MemberVO updateMemberBillingKey(MemberVO memberVO) {
+        if (memberMapper.updateMemberBillingKey(memberVO) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
         return memberVO;
     }
 
