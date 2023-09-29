@@ -22,7 +22,8 @@ public class WebConfig implements WebMvcConfigurer {
                                 "http://localhost:3000",
                                 "http://localhost:8000",
                                 "https://thepet.thehyundai.site",
-                                "https://admin.thehyundai.site")
+                                "https://admin.thehyundai.site/#",
+                                "http://admin.thehyundai.site/#")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
     }
 
