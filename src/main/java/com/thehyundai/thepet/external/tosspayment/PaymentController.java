@@ -26,4 +26,16 @@ public class PaymentController {
         return ResponseEntity.ok(result);
     }
 
+    @PostMapping("/cardregister")
+    public ResponseEntity<String> tossCardRegister(@RequestBody CardRegiDTO cardRegiDTO){
+
+        String customerKey = cardRegiDTO.getCustomerKey();
+        String authKey = cardRegiDTO.getAuthKey();
+
+        String result = paymentService.issueBillingKey(customerKey, authKey);
+
+        log.info(customerKey, authKey);
+
+        return ResponseEntity.ok(result);
+    }
 }
