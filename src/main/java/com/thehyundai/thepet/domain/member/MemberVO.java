@@ -21,4 +21,8 @@ public class MemberVO {
     private String clubHeendyYn;
     private AuthTokens jwt;
     private String phoneNumber;
+    private String billingKey;
+    private String cardCompany;
+    private String cardNumber;
+    private String cardType;
 }
