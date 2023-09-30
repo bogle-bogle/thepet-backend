@@ -15,7 +15,7 @@
     </select>
 
     <select id="selectSubscribeMember" resultType="BackOfficeMemberVO">
-        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, s.start_date, s.end_date
+        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, phone_number, s.start_date, s.end_date
         FROM member m
         LEFT JOIN subscription s
         on m.id = s.member_id
@@ -23,7 +23,7 @@
     </select>
 
     <select id="selectDeliveryMember" resultType="BackOfficeMemberVO">
-        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, s.start_date, s.end_date, s.product_id
+        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, phone_number, s.start_date, s.end_date, s.product_id
         FROM member m
         LEFT JOIN subscription s
         on m.id = s.member_id
