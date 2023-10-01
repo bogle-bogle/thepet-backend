@@ -70,6 +70,15 @@
         WHERE MEMBER_ID = #{memberId}
     </select>
 
-
+    <select id="findAllProductSubscription" resultType="SubscriptionVO">
+        SELECT ID,
+               START_DATE,
+               END_DATE,
+               MEMBER_ID,
+               PRODUCT_ID
+        FROM SUBSCRIPTION
+        WHERE CURATION_YN = 'N'
+          AND END_DATE IS NULL;
+    </select>
 
 </mapper>
