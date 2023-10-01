@@ -110,7 +110,6 @@ public class OrderServiceImpl implements OrderService {
         // 4. 반환값 생성
         order.setOrderDetails(orderDetails);
         return order;
-
     }
 
     @Override
@@ -162,9 +161,6 @@ public class OrderServiceImpl implements OrderService {
 
         // 4. 주문 내역 반환
         order.setOrderDetails(List.of(orderDetail));
-
-
-
 
         return order;
     }
