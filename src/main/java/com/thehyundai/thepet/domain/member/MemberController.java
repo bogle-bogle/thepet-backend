@@ -42,4 +42,12 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @GetMapping("/auth/login")
+    public ResponseEntity<?> authToLogin(@RequestParam String code) {
+        MemberVO member = memberService.authToLogin(code);
+        List<PetVO> pets = petService.findPetsWithAllergies(member.getId());
+        LoginVO result = new LoginVO(member, pets);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 }
