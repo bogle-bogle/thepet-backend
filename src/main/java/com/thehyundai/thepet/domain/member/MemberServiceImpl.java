@@ -118,8 +118,8 @@ public class MemberServiceImpl implements MemberService{
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
-            sb.append("&client_id=" + clientId); // TODO REST_API_KEY 입력
-            sb.append("&redirect_uri=" + redirectUri); // TODO 인가코드 받은 redirect_uri 입력
+            sb.append("&client_id=" + this.clientId); // TODO REST_API_KEY 입력
+            sb.append("&redirect_uri=" + this.redirectUri); // TODO 인가코드 받은 redirect_uri 입력
             sb.append("&code=" + code);
             bw.write(sb.toString());
             bw.flush();
