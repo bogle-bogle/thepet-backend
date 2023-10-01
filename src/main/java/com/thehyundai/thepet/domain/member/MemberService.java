@@ -18,4 +18,5 @@ public interface MemberService {
 
     MypageVO getMypageInfo(String token);
 
+    MemberVO authToLogin(String code);
 }
