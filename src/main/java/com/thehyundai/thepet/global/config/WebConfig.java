@@ -38,6 +38,7 @@ public class WebConfig implements WebMvcConfigurer {
                                      "/api/jwt-error/**",
                                      "/api/product/**",
                                      "/api/member/login",
+                                     "/auth/**",
                                      "/api/member/auth/login",
                                      "/api/curation/**",
                                      "/api/backoffice/**",
