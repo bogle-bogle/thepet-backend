@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.thehyundai.thepet.domain.backoffice.statistics.StatisticsMapper">
+
+    <select id="selectMainLog" resultType="StatisticsLogVO">
+        SELECT element, COUNT(element) AS count FROM EVENT_LOG
+        WHERE page='main'
+        GROUP BY element
+        HAVING element IS NOT NULL
+        ORDER BY COUNT(element) DESC
+    </select>
+
+    <select id="selectBannerLog" resultType="StatisticsLogVO">
+        SELECT item_id AS element, COUNT(item_id) AS count FROM EVENT_LOG
+        WHERE page='main' AND element='banner'
+        GROUP BY item_id
+        ORDER BY COUNT(item_id) desc
+    </select>
+
+    <select id="selectRecommendLog" resultType="StatisticsLogVO">
+        SELECT item_id AS element, COUNT(item_id) AS count FROM event_log
+        WHERE page='main' AND element='recommend_product'
+        GROUP BY item_id
+        ORDER BY COUNT(item_id) DESC
+        OFFSET 1 ROWS FETCH NEXT 10 ROWS ONLY
+    </select>
+
+    <select id="selectSuggestion" resultType="StatisticsLogVO">
+        SELECT item_id AS element, COUNT(item_id) AS count FROM event_log
+        WHERE page='suggestion' and item_id IS NOT NULL
+        GROUP BY item_id
+        ORDER BY COUNT(item_id) DESC
+    </select>
+    
+    <select id="selectMbti" resultType="StatisticsLogVO">
+        SELECT item_id AS element, COUNT(item_id) AS count FROM event_log
+        WHERE page='mbti' and item_id IS NOT NULL
+        GROUP BY item_id
+        ORDER BY COUNT(item_id) DESC
+    </select>
+
+    <select id="selectProductCartYRate" resultType="ProductCartRateVO">
+        SELECT
+            item_id AS element,
+            COUNT(is_clicked) AS is_clicked_count,
+            (SELECT COUNT(*) FROM event_log b WHERE b.page = 'product_detail' AND a.item_id = b.item_id) AS total,
+            COUNT(is_clicked) / (SELECT COUNT(*) FROM event_log b WHERE b.page = 'product_detail' AND a.item_id = b.item_id) AS rate
+        FROM event_log a
+        WHERE page = 'product_detail'
+        GROUP BY item_id, is_clicked
+        HAVING is_clicked = 'Y'
+        ORDER BY rate desc
+    </select>
+    
+    <select id="selectProductCartNRate" resultType="ProductCartRateVO">
+        SELECT
+            item_id AS element,
+            COUNT(is_clicked) AS is_clicked_count,
+            (SELECT COUNT(*) FROM event_log b WHERE b.page = 'product_detail' AND a.item_id = b.item_id) AS total,
+            COUNT(is_clicked) / (SELECT COUNT(*) FROM event_log b WHERE b.page = 'product_detail' AND a.item_id = b.item_id) AS rate
+        FROM event_log a
+        WHERE page = 'product_detail'
+        GROUP BY item_id, is_clicked
+        HAVING is_clicked = 'N'
+        ORDER BY rate desc
+    </select>
+</mapper>

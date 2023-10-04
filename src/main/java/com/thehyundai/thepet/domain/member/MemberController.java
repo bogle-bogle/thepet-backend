@@ -1,5 +1,6 @@
 package com.thehyundai.thepet.domain.member;
 
+import com.thehyundai.thepet.domain.backoffice.member.BackOfficeMemberVO;
 import com.thehyundai.thepet.domain.mypet.pet.PetService;
 import com.thehyundai.thepet.domain.mypet.pet.PetVO;
 import lombok.RequiredArgsConstructor;
@@ -41,24 +42,12 @@ public class MemberController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/entire")
-    public ResponseEntity<List<BackOfficeMemberVO>> getMembers() {
-        return new ResponseEntity<>(memberService.getAllMember(), HttpStatus.OK);
-    }
+    @GetMapping("/auth/login")
+    public ResponseEntity<?> authToLogin(@RequestParam String code) {
+        MemberVO member = memberService.authToLogin(code);
+        List<PetVO> pets = petService.findPetsWithAllergies(member.getId());
+        LoginVO result = new LoginVO(member, pets);
 
-    @GetMapping("/heendy")
-    public ResponseEntity<List<BackOfficeMemberVO>> getHeendyMembers() {
-        return new ResponseEntity<>(memberService.getAllHeendyMember(), HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
-    @GetMapping("/subscribe")
-    public ResponseEntity<List<BackOfficeMemberVO>> getSubscribeMembers() {
-        return new ResponseEntity<>(memberService.getAllSubscribeMember(), HttpStatus.OK);
-    }
-
-    @GetMapping("/delivery")
-    public ResponseEntity<List<BackOfficeMemberVO>> getDeliveryMembers() {
-        return new ResponseEntity<>(memberService.getAllDeliveryMember(), HttpStatus.OK);
-    }
-
 }

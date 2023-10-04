@@ -1,6 +1,8 @@
 package com.thehyundai.thepet.domain.member;
 
 
+import com.thehyundai.thepet.domain.backoffice.member.BackOfficeMemberVO;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -10,17 +12,11 @@ public interface MemberService {
 
     Optional<MemberVO> showMember(String id);
 
-    List<BackOfficeMemberVO> getAllMember();
-
-    List<BackOfficeMemberVO> getAllHeendyMember();
-
-    List<BackOfficeMemberVO> getAllSubscribeMember();
-    List<BackOfficeMemberVO> getAllDeliveryMember();
-
     MemberVO updateMemberInfo(MemberVO memberVO);
 
     MemberVO updateMemberBillingKey(MemberVO memberVO);
 
     MypageVO getMypageInfo(String token);
 
+    MemberVO authToLogin(String code);
 }

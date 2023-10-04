@@ -1,4 +1,4 @@
-package com.thehyundai.thepet.domain.backoffice.eventlog;
+package com.thehyundai.thepet.domain.backoffice.statistics;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MainEventLogVO {
+public class StatisticsLogVO {
     private String element;
     private Integer count;
 }
