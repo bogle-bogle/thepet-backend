@@ -3,7 +3,7 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.backoffice.event.EventLogMapper">
     <insert id="insertEventLog" parameterType="EventLogVO">
-        INSERT INTO EVENT_LOG (page, element, item_id, is_clicked)
-            VALUES (#{page}, #{element}, #{itemId}, #{isClicked})
+        INSERT INTO EVENT_LOG (page, element, item_id, is_clicked, created_at)
+            VALUES (#{page}, #{element}, #{itemId}, #{isClicked}, TO_TIMESTAMP(TO_CHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS'))
     </insert>
 </mapper>
