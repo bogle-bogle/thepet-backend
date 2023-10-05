@@ -42,7 +42,7 @@ public class WebConfig implements WebMvcConfigurer {
                                      "/api/member/auth/login",
                                      "/api/curation/**",
                                      "/api/backoffice/**",
-                                     "/api/upload",
+                                     "/api/upload/admin",
                                      "/api/review/**",
                                      "/api/hc/branch",
                                      "/api/event",
