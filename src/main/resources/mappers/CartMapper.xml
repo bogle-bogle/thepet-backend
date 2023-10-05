@@ -25,6 +25,7 @@
         FROM CART c
                  JOIN PRODUCT p ON c.PRODUCT_ID = p.ID
         WHERE c.MEMBER_ID = #{memberId} and c.DELETE_YN = 'N'
+        ORDER BY CREATED_AT DESC
     </select>
 
 </mapper>
