@@ -154,7 +154,7 @@ public class HcServiceImpl implements HcService {
 
     private void handleAutoCancellation(String reservationId) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.schedule(() -> cancelIfNotPickedUp(reservationId), 3, TimeUnit.MINUTES);           // 3분 -> 30분으로 변경 예정
+        executor.schedule(() -> cancelIfNotPickedUp(reservationId), 30, TimeUnit.MINUTES);
         executor.shutdown();
     }
 
