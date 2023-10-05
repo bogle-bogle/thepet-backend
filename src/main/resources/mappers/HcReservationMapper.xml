@@ -58,6 +58,7 @@
         FROM HEENDY_CAR_RESERVATION r
         JOIN MEMBER m ON r.member_id = m.id
         WHERE r.branch_code = #{branchCode}
+        ORDER BY r.reservation_time desc
 
     </select>
 
