@@ -2,6 +2,7 @@ package com.thehyundai.thepet.domain.subscription;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
 import java.util.Optional;
 
 @Mapper
@@ -16,4 +17,7 @@ public interface SubsMapper {
     Optional<SubscriptionVO> findProductSubscriptionByMemberId(SubscriptionVO requestVO);
 
     Integer findSubsCntByMemberId(String memberId);
+
+    List<SubscriptionVO> findAllProductSubscription();
+
 }
