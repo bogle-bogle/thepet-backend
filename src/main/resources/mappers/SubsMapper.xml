@@ -71,14 +71,17 @@
     </select>
 
     <select id="findAllProductSubscription" resultType="SubscriptionVO">
-        SELECT ID,
-               START_DATE,
-               END_DATE,
-               MEMBER_ID,
-               PRODUCT_ID
-        FROM SUBSCRIPTION
-        WHERE CURATION_YN = 'N'
-          AND END_DATE IS NULL;
+        SELECT s.ID,
+               s.START_DATE,
+               s.END_DATE,
+               s.MEMBER_ID,
+               s.PRODUCT_ID,
+               m.BILLINGKEY
+        FROM SUBSCRIPTION s
+        JOIN MEMBER m
+        ON m.ID = s.MEMBER_ID
+        WHERE s.CURATION_YN = 'N'
+          AND s.END_DATE IS NULL;
     </select>
 
 </mapper>
