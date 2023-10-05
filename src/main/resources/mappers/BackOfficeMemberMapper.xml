@@ -3,27 +3,57 @@
 
 <mapper namespace="com.thehyundai.thepet.domain.backoffice.member.BackOfficeMemberMapper">
 
-    <select id="selectAllMember" resultType="BackOfficeMemberVO">
+    <select id="selectAllMember" parameterType="Integer" resultType="BackOfficeMemberVO">
         SELECT id, name, email, img_url, address, nickname, club_heendy_yn, social_id, phone_number, billingkey
         FROM member
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
-    <select id="selectHeendyMember" resultType="BackOfficeMemberVO">
+    <select id="selectHeendyMember" parameterType="Integer" resultType="BackOfficeMemberVO">
         SELECT id, name, email, img_url, address, nickname, club_heendy_yn, social_id, phone_number, billingkey
+        FROM member
+        WHERE club_heendy_yn = 'Y'
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
+    </select>
+
+    <select id="selectSubscribeMember" parameterType="Integer" resultType="BackOfficeMemberVO">
+        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, phone_number, s.start_date, s.end_date
+        FROM member m
+        LEFT JOIN subscription s
+        on m.id = s.member_id
+        WHERE s.curation_yn = 'Y'
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
+    </select>
+
+    <select id="selectDeliveryMember" parameterType="Integer" resultType="BackOfficeMemberVO">
+        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, phone_number, s.start_date, s.end_date, s.product_id
+        FROM member m
+        LEFT JOIN subscription s
+        on m.id = s.member_id
+        WHERE s.curation_yn = 'N'
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
+    </select>
+
+    <select id="selectAllMemberCount" resultType="Integer">
+        SELECT COUNT(*) FROM member
+    </select>
+
+    <select id="selectHeendyMemberCount" resultType="BackOfficeMemberVO">
+        SELECT COUNT(*)
         FROM member
         WHERE club_heendy_yn = 'Y'
     </select>
 
-    <select id="selectSubscribeMember" resultType="BackOfficeMemberVO">
-        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, phone_number, s.start_date, s.end_date
+    <select id="selectSubscribeMemberCount" resultType="BackOfficeMemberVO">
+        SELECT COUNT(*)
         FROM member m
         LEFT JOIN subscription s
         on m.id = s.member_id
         WHERE s.curation_yn = 'Y'
     </select>
 
-    <select id="selectDeliveryMember" resultType="BackOfficeMemberVO">
-        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, phone_number, s.start_date, s.end_date, s.product_id
+    <select id="selectDeliveryMemberCount" resultType="BackOfficeMemberVO">
+        SELECT COUNT(*)
         FROM member m
         LEFT JOIN subscription s
         on m.id = s.member_id
