@@ -111,9 +111,9 @@ public class HcServiceImpl implements HcService {
     }
 
     @Override
-    public Integer adminHeendycarManage(String productId, String type,String newValue) {
+    public Integer adminHeendycarManage(String reservationId, String type,String newValue) {
         HcReservationVO reservationVO = new HcReservationVO();
-        reservationVO.setId(productId);
+        reservationVO.setId(reservationId);
         if ("pickupYn".equals(type)) {
             reservationVO.setPickupYn(newValue);
             return reservationMapper.changePickUp(reservationVO);
@@ -154,7 +154,7 @@ public class HcServiceImpl implements HcService {
 
     private void handleAutoCancellation(String reservationId) {
         ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        executor.schedule(() -> cancelIfNotPickedUp(reservationId), 3, TimeUnit.MINUTES);           // 3분 -> 30분으로 변경 예정
+        executor.schedule(() -> cancelIfNotPickedUp(reservationId), 30, TimeUnit.MINUTES);
         executor.shutdown();
     }
 

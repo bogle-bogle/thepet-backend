@@ -73,7 +73,7 @@
         JOIN BRANCH_HEENDY_CAR b
             ON r.BRANCH_CODE = b.BRANCH_CODE
         WHERE r.MEMBER_ID = #{memberId}
-        ORDER BY r.RESERVATION_TIME desc
+        ORDER BY r.CREATED_AT desc
     </select>
 
     <update id="cancelReservation" parameterType="String">
