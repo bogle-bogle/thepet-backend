@@ -62,11 +62,11 @@ public class HcController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @PutMapping("/updateStatus/{productId}/{type}/{newValue}")
+    @PutMapping("/updateStatus/{reservationId}/{type}/{newValue}")
     @Operation(summary = "관리자 흰디카 관리", description = "관리자의 흰디카 관리(반납, 예약, 픽업)")
-    public ResponseEntity<?> adminHeendycarManage(@PathVariable String productId,@PathVariable String type,@PathVariable String newValue) {
+    public ResponseEntity<?> adminHeendycarManage(@PathVariable String reservationId,@PathVariable String type,@PathVariable String newValue) {
 
-        Integer result = hcService.adminHeendycarManage(productId,type,newValue);
+        Integer result = hcService.adminHeendycarManage(reservationId,type,newValue);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

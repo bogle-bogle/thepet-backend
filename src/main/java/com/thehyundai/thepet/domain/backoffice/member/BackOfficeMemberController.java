@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -20,23 +21,22 @@ public class BackOfficeMemberController {
     private final BackOfficeMemberService backOfficeMemberService;
 
     @GetMapping("/entire")
-    public ResponseEntity<List<BackOfficeMemberVO>> getMembers() {
-
-        return new ResponseEntity<>(backOfficeMemberService.getAllMember(), HttpStatus.OK);
+    public ResponseEntity<BackOfficeResMemberVO> getMembers(@RequestParam Integer page) {
+        return new ResponseEntity<>(backOfficeMemberService.getAllMember(page), HttpStatus.OK);
     }
 
     @GetMapping("/heendy")
-    public ResponseEntity<List<BackOfficeMemberVO>> getHeendyMembers() {
-        return new ResponseEntity<>(backOfficeMemberService.getAllHeendyMember(), HttpStatus.OK);
+    public ResponseEntity<BackOfficeResMemberVO> getHeendyMembers(@RequestParam Integer page) {
+        return new ResponseEntity<>(backOfficeMemberService.getAllHeendyMember(page), HttpStatus.OK);
     }
 
     @GetMapping("/subscribe")
-    public ResponseEntity<List<BackOfficeMemberVO>> getSubscribeMembers() {
-        return new ResponseEntity<>(backOfficeMemberService.getAllSubscribeMember(), HttpStatus.OK);
+    public ResponseEntity<BackOfficeResMemberVO> getSubscribeMembers(@RequestParam Integer page) {
+        return new ResponseEntity<>(backOfficeMemberService.getAllSubscribeMember(page), HttpStatus.OK);
     }
 
     @GetMapping("/delivery")
-    public ResponseEntity<List<BackOfficeMemberVO>> getDeliveryMembers() {
-        return new ResponseEntity<>(backOfficeMemberService.getAllDeliveryMember(), HttpStatus.OK);
+    public ResponseEntity<BackOfficeResMemberVO> getDeliveryMembers(@RequestParam Integer page) {
+        return new ResponseEntity<>(backOfficeMemberService.getAllDeliveryMember(page), HttpStatus.OK);
     }
 }

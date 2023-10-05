@@ -128,9 +128,9 @@
             p.MAIN_IMG_URL,
             COUNT(*) AS ORDERED_CNT
         FROM
-            MEMBER m
+            PET pt
                 JOIN
-            PET pt ON m.ID = pt.MEMBER_ID
+            MEMBER m ON pt.MEMBER_ID = m.ID
                 JOIN
             "ORDER" o ON m.ID = o.MEMBER_ID
                 JOIN
@@ -139,7 +139,7 @@
             PRODUCT p ON od.PRODUCT_ID = p.ID
         WHERE
             pt.BREED_CODE = #{breedCode}
-            AND MONTHS_BETWEEN(pt.BIRTH, #{birth}) BETWEEN -12 AND 12
+          AND MONTHS_BETWEEN(pt.BIRTH, #{birth}) BETWEEN -12 AND 12
         GROUP BY
             p.ID, p.NAME, p.PRICE, p.MAIN_IMG_URL
         ORDER BY
