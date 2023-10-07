@@ -57,7 +57,7 @@ public class TimeTraceAspect {
     @Around("timeTraceControllerPointcut()")
     public Object controllerTraceTime(ProceedingJoinPoint joinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
-        log.info("adfasdfsdf");
+
         try {
             stopWatch.start();
             return joinPoint.proceed();
