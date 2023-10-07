@@ -35,6 +35,7 @@ public class RecommendationServiceImpl implements RecommendationService {
         Integer petAge = calculatePetAge(petInfo.getBirth());
         String ageCmCode = CmCode.convertToPetAgeCode(petAge, petInfo.getSizeCode()).getCodeValue();
         petInfo.setAgeCode(ageCmCode);
+        log.info(ageCmCode);
 
         // 2. 기본 정보를 기준으로 추천 상품 조회 (연령대 기준, 최애 단백질원, 알러지 배제)
         List<String> allergies = petInfo.getAllergies();
@@ -56,7 +57,12 @@ public class RecommendationServiceImpl implements RecommendationService {
         // 0. 반려동물 정보 가져오기
         PetVO petInfo = entityValidator.getPresentPet(petId);
 
-        // 1. 나의 반려동물과 같은 종, 같은 연령대 (1년차 내로)들이 많이 구매한 상품 조회
+        // 1. 오늘 날짜 기준으로 반려동물 연령대 알아내기 -> 퍼피 / 어덜트 / 시니어
+        Integer petAge = calculatePetAge(petInfo.getBirth());
+        String ageCmCode = CmCode.convertToPetAgeCode(petAge, petInfo.getSizeCode()).getCodeValue();
+        petInfo.setAgeCode(ageCmCode);
+
+        // 2. 나의 반려동물과 같은 종, 같은 연령대 (1년차 내로)들이 많이 구매한 상품 조회
         List<String> allergies = petInfo.getAllergies();
         List<ProductVO> advancedRecommendations = productMapper.findProductsByPetInfoAndOrderLog(petInfo)
                                                                .stream()
