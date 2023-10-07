@@ -1,7 +1,5 @@
 package com.thehyundai.thepet.global.timetrace;
 
-import com.thehyundai.thepet.global.kafka.ControllerLogProducer;
-import com.thehyundai.thepet.global.kafka.ServiceLogProducer;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.aspectj.lang.JoinPoint;
@@ -12,7 +10,10 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
@@ -27,8 +28,8 @@ import static com.thehyundai.thepet.global.util.Constant.JWT_PREFIX;
 @RequiredArgsConstructor
 public class TimeTraceAspect {
     private final ControllerInfoAspect controllerInfoAspect;
-    private final ServiceLogProducer serviceLogProducer;
-    private final ControllerLogProducer controllerLogProducer;
+//    private final ServiceLogProducer serviceLogProducer;
+//    private final ControllerLogProducer controllerLogProducer;
     private final List<Class<? extends Annotation>> mappingAnnotations = Arrays.asList(GetMapping.class, PostMapping.class, DeleteMapping.class, PutMapping.class);
 
     @Pointcut("@annotation(com.thehyundai.thepet.global.timetrace.ServiceTimeTrace)")
@@ -50,7 +51,7 @@ public class TimeTraceAspect {
             stopWatch.stop();
             long executionTimeMillis = stopWatch.getTotalTimeMillis();
             AopServiceVO serviceLog = logServiceExecutionTime(joinPoint, executionTimeMillis);
-            serviceLogProducer.sendMessage(serviceLog);
+//            serviceLogProducer.sendMessage(serviceLog);
         }
     }
 
@@ -65,7 +66,7 @@ public class TimeTraceAspect {
             stopWatch.stop();
             long executionTimeMillis = stopWatch.getTotalTimeMillis();
             AopControllerVO controllerLog = logControllerExecutionTime(joinPoint, executionTimeMillis);
-            controllerLogProducer.sendMessage(controllerLog);
+//            controllerLogProducer.sendMessage(controllerLog);
         }
     }
 
