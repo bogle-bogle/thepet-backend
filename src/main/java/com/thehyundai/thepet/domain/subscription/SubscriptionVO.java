@@ -16,4 +16,7 @@ public class SubscriptionVO {
     private String memberId;
     private String productId;
     private String curationYn;
+
+    // 정기 결제 주문을 위해
+    private String billingKey;
 }

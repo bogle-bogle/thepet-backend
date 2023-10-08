@@ -7,7 +7,8 @@ public enum CmCode {
 
     PUPPY("41"),
     SENIOR("42"),
-    ADULT("43"),
+    GENERAL("43"),
+    ADULT("44"),
 
     BIG("D-BG"),
     MIDDLE("D-MD"),
@@ -19,12 +20,12 @@ public enum CmCode {
         this.codeValue = codeValue;
     }
 
-    public static CmCode convertToPetAgeCode(Integer age, String size) {
-        if ("SMALL".equals(size)) {
+    public static CmCode convertToPetAgeCode(Integer age, String sizeCode) {
+        if (sizeCode.equals(SMALL.codeValue)) {
             return age < 10 ? PUPPY : (age >= 10 ? SENIOR : ADULT);
-        } else if ("MIDDLE".equals(size)) {
+        } else if (sizeCode.equals(MIDDLE.codeValue)) {
             return age < 12 ? PUPPY : (age >= 9 ? SENIOR : ADULT);
-        } else if ("BIG".equals(size)) {
+        } else if (sizeCode.equals(BIG.codeValue)) {
             return age < 15 ? PUPPY : (age >= 7 ? SENIOR : ADULT);
         }
         return ADULT;
