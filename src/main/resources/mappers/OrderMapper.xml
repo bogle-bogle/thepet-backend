@@ -11,6 +11,7 @@
              CREATED_AT,
              MEMBER_ID,
              SUBSCRIBE_YN,
+             CURATION_YN,
              TOSS_ORDER_ID
              )
         VALUES
@@ -20,6 +21,7 @@
              #{createdAt},
              #{memberId},
              #{subscribeYn},
+             #{curationYn},
              #{tossOrderId}
              )
     </insert>

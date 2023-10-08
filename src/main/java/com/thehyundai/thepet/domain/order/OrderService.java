@@ -12,7 +12,7 @@ public interface OrderService {
 
     OrderVO orderSelectedCart(String token, String tossOrderId, List<CartVO> selectedItems);
 
-    OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO);
+    OrderVO createCurationOrder(String token, SubscriptionVO requestVO);
 
     OrderVO createRegularDeliveryOrder(String token, SubscriptionVO requestVO);
 

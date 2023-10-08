@@ -3,7 +3,6 @@ package com.thehyundai.thepet.domain.member;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.thehyundai.thepet.domain.backoffice.member.BackOfficeMemberVO;
 import com.thehyundai.thepet.domain.mypet.pet.PetMapper;
 import com.thehyundai.thepet.domain.subscription.SubsMapper;
 import com.thehyundai.thepet.global.exception.BusinessException;
@@ -16,11 +15,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.*;
-import java.lang.reflect.Member;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
 @Log4j2
