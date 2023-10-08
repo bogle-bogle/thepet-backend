@@ -228,7 +228,8 @@
                NAME,
                PRICE,
                INGREDIENTS,
-               MAIN_IMG_URL
+               MAIN_IMG_URL,
+               PROTEIN_CODE
         FROM PRODUCT
         <where>
             <if test="mainFilter != ''">
