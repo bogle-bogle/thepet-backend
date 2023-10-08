@@ -100,6 +100,7 @@ public class PetServiceImpl implements PetService {
     @Override
     public List<PetVO> findPetsWithAllergies(String memberId) {
         List<PetVO> pets = petMapper.findPetsWithAllergiesByMemberId(memberId);
+        log.info(pets);
         return pets;
     }
 

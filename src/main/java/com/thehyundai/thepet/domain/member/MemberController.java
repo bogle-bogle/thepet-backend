@@ -47,6 +47,14 @@ public class MemberController {
         MemberVO member = memberService.authToLogin(code);
         List<PetVO> pets = petService.findPetsWithAllergies(member.getId());
         LoginVO result = new LoginVO(member, pets);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/info/{id}")
+    public ResponseEntity<LoginVO> getMember(@PathVariable String id) {
+        MemberVO member = memberService.getMember(id);
+        List<PetVO> pets = petService.findPetsWithAllergies(member.getId());
+        LoginVO result = new LoginVO(member, pets);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
