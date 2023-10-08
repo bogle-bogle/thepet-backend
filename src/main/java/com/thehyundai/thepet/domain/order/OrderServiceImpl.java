@@ -47,9 +47,6 @@ public class OrderServiceImpl implements OrderService {
     private final ProductService productService;
     private final CurationService curationService;
 
-
-
-
     @Override
     @Transactional
     public OrderVO orderSelectedCart(String token, String tossOrderId, List<CartVO> selectedItems) {
@@ -114,7 +111,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderVO createSubscriptionOrder(String token, SubscriptionVO requestVO) {
+    public OrderVO createCurationOrder(String token, SubscriptionVO requestVO) {
         // 0. 유효성 검사 및 필요한 데이터 불러오기
         String memberId = authTokensGenerator.extractMemberId(token);
         entityValidator.getPresentMember(memberId);
@@ -148,7 +145,7 @@ public class OrderServiceImpl implements OrderService {
         ProductVO product = productService.getProductDetail(requestVO.getProductId());
 
         // 1. ORDER 테이블에 저장
-        OrderVO order = buildProductOrder(memberId, product);
+        OrderVO order = buildRegularDeliveryOrder(memberId, product);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 
         // 2. ORDER_DETAIL 테이블에 저장
@@ -258,13 +255,14 @@ public class OrderServiceImpl implements OrderService {
                             .build();
     }
 
-    private OrderVO buildProductOrder(String memberId, ProductVO product) {
+    private OrderVO buildRegularDeliveryOrder(String memberId, ProductVO product) {
         return OrderVO.builder()
                       .totalCnt(1)
                       .totalPrice(product.getPrice())
                       .createdAt(LocalDate.now())
                       .memberId(memberId)
                       .subscribeYn(TABLE_STATUS_Y)
+                      .curationYn(TABLE_STATUS_N)
                       .build();
     }
 
