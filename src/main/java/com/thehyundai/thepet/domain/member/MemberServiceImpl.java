@@ -100,6 +100,12 @@ public class MemberServiceImpl implements MemberService{
         return member;
     }
 
+    @Override
+    public MemberVO getMember(String id) {
+        return memberMapper.findMemberById(id)
+                           .orElseThrow(() -> new BusinessException(ErrorCode.MEMBER_NOT_FOUND));
+    }
+
     public String getKaKaoAccessToken(String code) {
 
         String access_Token = "";

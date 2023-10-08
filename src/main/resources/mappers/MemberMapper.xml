@@ -71,5 +71,4 @@
             CARD_TYPE = #{cardType}
         WHERE ID = #{id}
     </update>
-
 </mapper>
