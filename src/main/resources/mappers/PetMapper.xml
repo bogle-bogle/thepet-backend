@@ -101,7 +101,7 @@
         <result property="favoriteFoodIngredients" column="favorite_food_ingredients" />
         <result property="feedMainImgUrl" column="feed_main_img_url" />
         <result property="feedDescImgUrl" column="feed_desc_img_url" />
-        <result property="imgUrl" column="img_url" />
+        <result property="petImgUrl" column="pet_img_url" />
         <result property="mbti" column="mbti" />
         <result property="breedCode" column="breed_code" />
         <result property="animalTypeCode" column="animal_type_code" />

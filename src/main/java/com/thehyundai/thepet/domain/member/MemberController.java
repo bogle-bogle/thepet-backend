@@ -47,7 +47,7 @@ public class MemberController {
         MemberVO member = memberService.authToLogin(code);
         List<PetVO> pets = petService.findPetsWithAllergies(member.getId());
         LoginVO result = new LoginVO(member, pets);
-
+        log.info(result);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
