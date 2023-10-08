@@ -26,9 +26,11 @@ public class BackOfficeMemberServiceImpl implements BackOfficeMemberService{
         for (BackOfficeMemberVO m : res.getMembers()) {
             // 이름을 마스킹 (첫 글자와 나머지를 *로 대체)
             String name = m.getName();
-            if (name.length() > 1) {
+            if (name.length() > 2) {
                 char firstChar = name.charAt(0);
-                String maskedName = firstChar + "*".repeat(name.length() - 1);
+                char lastChar = name.charAt(name.length() - 1);
+                String middleStars = "*".repeat(name.length() - 2);
+                String maskedName = firstChar + middleStars + lastChar;
                 m.setName(maskedName);
             }
             // 전화번호를 마스킹 (가운데 4자리를 *로 대체, 형식 변경)
@@ -65,9 +67,11 @@ public class BackOfficeMemberServiceImpl implements BackOfficeMemberService{
         for (BackOfficeMemberVO m : res.getMembers()) {
             // 이름을 마스킹 (첫 글자와 나머지를 *로 대체)
             String name = m.getName();
-            if (name.length() > 1) {
+            if (name.length() > 2) {
                 char firstChar = name.charAt(0);
-                String maskedName = firstChar + "*".repeat(name.length() - 1);
+                char lastChar = name.charAt(name.length() - 1);
+                String middleStars = "*".repeat(name.length() - 2);
+                String maskedName = firstChar + middleStars + lastChar;
                 m.setName(maskedName);
             }
 
@@ -99,9 +103,11 @@ public class BackOfficeMemberServiceImpl implements BackOfficeMemberService{
         for (BackOfficeMemberVO m : res.getMembers()) {
             // 이름을 마스킹 (첫 글자와 나머지를 *로 대체)
             String name = m.getName();
-            if (name.length() > 1) {
+            if (name.length() > 2) {
                 char firstChar = name.charAt(0);
-                String maskedName = firstChar + "*".repeat(name.length() - 1);
+                char lastChar = name.charAt(name.length() - 1);
+                String middleStars = "*".repeat(name.length() - 2);
+                String maskedName = firstChar + middleStars + lastChar;
                 m.setName(maskedName);
             }
 
@@ -133,9 +139,11 @@ public class BackOfficeMemberServiceImpl implements BackOfficeMemberService{
         for (BackOfficeMemberVO m : res.getMembers()) {
             // 이름을 마스킹 (첫 글자와 나머지를 *로 대체)
             String name = m.getName();
-            if (name.length() > 1) {
+            if (name.length() > 2) {
                 char firstChar = name.charAt(0);
-                String maskedName = firstChar + "*".repeat(name.length() - 1);
+                char lastChar = name.charAt(name.length() - 1);
+                String middleStars = "*".repeat(name.length() - 2);
+                String maskedName = firstChar + middleStars + lastChar;
                 m.setName(maskedName);
             }
 

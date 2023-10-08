@@ -47,7 +47,7 @@ public class OrderController {
     @PostMapping("/curation")
     @Operation(summary = "더펫박스 바로 구독하기", description = "더펫박스(큐레이션) 구독을 바로 주문합니다.")
     public ResponseEntity<?> createSubscriptionOrder(@RequestHeader(HEADER_TOKEN_PARAM) String token, @RequestBody SubscriptionVO requestVO) {
-        OrderVO result = orderService.createSubscriptionOrder(token, requestVO);
+        OrderVO result = orderService.createCurationOrder(token, requestVO);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
