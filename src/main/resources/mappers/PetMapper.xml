@@ -48,6 +48,7 @@
                FAVORITE_PROTEIN_CODE
         FROM PET
         WHERE MEMBER_ID = #{memberId}
+        ORDER BY NAME
     </select>
 
     <select id="findPetsWithAllergiesByMemberId" parameterType="String" resultMap="PetWithAllergies">
