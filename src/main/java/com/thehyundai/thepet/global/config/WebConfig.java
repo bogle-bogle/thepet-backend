@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOrigins("http://heendy-front.s3-website.ap-northeast-2.amazonaws.com",
                                 "http://localhost:3000",
+                                "http://localhost:3003",
                                 "http://localhost:8000",
                                 "https://thepet.thehyundai.site",
                                 "https://admin.thehyundai.site",

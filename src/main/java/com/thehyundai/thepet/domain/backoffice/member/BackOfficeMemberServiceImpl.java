@@ -15,12 +15,18 @@ public class BackOfficeMemberServiceImpl implements BackOfficeMemberService{
     private final BackOfficeMemberMapper backOfficeMemberMapper;
 
     @Override
-    public BackOfficeResMemberVO getAllMember(Integer page) {
+    public BackOfficeResMemberVO getAllMember(MemberRequestVO req) {
 
         BackOfficeResMemberVO res = new BackOfficeResMemberVO();
 
-        res.setMembers(backOfficeMemberMapper.selectAllMember((page - 1) * 20 + 1));
-        res.setCount(backOfficeMemberMapper.selectAllMemberCount());
+        if (req.getStartDate() == null || req.getEndDate() == null) {
+            res.setMembers(backOfficeMemberMapper.selectAllMember((req.getPage() - 1) * 20 + 1));
+            res.setCount(backOfficeMemberMapper.selectAllMemberCount());
+        }
+        else {
+            res.setMembers(backOfficeMemberMapper.selectAllDateMember(req));
+            res.setCount(backOfficeMemberMapper.selectAllDateMemberCount(req));
+        }
 
 
         for (BackOfficeMemberVO m : res.getMembers()) {
@@ -57,11 +63,17 @@ public class BackOfficeMemberServiceImpl implements BackOfficeMemberService{
     }
 
     @Override
-    public BackOfficeResMemberVO getAllHeendyMember(Integer page) {
+    public BackOfficeResMemberVO getAllHeendyMember(MemberRequestVO req) {
         BackOfficeResMemberVO res = new BackOfficeResMemberVO();
 
-        res.setMembers(backOfficeMemberMapper.selectHeendyMember((page - 1) * 20 + 1));
-        res.setCount(backOfficeMemberMapper.selectHeendyMemberCount());
+        if (req.getStartDate() == null || req.getEndDate() == null) {
+            res.setMembers(backOfficeMemberMapper.selectHeendyMember((req.getPage() - 1) * 20 + 1));
+            res.setCount(backOfficeMemberMapper.selectHeendyMemberCount());
+        }
+        else {
+            res.setMembers(backOfficeMemberMapper.selectHeendyDateMember(req));
+            res.setCount(backOfficeMemberMapper.selectHeendyDateMemberCount(req));
+        }
 
 
         for (BackOfficeMemberVO m : res.getMembers()) {
@@ -93,12 +105,20 @@ public class BackOfficeMemberServiceImpl implements BackOfficeMemberService{
     }
 
     @Override
-    public BackOfficeResMemberVO getAllSubscribeMember(Integer page) {
+    public BackOfficeResMemberVO getAllSubscribeMember(MemberRequestVO req) {
 
         BackOfficeResMemberVO res = new BackOfficeResMemberVO();
 
-        res.setMembers(backOfficeMemberMapper.selectSubscribeMember((page - 1) * 20 + 1));
-        res.setCount(backOfficeMemberMapper.selectSubscribeMemberCount());
+        if (req.getStartDate() == null || req.getEndDate() == null) {
+            res.setMembers(backOfficeMemberMapper.selectSubscribeMember((req.getPage() - 1) * 20 + 1));
+            res.setCount(backOfficeMemberMapper.selectSubscribeMemberCount());
+        }
+        else {
+            res.setMembers(backOfficeMemberMapper.selectSubscribeDateMember(req));
+            res.setCount(backOfficeMemberMapper.selectSubscribeDateMemberCount(req));
+        }
+
+
 
         for (BackOfficeMemberVO m : res.getMembers()) {
             // 이름을 마스킹 (첫 글자와 나머지를 *로 대체)
@@ -129,12 +149,18 @@ public class BackOfficeMemberServiceImpl implements BackOfficeMemberService{
     }
 
     @Override
-    public BackOfficeResMemberVO getAllDeliveryMember(Integer page) {
+    public BackOfficeResMemberVO getAllDeliveryMember(MemberRequestVO req) {
 
         BackOfficeResMemberVO res = new BackOfficeResMemberVO();
 
-        res.setMembers(backOfficeMemberMapper.selectDeliveryMember((page - 1) * 20 + 1));
-        res.setCount(backOfficeMemberMapper.selectDeliveryMemberCount());
+        if (req.getStartDate() == null || req.getEndDate() == null) {
+            res.setMembers(backOfficeMemberMapper.selectDeliveryMember((req.getPage() - 1) * 20 + 1));
+            res.setCount(backOfficeMemberMapper.selectDeliveryMemberCount());
+        }
+        else {
+            res.setMembers(backOfficeMemberMapper.selectDeliveryDateMember(req));
+            res.setCount(backOfficeMemberMapper.selectDeliveryDateMemberCount(req));
+        }
 
         for (BackOfficeMemberVO m : res.getMembers()) {
             // 이름을 마스킹 (첫 글자와 나머지를 *로 대체)

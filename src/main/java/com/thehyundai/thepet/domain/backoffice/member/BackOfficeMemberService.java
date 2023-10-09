@@ -4,10 +4,10 @@ import java.util.List;
 
 public interface BackOfficeMemberService {
 
-    BackOfficeResMemberVO getAllMember(Integer page);
+    BackOfficeResMemberVO getAllMember(MemberRequestVO req);
 
-    BackOfficeResMemberVO getAllHeendyMember(Integer page);
+    BackOfficeResMemberVO getAllHeendyMember(MemberRequestVO req);
 
-    BackOfficeResMemberVO getAllSubscribeMember(Integer page);
-    BackOfficeResMemberVO getAllDeliveryMember(Integer page);
+    BackOfficeResMemberVO getAllSubscribeMember(MemberRequestVO req);
+    BackOfficeResMemberVO getAllDeliveryMember(MemberRequestVO req);
 }

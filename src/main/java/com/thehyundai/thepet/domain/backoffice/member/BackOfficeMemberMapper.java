@@ -12,8 +12,18 @@ public interface BackOfficeMemberMapper {
     List<BackOfficeMemberVO> selectSubscribeMember(Integer page);
     List<BackOfficeMemberVO> selectDeliveryMember(Integer page);
 
+    List<BackOfficeMemberVO> selectAllDateMember(MemberRequestVO req);
+    List<BackOfficeMemberVO> selectHeendyDateMember(MemberRequestVO req);
+    List<BackOfficeMemberVO> selectSubscribeDateMember(MemberRequestVO req);
+    List<BackOfficeMemberVO> selectDeliveryDateMember(MemberRequestVO req);
+
     Integer selectAllMemberCount();
     Integer selectHeendyMemberCount();
     Integer selectSubscribeMemberCount();
     Integer selectDeliveryMemberCount();
+
+    Integer selectAllDateMemberCount(MemberRequestVO req);
+    Integer selectHeendyDateMemberCount(MemberRequestVO req);
+    Integer selectSubscribeDateMemberCount(MemberRequestVO req);
+    Integer selectDeliveryDateMemberCount(MemberRequestVO req);
 }
