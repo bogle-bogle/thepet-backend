@@ -9,10 +9,25 @@
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
+    <select id="selectAllDateMember" parameterType="MemberRequestVO" resultType="BackOfficeMemberVO">
+        SELECT id, name, email, img_url, address, nickname, club_heendy_yn, social_id, phone_number, billingkey
+        FROM member
+        WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
+    </select>
+
     <select id="selectHeendyMember" parameterType="Integer" resultType="BackOfficeMemberVO">
         SELECT id, name, email, img_url, address, nickname, club_heendy_yn, social_id, phone_number, billingkey
         FROM member
         WHERE club_heendy_yn = 'Y'
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
+    </select>
+
+    <select id="selectHeendyDateMember" parameterType="MemberRequestVO" resultType="BackOfficeMemberVO">
+        SELECT id, name, email, img_url, address, nickname, club_heendy_yn, social_id, phone_number, billingkey
+        FROM member
+        WHERE club_heendy_yn = 'Y'
+        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
@@ -25,6 +40,16 @@
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
+    <select id="selectSubscribeDateMember" parameterType="MemberRequestVO" resultType="BackOfficeMemberVO">
+        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, phone_number, s.start_date, s.end_date
+        FROM member m
+        LEFT JOIN subscription s
+        on m.id = s.member_id
+        WHERE s.curation_yn = 'Y'
+        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
+    </select>
+
     <select id="selectDeliveryMember" parameterType="Integer" resultType="BackOfficeMemberVO">
         SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, phone_number, s.start_date, s.end_date, s.product_id
         FROM member m
@@ -34,14 +59,36 @@
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
+    <select id="selectDeliveryDateMember" parameterType="MemberRequestVO" resultType="BackOfficeMemberVO">
+        SELECT m.id, m.name, m.email, m.address, m.nickname, m.club_heendy_yn, phone_number, s.start_date, s.end_date, s.product_id
+        FROM member m
+        LEFT JOIN subscription s
+        on m.id = s.member_id
+        WHERE s.curation_yn = 'N'
+        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
+    </select>
+
     <select id="selectAllMemberCount" resultType="Integer">
         SELECT COUNT(*) FROM member
+    </select>
+
+    <select id="selectAllDateMemberCount" parameterType="MemberRequestVO" resultType="Integer">
+        SELECT COUNT(*) FROM member
+        WHERE created_at BETWEEN #{startDate} AND #{endDate}
     </select>
 
     <select id="selectHeendyMemberCount" resultType="BackOfficeMemberVO">
         SELECT COUNT(*)
         FROM member
         WHERE club_heendy_yn = 'Y'
+    </select>
+
+    <select id="selectHeendyDateMemberCount" parameterType="MemberRequestVO" resultType="BackOfficeMemberVO">
+        SELECT COUNT(*)
+        FROM member
+        WHERE club_heendy_yn = 'Y'
+        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
     </select>
 
     <select id="selectSubscribeMemberCount" resultType="BackOfficeMemberVO">
@@ -52,12 +99,30 @@
         WHERE s.curation_yn = 'Y'
     </select>
 
+    <select id="selectSubscribeDateMemberCount" resultType="BackOfficeMemberVO">
+        SELECT COUNT(*)
+        FROM member m
+        LEFT JOIN subscription s
+        on m.id = s.member_id
+        WHERE s.curation_yn = 'Y'
+        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
+    </select>
+
     <select id="selectDeliveryMemberCount" resultType="BackOfficeMemberVO">
         SELECT COUNT(*)
         FROM member m
         LEFT JOIN subscription s
         on m.id = s.member_id
         WHERE s.curation_yn = 'N'
+    </select>
+
+    <select id="selectDeliveryDateMemberCount" resultType="BackOfficeMemberVO">
+        SELECT COUNT(*)
+        FROM member m
+        LEFT JOIN subscription s
+        on m.id = s.member_id
+        WHERE s.curation_yn = 'N'
+        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
     </select>
 
 </mapper>
