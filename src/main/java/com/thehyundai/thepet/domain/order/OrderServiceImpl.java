@@ -118,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
         requestVO.setMemberId(memberId);
 
         // 1. ORDER 테이블에 저장
-        CurationVO thisMonthCuration = curationService.showCurationOfCurrMonth();
+        CurationVO thisMonthCuration = curationService.showCurationOfNextMonth();
         OrderVO order = buildCurationOrder(memberId, thisMonthCuration);
         if (orderMapper.saveOrder(order) == 0) throw new BusinessException(ErrorCode.DB_QUERY_EXECUTION_ERROR);
 

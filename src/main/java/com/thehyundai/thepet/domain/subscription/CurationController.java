@@ -24,9 +24,9 @@ public class CurationController {
     }
 
     @GetMapping("/monthly")
-    @Operation(summary = "이 달의 더펫박스 조회하기", description = "이번 달의 더펫박스 상세 정보를 불러옵니다.")    // API 정보 설정
+    @Operation(summary = "다음 달의 더펫박스 조회하기", description = "다음 달의 더펫박스 상세 정보를 불러옵니다.")    // API 정보 설정
     public ResponseEntity<?> showCurationOfCurrMonth() {
-        CurationVO result = curationService.showCurationOfCurrMonth();
+        CurationVO result = curationService.showCurationOfNextMonth();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
