@@ -6,7 +6,7 @@ public interface CurationService {
 
     CurationVO createCuration(CurationVO curationVO);
 
-    CurationVO showCurationOfCurrMonth();
+    CurationVO showCurationOfNextMonth();
 
     List<CurationVO> showCurationOfLastOneYear();
 
