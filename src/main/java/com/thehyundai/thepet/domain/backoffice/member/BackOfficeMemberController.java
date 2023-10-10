@@ -22,17 +22,17 @@ public class BackOfficeMemberController {
         return new ResponseEntity<>(backOfficeMemberService.getAllMember(req), HttpStatus.OK);
     }
 
-    @GetMapping("/heendy")
+    @PostMapping("/heendy")
     public ResponseEntity<BackOfficeResMemberVO> getHeendyMembers(@RequestBody MemberRequestVO req) {
         return new ResponseEntity<>(backOfficeMemberService.getAllHeendyMember(req), HttpStatus.OK);
     }
 
-    @GetMapping("/subscribe")
+    @PostMapping("/subscribe")
     public ResponseEntity<BackOfficeResMemberVO> getSubscribeMembers(@RequestBody MemberRequestVO req) {
         return new ResponseEntity<>(backOfficeMemberService.getAllSubscribeMember(req), HttpStatus.OK);
     }
 
-    @GetMapping("/delivery")
+    @PostMapping("/delivery")
     public ResponseEntity<BackOfficeResMemberVO> getDeliveryMembers(@RequestBody MemberRequestVO req) {
         return new ResponseEntity<>(backOfficeMemberService.getAllDeliveryMember(req), HttpStatus.OK);
     }

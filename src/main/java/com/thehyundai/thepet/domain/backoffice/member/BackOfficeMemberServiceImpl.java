@@ -117,8 +117,7 @@ public class BackOfficeMemberServiceImpl implements BackOfficeMemberService{
             res.setMembers(backOfficeMemberMapper.selectSubscribeDateMember(req));
             res.setCount(backOfficeMemberMapper.selectSubscribeDateMemberCount(req));
         }
-
-
+        
 
         for (BackOfficeMemberVO m : res.getMembers()) {
             // 이름을 마스킹 (첫 글자와 나머지를 *로 대체)
