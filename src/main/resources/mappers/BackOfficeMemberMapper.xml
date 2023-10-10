@@ -12,7 +12,7 @@
     <select id="selectAllDateMember" parameterType="MemberRequestVO" resultType="BackOfficeMemberVO">
         SELECT id, name, email, img_url, address, nickname, club_heendy_yn, social_id, phone_number, billingkey
         FROM member
-        WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        WHERE created_at BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD')
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
@@ -27,7 +27,7 @@
         SELECT id, name, email, img_url, address, nickname, club_heendy_yn, social_id, phone_number, billingkey
         FROM member
         WHERE club_heendy_yn = 'Y'
-        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        AND created_at BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD')
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
@@ -46,7 +46,7 @@
         LEFT JOIN subscription s
         on m.id = s.member_id
         WHERE s.curation_yn = 'Y'
-        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        AND created_at BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD')
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
@@ -65,7 +65,7 @@
         LEFT JOIN subscription s
         on m.id = s.member_id
         WHERE s.curation_yn = 'N'
-        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        AND created_at BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD')
         OFFSET #{page} ROWS FETCH NEXT 20 ROWS ONLY
     </select>
 
@@ -75,23 +75,23 @@
 
     <select id="selectAllDateMemberCount" parameterType="MemberRequestVO" resultType="Integer">
         SELECT COUNT(*) FROM member
-        WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        WHERE created_at BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD')
     </select>
 
-    <select id="selectHeendyMemberCount" resultType="BackOfficeMemberVO">
+    <select id="selectHeendyMemberCount" resultType="Integer">
         SELECT COUNT(*)
         FROM member
         WHERE club_heendy_yn = 'Y'
     </select>
 
-    <select id="selectHeendyDateMemberCount" parameterType="MemberRequestVO" resultType="BackOfficeMemberVO">
+    <select id="selectHeendyDateMemberCount" parameterType="MemberRequestVO" resultType="Integer">
         SELECT COUNT(*)
         FROM member
         WHERE club_heendy_yn = 'Y'
-        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        AND created_at BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD')
     </select>
 
-    <select id="selectSubscribeMemberCount" resultType="BackOfficeMemberVO">
+    <select id="selectSubscribeMemberCount" resultType="Integer">
         SELECT COUNT(*)
         FROM member m
         LEFT JOIN subscription s
@@ -99,13 +99,13 @@
         WHERE s.curation_yn = 'Y'
     </select>
 
-    <select id="selectSubscribeDateMemberCount" resultType="BackOfficeMemberVO">
+    <select id="selectSubscribeDateMemberCount" parameterType="MemberRequestVO" resultType="Integer">
         SELECT COUNT(*)
         FROM member m
         LEFT JOIN subscription s
         on m.id = s.member_id
         WHERE s.curation_yn = 'Y'
-        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        AND created_at BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD')
     </select>
 
     <select id="selectDeliveryMemberCount" resultType="BackOfficeMemberVO">
@@ -116,13 +116,13 @@
         WHERE s.curation_yn = 'N'
     </select>
 
-    <select id="selectDeliveryDateMemberCount" resultType="BackOfficeMemberVO">
+    <select id="selectDeliveryDateMemberCount" parameterType="MemberRequestVO" resultType="Integer">
         SELECT COUNT(*)
         FROM member m
         LEFT JOIN subscription s
         on m.id = s.member_id
         WHERE s.curation_yn = 'N'
-        AND WHERE created_at BETWEEN #{startDate} AND #{endDate}
+        AND created_at BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD')
     </select>
 
 </mapper>
