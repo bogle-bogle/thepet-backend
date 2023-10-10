@@ -28,8 +28,8 @@ public class CurationServiceImpl implements CurationService {
     }
 
     @Override
-    public CurationVO showCurationOfCurrMonth() {
-        LocalDate targetDate = LocalDate.now().withDayOfMonth(1);
+    public CurationVO showCurationOfNextMonth() {
+        LocalDate targetDate = LocalDate.now().plusMonths(1).withDayOfMonth(1);
         CurationVO curation = curationMapper.findCurationByPaymentDate(targetDate)
                 .map(this::bindAllProductsInCuration)
                 .orElseThrow(() -> new BusinessException(ErrorCode.CURATION_NOT_FOUND));
